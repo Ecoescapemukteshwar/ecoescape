@@ -1,41 +1,52 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Calendar, Users, MessageCircle, Phone, Mail, User } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Calendar, MessageCircle, Phone, Mail, Send, CheckCircle, Users, User } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 
 const bookingSchema = z.object({
-  name: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name too long"),
-  email: z.string().trim().email("Invalid email address").max(255, "Email too long"),
-  phone: z.string().trim().min(10, "Phone must be at least 10 digits").max(15, "Phone too long"),
-  checkIn: z.string().min(1, "Check-in date required"),
-  checkOut: z.string().min(1, "Check-out date required"),
-  guests: z.string().min(1, "Number of guests required"),
-  rooms: z.string().min(1, "Number of rooms required"),
-  message: z.string().max(1000, "Message too long").optional(),
+  name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
+  email: z.string().trim().email("Please enter a valid email").max(255),
+  phone: z.string().trim().min(10, "Please enter a valid phone number").max(15),
+  checkIn: z.string().min(1, "Please select check-in date"),
+  checkOut: z.string().min(1, "Please select check-out date"),
+  guests: z.string().min(1, "Please select number of guests"),
+  message: z.string().max(1000).optional(),
 });
 
-type BookingFormData = z.infer<typeof bookingSchema>;
-
 export function BookingSection() {
-  const [formData, setFormData] = useState<BookingFormData>({
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     checkIn: "",
     checkOut: "",
     guests: "2",
-    rooms: "1",
     message: "",
+    preOrderMeals: false,
+    needYogaMat: false,
+    specialOccasion: false,
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof BookingFormData, string>>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: undefined }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const handleCheckboxChange = (name: string, checked: boolean) => {
+    setFormData((prev) => ({ ...prev, [name]: checked }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,53 +54,70 @@ export function BookingSection() {
     setIsSubmitting(true);
     setErrors({});
 
-    const result = bookingSchema.safeParse(formData);
-    if (!result.success) {
-      const fieldErrors: Partial<Record<keyof BookingFormData, string>> = {};
-      result.error.errors.forEach((err) => {
-        const field = err.path[0] as keyof BookingFormData;
-        fieldErrors[field] = err.message;
-      });
-      setErrors(fieldErrors);
-      setIsSubmitting(false);
-      return;
-    }
+    try {
+      bookingSchema.parse(formData);
 
-    // Simulate submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setSubmitted(true);
-    setIsSubmitting(false);
+      // Simulate form submission
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      setIsSubmitted(true);
+      toast({
+        title: "Inquiry Sent Successfully!",
+        description: "We'll respond within 2 hours. Thank you!",
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            newErrors[err.path[0].toString()] = err.message;
+          }
+        });
+        setErrors(newErrors);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent(
-      `Hi! I'd like to book a stay at EcoEscape Mukteshwar.\n\nCheck-in: ${formData.checkIn}\nCheck-out: ${formData.checkOut}\nGuests: ${formData.guests}\nRooms: ${formData.rooms}`
+      "Hi! I'm interested in booking at Ecoescape Mukteshwar. Could you help me with availability?"
     );
-    window.open(`https://wa.me/919876543210?text=${message}`, "_blank");
+    window.open(`https://wa.me/919667846787?text=${message}`, "_blank");
   };
 
-  if (submitted) {
+  const handleCall = () => {
+    window.location.href = "tel:+919667846787";
+  };
+
+  if (isSubmitted) {
     return (
-      <section id="booking" className="py-20 bg-primary">
-        <div className="container">
+      <section id="booking" className="py-20 bg-gradient-forest text-primary-foreground">
+        <div className="container max-w-2xl text-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="max-w-lg mx-auto text-center bg-primary-foreground rounded-2xl p-8 shadow-elevated"
+            transition={{ duration: 0.5 }}
+            className="bg-primary-foreground/10 backdrop-blur-sm rounded-2xl p-12"
           >
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Calendar className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-2xl font-serif font-semibold text-foreground mb-2">
-              Booking Request Received!
-            </h3>
-            <p className="text-muted-foreground mb-6">
-              We'll get back to you within 2 hours with availability and confirmation.
+            <CheckCircle className="h-16 w-16 mx-auto mb-6 text-accent" />
+            <h2 className="text-3xl font-serif font-semibold mb-4">
+              Thank You!
+            </h2>
+            <p className="text-lg opacity-90 mb-8">
+              We've received your inquiry and will respond within 2 hours.
             </p>
-            <Button variant="whatsapp" size="lg" onClick={handleWhatsApp}>
-              <MessageCircle className="h-5 w-5" />
-              Chat on WhatsApp for Faster Response
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button variant="whatsapp" size="lg" onClick={handleWhatsApp}>
+                <MessageCircle className="h-5 w-5" />
+                WhatsApp Us Now
+              </Button>
+              <Button variant="heroSecondary" size="lg" onClick={handleCall}>
+                <Phone className="h-5 w-5" />
+                Call Us
+              </Button>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -97,7 +125,7 @@ export function BookingSection() {
   }
 
   return (
-    <section id="booking" className="py-20 bg-gradient-forest">
+    <section id="booking" className="py-20 bg-gradient-forest text-primary-foreground">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -106,195 +134,296 @@ export function BookingSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-serif font-semibold text-primary-foreground mb-4">
-            Check Availability
+          <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4">
+            Ready for Your Mountain Escape?
           </h2>
-          <p className="text-primary-foreground/80 max-w-2xl mx-auto">
-            Book directly for the best rates. No middlemen, no extra fees.
+          <p className="opacity-90 max-w-2xl mx-auto">
+            Book your stay at Ecoescape Mukteshwar and experience the perfect blend of 
+            nature, comfort, and hospitality.
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-2xl mx-auto bg-background rounded-2xl p-6 md:p-8 shadow-elevated"
-        >
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Name & Phone Row */}
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Full Name *
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Your name"
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                  />
-                </div>
-                {errors.name && <p className="text-destructive text-sm mt-1">{errors.name}</p>}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Phone Number *
-                </label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="+91 98765 43210"
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                  />
-                </div>
-                {errors.phone && <p className="text-destructive text-sm mt-1">{errors.phone}</p>}
-              </div>
-            </div>
+        <div className="grid lg:grid-cols-5 gap-8">
+          {/* Form */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-3"
+          >
+            <form
+              onSubmit={handleSubmit}
+              className="bg-primary-foreground/10 backdrop-blur-sm rounded-2xl p-6 md:p-8"
+            >
+              <h3 className="font-serif text-xl font-semibold mb-6">
+                Quick Inquiry Form
+              </h3>
 
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Email Address *
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <Label htmlFor="name" className="text-primary-foreground/90">
+                    Name *
+                  </Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/50" />
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="pl-10 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  {errors.name && (
+                    <p className="text-accent text-sm mt-1">{errors.name}</p>
+                  )}
+                </div>
+                <div>
+                  <Label htmlFor="email" className="text-primary-foreground/90">
+                    Email *
+                  </Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/50" />
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="pl-10 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                  {errors.email && (
+                    <p className="text-accent text-sm mt-1">{errors.email}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <Label htmlFor="phone" className="text-primary-foreground/90">
+                    Phone *
+                  </Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/50" />
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="pl-10 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50"
+                      placeholder="+91 96678 46787"
+                    />
+                  </div>
+                  {errors.phone && (
+                    <p className="text-accent text-sm mt-1">{errors.phone}</p>
+                  )}
+                </div>
+                <div>
+                  <Label htmlFor="guests" className="text-primary-foreground/90">
+                    Number of Guests
+                  </Label>
+                  <div className="relative">
+                    <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/50" />
+                    <select
+                      id="guests"
+                      name="guests"
+                      value={formData.guests}
+                      onChange={handleChange}
+                      className="w-full h-10 pl-10 pr-3 rounded-md bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground"
+                    >
+                      <option value="1">1 Guest</option>
+                      <option value="2">2 Guests</option>
+                      <option value="3">3 Guests</option>
+                      <option value="4">4 Guests</option>
+                      <option value="5+">5+ Guests</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <Label htmlFor="checkIn" className="text-primary-foreground/90">
+                    Check-in Date *
+                  </Label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/50" />
+                    <Input
+                      id="checkIn"
+                      name="checkIn"
+                      type="date"
+                      value={formData.checkIn}
+                      onChange={handleChange}
+                      className="pl-10 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground"
+                      min={new Date().toISOString().split("T")[0]}
+                    />
+                  </div>
+                  {errors.checkIn && (
+                    <p className="text-accent text-sm mt-1">{errors.checkIn}</p>
+                  )}
+                </div>
+                <div>
+                  <Label htmlFor="checkOut" className="text-primary-foreground/90">
+                    Check-out Date *
+                  </Label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/50" />
+                    <Input
+                      id="checkOut"
+                      name="checkOut"
+                      type="date"
+                      value={formData.checkOut}
+                      onChange={handleChange}
+                      className="pl-10 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground"
+                      min={formData.checkIn || new Date().toISOString().split("T")[0]}
+                    />
+                  </div>
+                  {errors.checkOut && (
+                    <p className="text-accent text-sm mt-1">{errors.checkOut}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <Label htmlFor="message" className="text-primary-foreground/90">
+                  Special Requests (Optional)
+                </Label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
                   onChange={handleChange}
-                  placeholder="you@example.com"
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50"
+                  placeholder="Any special requirements or questions?"
+                  rows={3}
                 />
               </div>
-              {errors.email && <p className="text-destructive text-sm mt-1">{errors.email}</p>}
-            </div>
 
-            {/* Dates Row */}
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Check-in Date *
-                </label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <input
-                    type="date"
-                    name="checkIn"
-                    value={formData.checkIn}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              {/* Add-on Options */}
+              <div className="mb-6 space-y-3">
+                <div className="flex items-center gap-3">
+                  <Checkbox
+                    id="preOrderMeals"
+                    checked={formData.preOrderMeals}
+                    onCheckedChange={(checked) => handleCheckboxChange("preOrderMeals", !!checked)}
+                    className="border-primary-foreground/50 data-[state=checked]:bg-accent data-[state=checked]:border-accent"
                   />
+                  <Label htmlFor="preOrderMeals" className="text-primary-foreground/90 cursor-pointer">
+                    Interested in pre-booking meals?
+                  </Label>
                 </div>
-                {errors.checkIn && <p className="text-destructive text-sm mt-1">{errors.checkIn}</p>}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Check-out Date *
-                </label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <input
-                    type="date"
-                    name="checkOut"
-                    value={formData.checkOut}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                <div className="flex items-center gap-3">
+                  <Checkbox
+                    id="needYogaMat"
+                    checked={formData.needYogaMat}
+                    onCheckedChange={(checked) => handleCheckboxChange("needYogaMat", !!checked)}
+                    className="border-primary-foreground/50 data-[state=checked]:bg-accent data-[state=checked]:border-accent"
                   />
+                  <Label htmlFor="needYogaMat" className="text-primary-foreground/90 cursor-pointer">
+                    Need yoga mat for terrace practice?
+                  </Label>
                 </div>
-                {errors.checkOut && <p className="text-destructive text-sm mt-1">{errors.checkOut}</p>}
-              </div>
-            </div>
-
-            {/* Guests & Rooms Row */}
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Number of Guests *
-                </label>
-                <div className="relative">
-                  <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <select
-                    name="guests"
-                    value={formData.guests}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring appearance-none"
-                  >
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                      <option key={n} value={n}>
-                        {n} {n === 1 ? "Guest" : "Guests"}
-                      </option>
-                    ))}
-                  </select>
+                <div className="flex items-center gap-3">
+                  <Checkbox
+                    id="specialOccasion"
+                    checked={formData.specialOccasion}
+                    onCheckedChange={(checked) => handleCheckboxChange("specialOccasion", !!checked)}
+                    className="border-primary-foreground/50 data-[state=checked]:bg-accent data-[state=checked]:border-accent"
+                  />
+                  <Label htmlFor="specialOccasion" className="text-primary-foreground/90 cursor-pointer">
+                    Celebrating a special occasion?
+                  </Label>
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Number of Rooms *
-                </label>
-                <select
-                  name="rooms"
-                  value={formData.rooms}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring appearance-none"
-                >
-                  {[1, 2, 3, 4].map((n) => (
-                    <option key={n} value={n}>
-                      {n} {n === 1 ? "Room" : "Rooms"}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
 
-            {/* Message */}
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Special Requests (optional)
-              </label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Any special requirements or questions?"
-                rows={3}
-                className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-              />
-            </div>
-
-            {/* Submit Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 type="submit"
                 variant="hero"
                 size="xl"
-                className="flex-1"
+                className="w-full"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Sending..." : "Check Availability"}
+                {isSubmitting ? (
+                  "Sending..."
+                ) : (
+                  <>
+                    <Send className="h-5 w-5" />
+                    Send Inquiry
+                  </>
+                )}
               </Button>
-              <Button
-                type="button"
-                variant="whatsapp"
-                size="xl"
-                onClick={handleWhatsApp}
-                className="flex-1"
-              >
-                <MessageCircle className="h-5 w-5" />
-                WhatsApp Instead
-              </Button>
+            </form>
+          </motion.div>
+
+          {/* Contact Options */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-2 space-y-6"
+          >
+            <div className="bg-primary-foreground/10 backdrop-blur-sm rounded-2xl p-6">
+              <h3 className="font-serif text-xl font-semibold mb-4">
+                Prefer to Contact Directly?
+              </h3>
+              
+              <div className="space-y-4">
+                <Button
+                  variant="whatsapp"
+                  size="xl"
+                  className="w-full"
+                  onClick={handleWhatsApp}
+                >
+                  <MessageCircle className="h-5 w-5" />
+                  WhatsApp Us Now
+                </Button>
+                
+                <Button
+                  variant="heroSecondary"
+                  size="xl"
+                  className="w-full"
+                  onClick={handleCall}
+                >
+                  <Phone className="h-5 w-5" />
+                  Call +91 96678 46787
+                </Button>
+              </div>
             </div>
-          </form>
-        </motion.div>
+
+            <div className="bg-primary-foreground/10 backdrop-blur-sm rounded-2xl p-6">
+              <h4 className="font-semibold mb-4">Email Us</h4>
+              <div className="space-y-3 text-sm">
+                <a
+                  href="mailto:reservations@ecoescapemukteshwar.com"
+                  className="flex items-center gap-3 hover:text-accent transition-colors"
+                >
+                  <Mail className="h-5 w-5" />
+                  <span className="break-all">reservations@ecoescapemukteshwar.com</span>
+                </a>
+                <a
+                  href="mailto:ecoescape.mukteshwar@gmail.com"
+                  className="flex items-center gap-3 hover:text-accent transition-colors"
+                >
+                  <Mail className="h-5 w-5" />
+                  <span className="break-all">ecoescape.mukteshwar@gmail.com</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Trust Message */}
+            <div className="text-center text-sm opacity-80">
+              <p className="mb-2">💬 Quick Response Guaranteed</p>
+              <p className="mb-2">✅ Secure Booking</p>
+              <p>🔒 Your Privacy Protected</p>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
