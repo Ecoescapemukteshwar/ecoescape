@@ -10,15 +10,18 @@ export function Footer() {
           <div className="md:col-span-2">
             <Link to="/" className="inline-block mb-4">
               <span className="font-serif text-2xl font-semibold text-background">
-                EcoEscape
+                Ecoescape
               </span>
               <span className="block text-xs text-background/70 tracking-widest uppercase">
                 Mukteshwar
               </span>
             </Link>
-            <p className="text-background/70 mb-6 max-w-md">
-              A peaceful family-friendly retreat in the heart of Mukteshwar. 
-              Wake up to magical Himalayan sunrises and experience true mountain hospitality.
+            <p className="text-background/70 mb-4 max-w-md">
+              Your Green Paradise in the Himalayas. A boutique homestay with 100+ plant varieties, 
+              stunning sunrise views, and authentic mountain hospitality.
+            </p>
+            <p className="text-background/50 text-sm mb-6">
+              Mukteshwar Village, Nainital District, Uttarakhand, India
             </p>
             <div className="flex gap-4">
               <a
@@ -52,8 +55,18 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href="#dining" className="text-background/70 hover:text-accent transition-colors">
+                  Dining
+                </a>
+              </li>
+              <li>
                 <a href="#gallery" className="text-background/70 hover:text-accent transition-colors">
                   Gallery
+                </a>
+              </li>
+              <li>
+                <a href="#garden" className="text-background/70 hover:text-accent transition-colors">
+                  Garden
                 </a>
               </li>
               <li>
@@ -80,29 +93,38 @@ export function Footer() {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+919667846787"
                   className="flex items-center gap-3 text-background/70 hover:text-accent transition-colors"
                 >
                   <Phone className="h-5 w-5 flex-shrink-0" />
-                  +91 98765 43210
+                  +91 96678 46787
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:stay@ecoescape.in"
+                  href="mailto:reservations@ecoescapemukteshwar.com"
                   className="flex items-center gap-3 text-background/70 hover:text-accent transition-colors"
                 >
                   <Mail className="h-5 w-5 flex-shrink-0" />
-                  stay@ecoescape.in
+                  <span className="break-all text-sm">reservations@ecoescapemukteshwar.com</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:ecoescape.mukteshwar@gmail.com"
+                  className="flex items-center gap-3 text-background/70 hover:text-accent transition-colors"
+                >
+                  <Mail className="h-5 w-5 flex-shrink-0" />
+                  <span className="break-all text-sm">ecoescape.mukteshwar@gmail.com</span>
                 </a>
               </li>
               <li>
                 <div className="flex items-start gap-3 text-background/70">
                   <MapPin className="h-5 w-5 flex-shrink-0 mt-0.5" />
                   <span>
-                    Near Mukteshwar Temple<br />
-                    Mukteshwar, Nainital<br />
-                    Uttarakhand 263138
+                    Mukteshwar Village<br />
+                    Nainital District<br />
+                    Uttarakhand, India
                   </span>
                 </div>
               </li>
@@ -112,7 +134,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-background/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-background/60">
-          <p>© 2024 EcoEscape Mukteshwar. All rights reserved.</p>
+          <p>© 2024 Ecoescape Mukteshwar. All rights reserved.</p>
           <p>Direct booking = Best price guaranteed</p>
         </div>
       </div>

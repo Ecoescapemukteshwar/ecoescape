@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Calendar, Star } from "lucide-react";
+import { MessageCircle, Calendar, Star, Shield } from "lucide-react";
 import heroImage from "@/assets/hero-sunrise.jpg";
 
 export function HeroSection() {
@@ -13,9 +13,9 @@ export function HeroSection() {
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent(
-      "Hi! I'm interested in booking a stay at EcoEscape Mukteshwar. Could you please share availability?"
+      "Hi! I'm interested in booking at Ecoescape Mukteshwar. Could you help me with availability?"
     );
-    window.open(`https://wa.me/919876543210?text=${message}`, "_blank");
+    window.open(`https://wa.me/919667846787?text=${message}`, "_blank");
   };
 
   return (
@@ -24,7 +24,7 @@ export function HeroSection() {
       <div className="absolute inset-0">
         <img
           src={heroImage}
-          alt="Sunrise view from EcoEscape Mukteshwar terrace overlooking Himalayan mountains"
+          alt="Sunrise view from Ecoescape Mukteshwar terrace overlooking Himalayan mountains"
           className="w-full h-full object-cover"
           loading="eager"
         />
@@ -47,7 +47,7 @@ export function HeroSection() {
               ))}
             </div>
             <span className="text-sm font-medium text-foreground">
-              4.9 · 150+ Happy Guests
+              4.9 · 200+ Happy Guests
             </span>
           </motion.div>
 
@@ -56,11 +56,11 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-serif font-semibold text-[hsl(40_30%_98%)] leading-tight mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-serif font-semibold text-[hsl(40_30%_98%)] leading-tight mb-4"
           >
-            Sunrise View Homestay
+            Wake up to Himalayan Sunrises
             <br />
-            <span className="text-accent">in Mukteshwar</span>
+            <span className="text-accent">at Ecoescape Mukteshwar</span>
           </motion.h1>
 
           {/* Subtext */}
@@ -68,11 +68,21 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-lg md:text-xl text-[hsl(40_20%_90%)] mb-8 max-w-xl"
+            className="text-lg md:text-xl text-[hsl(40_20%_90%)] mb-4 max-w-xl"
           >
-            Peaceful family-friendly retreat with terrace, garden & panoramic 
-            mountain views. Wake up to magical Himalayan sunrises.
+            A Green Paradise in the Mountains | Boutique Homestay & Restaurant
           </motion.p>
+
+          {/* Trust Micro-badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="inline-flex items-center gap-2 text-[hsl(40_20%_85%)] text-sm mb-8"
+          >
+            <Shield className="h-4 w-4" />
+            24/7 Secure Property | Family Owned
+          </motion.div>
 
           {/* CTAs */}
           <motion.div
@@ -112,12 +122,12 @@ export function HeroSection() {
               <div className="text-sm text-[hsl(40_20%_85%)]">Altitude</div>
             </div>
             <div>
-              <div className="text-2xl font-serif font-semibold text-[hsl(40_30%_98%)]">360°</div>
-              <div className="text-sm text-[hsl(40_20%_85%)]">Mountain Views</div>
+              <div className="text-2xl font-serif font-semibold text-[hsl(40_30%_98%)]">100+</div>
+              <div className="text-sm text-[hsl(40_20%_85%)]">Plant Varieties</div>
             </div>
             <div>
-              <div className="text-2xl font-serif font-semibold text-[hsl(40_30%_98%)]">15 min</div>
-              <div className="text-sm text-[hsl(40_20%_85%)]">From Mukteshwar Temple</div>
+              <div className="text-2xl font-serif font-semibold text-[hsl(40_30%_98%)]">~7 km</div>
+              <div className="text-sm text-[hsl(40_20%_85%)]">From Mukteshwar Dham</div>
             </div>
           </motion.div>
         </div>
