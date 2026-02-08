@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Clock, Utensils, FileText, Shield, Sparkles } from "lucide-react";
+import { Clock, FileText, Shield, Sparkles } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -16,38 +16,14 @@ const policies = [
       <div className="space-y-3">
         <div className="flex justify-between">
           <span className="text-muted-foreground">Check-in</span>
-          <span className="font-medium text-foreground">1:00 PM onwards</span>
+          <span className="font-medium text-foreground">12:00 PM to 10:00 PM</span>
         </div>
         <div className="flex justify-between">
           <span className="text-muted-foreground">Check-out</span>
-          <span className="font-medium text-foreground">11:00 AM</span>
+          <span className="font-medium text-foreground">10:00 AM</span>
         </div>
         <p className="text-sm text-muted-foreground pt-2 border-t border-border">
           Early check-in/late check-out available on request, subject to availability.
-        </p>
-      </div>
-    ),
-  },
-  {
-    id: "restaurant",
-    icon: Utensils,
-    title: "Restaurant Timings",
-    content: (
-      <div className="space-y-3">
-        <div className="flex justify-between">
-          <span className="text-muted-foreground">Breakfast</span>
-          <span className="font-medium text-foreground">8:00 AM - 10:30 AM</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-muted-foreground">Lunch</span>
-          <span className="font-medium text-foreground">12:30 PM - 3:00 PM</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-muted-foreground">Dinner</span>
-          <span className="font-medium text-foreground">7:00 PM - 10:00 PM</span>
-        </div>
-        <p className="text-sm text-muted-foreground pt-2 border-t border-border">
-          Room service available during restaurant hours. Early breakfast can be arranged on request.
         </p>
       </div>
     ),
@@ -76,7 +52,7 @@ const policies = [
         </li>
         <li className="flex items-start gap-2">
           <span className="text-primary">•</span>
-          Quiet hours: 10:00 PM - 7:00 AM
+          Quiet hours: 11:00 PM to 5:00 AM
         </li>
         <li className="flex items-start gap-2">
           <span className="text-primary">•</span>
@@ -147,7 +123,7 @@ const policies = [
 
 export function PoliciesSection() {
   return (
-    <section className="py-20 bg-background">
+    <section className="py-24 bg-background">
       <div className="container max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -205,8 +181,7 @@ export function PoliciesSection() {
         >
           <h4 className="font-semibold text-foreground mb-2">Cancellation Policy</h4>
           <p className="text-muted-foreground text-sm">
-            Free cancellation up to 48 hours before check-in. Cancellations within 48 hours 
-            may be charged the first night's tariff. Contact us for special circumstances.
+            Free cancellation up to 5 days before check-in. Cancellations within 5 days are non-refundable. If we are able to rebook the dates, a full refund will be processed.
           </p>
         </motion.div>
       </div>

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { UtensilsCrossed, Sun, BedDouble, BookOpen, Leaf, ChefHat, Coffee, Salad } from "lucide-react";
+import { UtensilsCrossed, Sun, BedDouble, BookOpen, Leaf, ChefHat, Clock, Coffee, Salad } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const diningOptions = [
@@ -7,19 +7,19 @@ const diningOptions = [
     icon: Sun,
     title: "Terrace Dining",
     description: "Dine under the open sky with panoramic mountain views",
-    highlight: "Perfect for romantic dinners or sunrise breakfast",
+    highlight: "Perfect for romantic dinners or special meals",
   },
   {
     icon: BedDouble,
     title: "Room Service",
     description: "Delicious meals in the comfort of your room",
-    highlight: "Order anytime during restaurant hours",
+    highlight: "Meals delivered to your door",
   },
   {
     icon: BookOpen,
     title: "A La Carte Menu",
-    description: "Freshly prepared meals made to order",
-    highlight: "Traditional Kumaoni, North Indian & Continental",
+    description: "Traditional Kumaoni, North Indian & Continental",
+    highlight: "Authentic flavors of the Kumaon region",
   },
 ];
 
@@ -39,7 +39,7 @@ export function DiningSection() {
   };
 
   return (
-    <section id="dining" className="py-20 bg-secondary">
+    <section id="dining" className="py-24 bg-secondary">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -50,15 +50,16 @@ export function DiningSection() {
         >
           <div className="inline-flex items-center gap-2 bg-accent/10 text-accent rounded-full px-4 py-2 mb-4">
             <UtensilsCrossed className="h-4 w-4" />
-            <span className="text-sm font-medium">In-house Restaurant</span>
+            <span className="text-sm font-medium">Inhouse Kitchen</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
-            Savor the Mountains
+            Freshly Prepared, Just for You
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Indulge in freshly prepared, home-cooked meals at our in-house A La Carte restaurant. 
-            Choose to dine on our scenic terrace with breathtaking Himalayan views, or enjoy 
-            the comfort of room service delivered right to your door.
+            Our in-house kitchen prepares fresh meals on order. We take 2 hours prior order
+            to ensure everything is prepared with care using the finest ingredients.
+            Choose to dine on our scenic terrace with breathtaking Himalayan views, or enjoy
+            room service delivered right to your door.
           </p>
         </motion.div>
 
@@ -108,32 +109,28 @@ export function DiningSection() {
             ))}
           </div>
 
-          {/* Restaurant Timings */}
-          <div className="border-t border-border pt-6">
-            <h4 className="font-semibold text-foreground mb-4 text-center">Restaurant Timings</h4>
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
-              <div className="text-center">
-                <div className="font-medium text-foreground">Breakfast</div>
-                <div>8:00 AM - 10:30 AM</div>
-              </div>
-              <div className="h-8 w-px bg-border hidden sm:block" />
-              <div className="text-center">
-                <div className="font-medium text-foreground">Lunch</div>
-                <div>12:30 PM - 3:00 PM</div>
-              </div>
-              <div className="h-8 w-px bg-border hidden sm:block" />
-              <div className="text-center">
-                <div className="font-medium text-foreground">Dinner</div>
-                <div>7:00 PM - 10:00 PM</div>
+          {/* Prior Order Notice */}
+          <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 mb-6">
+            <div className="flex items-start gap-4">
+              <Clock className="h-6 w-6 text-primary flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="font-semibold text-foreground mb-2">Pre-Order Required</h4>
+                <p className="text-sm text-muted-foreground">
+                  We take <strong>2 hours prior order</strong> as we prepare fresh meals on order.
+                  Please WhatsApp us in advance to place your order.
+                </p>
               </div>
             </div>
           </div>
 
           {/* CTA */}
-          <div className="mt-8 text-center">
+          <div className="text-center">
             <Button variant="hero" size="lg" onClick={handleWhatsApp}>
               Pre-order Your Meals
             </Button>
+            <p className="text-sm text-muted-foreground mt-3">
+              Use our WhatsApp to pre-order meals at least 2 hours before
+            </p>
           </div>
         </motion.div>
       </div>

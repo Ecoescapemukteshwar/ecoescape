@@ -5,14 +5,13 @@ import { RoomsSection } from "@/components/RoomsSection";
 import { DiningSection } from "@/components/DiningSection";
 import { GardenSection } from "@/components/GardenSection";
 import { GallerySection } from "@/components/GallerySection";
-import { ExperiencesSection } from "@/components/ExperiencesSection";
+import { ThingsToDoSection } from "@/components/ThingsToDoSection";
+import { AmenitiesSection } from "@/components/AmenitiesSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { LocationSection } from "@/components/LocationSection";
 import { PoliciesSection } from "@/components/PoliciesSection";
 import { BookingSection } from "@/components/BookingSection";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
-import { ScarcityBadges } from "@/components/ScarcityBadges";
 
 const Index = () => {
   return (
@@ -22,18 +21,17 @@ const Index = () => {
         <HeroSection />
         <BenefitsSection />
         <RoomsSection />
+        <TestimonialsSection />
         <DiningSection />
         <GardenSection />
         <GallerySection />
-        <ExperiencesSection />
-        <TestimonialsSection />
-        <LocationSection />
+        <ThingsToDoSection />
+        <AmenitiesSection />
         <PoliciesSection />
         <BookingSection />
       </main>
       <Footer />
       <FloatingCTA />
-      <ScarcityBadges />
     </div>
   );
 };

@@ -9,10 +9,14 @@ import { Calendar, MessageCircle, Phone, Mail, Send, CheckCircle, Users, User } 
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 
+// Formspree endpoint - using project-based endpoint
+const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT || "https://formspree.io/f/2932831038499454640";
+
 const bookingSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
   email: z.string().trim().email("Please enter a valid email").max(255),
   phone: z.string().trim().min(10, "Please enter a valid phone number").max(15),
+  roomType: z.string().min(1, "Please select a room type"),
   checkIn: z.string().min(1, "Please select check-in date"),
   checkOut: z.string().min(1, "Please select check-out date"),
   guests: z.string().min(1, "Please select number of guests"),
@@ -27,12 +31,13 @@ export function BookingSection() {
     name: "",
     email: "",
     phone: "",
+    roomType: "",
     checkIn: "",
     checkOut: "",
     guests: "2",
     message: "",
-    preOrderMeals: false,
     needYogaMat: false,
+    extraBed: false,
     specialOccasion: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -49,7 +54,7 @@ export function BookingSection() {
     setFormData((prev) => ({ ...prev, [name]: checked }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setErrors({});
@@ -57,14 +62,57 @@ export function BookingSection() {
     try {
       bookingSchema.parse(formData);
 
-      // Simulate form submission
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Prepare form data for Formspree
+      const formDataObj = {
+        ...formData,
+        specialRequests: [
+          formData.needYogaMat ? "Yoga mat needed" : "",
+          formData.extraBed ? "Extra bed required (Rs. 600/night)" : "",
+          formData.specialOccasion ? "Special occasion" : "",
+          formData.message,
+        ].filter(Boolean).join(" | "),
+      };
 
-      setIsSubmitted(true);
-      toast({
-        title: "Inquiry Sent Successfully!",
-        description: "We'll respond within 2 hours. Thank you!",
+      // Submit to Formspree
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: JSON.stringify(formDataObj),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
       });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        toast({
+          title: "Inquiry Sent Successfully!",
+          description: "We'll respond within 2 hours. Thank you!",
+        });
+        // Also send to WhatsApp
+        sendToWhatsApp(formDataObj);
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          roomType: "",
+          checkIn: "",
+          checkOut: "",
+          guests: "2",
+          message: "",
+          needYogaMat: false,
+          extraBed: false,
+          specialOccasion: false,
+        });
+      } else {
+        const data = await response.json();
+        toast({
+          title: "Submission Failed",
+          description: data.error || "Please try again or contact us directly.",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       if (error instanceof z.ZodError) {
         const newErrors: Record<string, string> = {};
@@ -74,6 +122,12 @@ export function BookingSection() {
           }
         });
         setErrors(newErrors);
+      } else {
+        toast({
+          title: "Submission Failed",
+          description: "Please try again or contact us directly via WhatsApp.",
+          variant: "destructive",
+        });
       }
     } finally {
       setIsSubmitting(false);
@@ -81,8 +135,46 @@ export function BookingSection() {
   };
 
   const handleWhatsApp = () => {
+    const extraOptions = [];
+    if (formData.needYogaMat) extraOptions.push("Yoga mat needed");
+    if (formData.extraBed) extraOptions.push("Extra bed required (Rs. 600/night)");
+    if (formData.specialOccasion) extraOptions.push("Special occasion");
+
     const message = encodeURIComponent(
-      "Hi! I'm interested in booking at Ecoescape Mukteshwar. Could you help me with availability?"
+      `Hi! I'm interested in booking at Ecoescape Mukteshwar.
+
+Room Type: ${formData.roomType || "Not selected"}
+Check-in: ${formData.checkIn || "Not selected"}
+Check-out: ${formData.checkOut || "Not selected"}
+Guests: ${formData.guests}
+${extraOptions.length > 0 ? `Special Requests: ${extraOptions.join(", ")}` : ""}
+${formData.message ? `Message: ${formData.message}` : ""}
+
+Could you help me with availability?`
+    );
+    window.open(`https://wa.me/919667846787?text=${message}`, "_blank");
+  };
+
+  const sendToWhatsApp = (data: typeof formData) => {
+    const extraOptions = [];
+    if (data.needYogaMat) extraOptions.push("Yoga mat needed");
+    if (data.extraBed) extraOptions.push("Extra bed required (Rs. 600/night)");
+    if (data.specialOccasion) extraOptions.push("Special occasion");
+
+    const message = encodeURIComponent(
+      `🏔️ NEW BOOKING INQUIRY - Ecoescape Mukteshwar
+
+👤 Name: ${data.name}
+📧 Email: ${data.email}
+📱 Phone: ${data.phone}
+🏠 Room Type: ${data.roomType}
+📅 Check-in: ${data.checkIn}
+📅 Check-out: ${data.checkOut}
+👥 Guests: ${data.guests}
+${extraOptions.length > 0 ? `✨ Special Requests: ${extraOptions.join(", ")}` : ""}
+${data.message ? `💬 Message: ${data.message}` : ""}
+
+Please confirm availability and rates. Thank you!`
     );
     window.open(`https://wa.me/919667846787?text=${message}`, "_blank");
   };
@@ -138,7 +230,7 @@ export function BookingSection() {
             Ready for Your Mountain Escape?
           </h2>
           <p className="opacity-90 max-w-2xl mx-auto">
-            Book your stay at Ecoescape Mukteshwar and experience the perfect blend of 
+            Book your stay at Ecoescape Mukteshwar and experience the perfect blend of
             nature, comfort, and hospitality.
           </p>
         </motion.div>
@@ -154,6 +246,7 @@ export function BookingSection() {
           >
             <form
               onSubmit={handleSubmit}
+              method="POST"
               className="bg-primary-foreground/10 backdrop-blur-sm rounded-2xl p-6 md:p-8"
             >
               <h3 className="font-serif text-xl font-semibold mb-6">
@@ -174,6 +267,7 @@ export function BookingSection() {
                       onChange={handleChange}
                       className="pl-10 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50"
                       placeholder="Your name"
+                      required
                     />
                   </div>
                   {errors.name && (
@@ -194,6 +288,7 @@ export function BookingSection() {
                       onChange={handleChange}
                       className="pl-10 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50"
                       placeholder="your@email.com"
+                      required
                     />
                   </div>
                   {errors.email && (
@@ -217,6 +312,7 @@ export function BookingSection() {
                       onChange={handleChange}
                       className="pl-10 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50"
                       placeholder="+91 96678 46787"
+                      required
                     />
                   </div>
                   {errors.phone && (
@@ -246,6 +342,29 @@ export function BookingSection() {
                 </div>
               </div>
 
+              <div className="mb-4">
+                <Label htmlFor="roomType" className="text-primary-foreground/90">
+                  Room Type *
+                </Label>
+                <select
+                  id="roomType"
+                  name="roomType"
+                  value={formData.roomType}
+                  onChange={handleChange}
+                  className="w-full h-10 px-3 rounded-md bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground"
+                  required
+                >
+                  <option value="">Select a room type</option>
+                  <option value="suite-mountain-view">Suite with Mountain View (₹3,500/night)</option>
+                  <option value="spacious-apartment">Spacious Apartment (₹5,500/night)</option>
+                  <option value="family-room">Family Room (₹4,500/night)</option>
+                  <option value="family-room-2">Family Room 2 (₹4,000/night)</option>
+                </select>
+                {errors.roomType && (
+                  <p className="text-accent text-sm mt-1">{errors.roomType}</p>
+                )}
+              </div>
+
               <div className="grid sm:grid-cols-2 gap-4 mb-4">
                 <div>
                   <Label htmlFor="checkIn" className="text-primary-foreground/90">
@@ -261,6 +380,7 @@ export function BookingSection() {
                       onChange={handleChange}
                       className="pl-10 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground"
                       min={new Date().toISOString().split("T")[0]}
+                      required
                     />
                   </div>
                   {errors.checkIn && (
@@ -281,6 +401,7 @@ export function BookingSection() {
                       onChange={handleChange}
                       className="pl-10 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground"
                       min={formData.checkIn || new Date().toISOString().split("T")[0]}
+                      required
                     />
                   </div>
                   {errors.checkOut && (
@@ -308,17 +429,6 @@ export function BookingSection() {
               <div className="mb-6 space-y-3">
                 <div className="flex items-center gap-3">
                   <Checkbox
-                    id="preOrderMeals"
-                    checked={formData.preOrderMeals}
-                    onCheckedChange={(checked) => handleCheckboxChange("preOrderMeals", !!checked)}
-                    className="border-primary-foreground/50 data-[state=checked]:bg-accent data-[state=checked]:border-accent"
-                  />
-                  <Label htmlFor="preOrderMeals" className="text-primary-foreground/90 cursor-pointer">
-                    Interested in pre-booking meals?
-                  </Label>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Checkbox
                     id="needYogaMat"
                     checked={formData.needYogaMat}
                     onCheckedChange={(checked) => handleCheckboxChange("needYogaMat", !!checked)}
@@ -327,6 +437,19 @@ export function BookingSection() {
                   <Label htmlFor="needYogaMat" className="text-primary-foreground/90 cursor-pointer">
                     Need yoga mat for terrace practice?
                   </Label>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Checkbox
+                    id="extraBed"
+                    checked={formData.extraBed}
+                    onCheckedChange={(checked) => handleCheckboxChange("extraBed", !!checked)}
+                    className="border-primary-foreground/50 data-[state=checked]:bg-accent data-[state=checked]:border-accent"
+                  />
+                  <div className="flex-1">
+                    <Label htmlFor="extraBed" className="text-primary-foreground/90 cursor-pointer">
+                      Extra bed required? <span className="text-xs opacity-75">(Rs. 600/night - proper foldable bedding with mattress, linen, blanket & pillow)</span>
+                    </Label>
+                  </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Checkbox
@@ -372,7 +495,7 @@ export function BookingSection() {
               <h3 className="font-serif text-xl font-semibold mb-4">
                 Prefer to Contact Directly?
               </h3>
-              
+
               <div className="space-y-4">
                 <Button
                   variant="whatsapp"
@@ -383,7 +506,7 @@ export function BookingSection() {
                   <MessageCircle className="h-5 w-5" />
                   WhatsApp Us Now
                 </Button>
-                
+
                 <Button
                   variant="heroSecondary"
                   size="xl"

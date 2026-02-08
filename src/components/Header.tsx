@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Phone, MessageCircle } from "lucide-react";
+import { Menu, X, Phone, MessageCircle, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -10,8 +10,7 @@ const navLinks = [
   { name: "Dining", href: "#dining" },
   { name: "Garden", href: "#garden" },
   { name: "Gallery", href: "#gallery" },
-  { name: "Experiences", href: "#experiences" },
-  { name: "Location", href: "#location" },
+  { name: "Things to Do", href: "#things-to-do" },
   { name: "Reviews", href: "#reviews" },
 ];
 
@@ -82,6 +81,16 @@ export function Header() {
             <span className="text-primary-foreground/80">
               Direct booking = Best price guaranteed
             </span>
+            <a
+              href="https://www.instagram.com/ecoescape.mukteshwar/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-accent transition-colors"
+              aria-label="Instagram"
+            >
+              <Instagram className="h-4 w-4" />
+              <span className="text-xs">@ecoescape.mukteshwar</span>
+            </a>
           </div>
         </div>
       </div>

@@ -1,14 +1,14 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble } from "lucide-react";
+import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
 import roomDeluxe from "@/assets/room-deluxe.jpg";
 import roomFamily from "@/assets/room-family.jpg";
 
 const rooms = [
   {
     id: 1,
-    name: "Deluxe Mountain View Room",
-    description: "Cozy east-facing room with panoramic Himalayan views and sunrise views. Perfect for couples seeking a peaceful retreat.",
+    name: "Suite with Mountain View",
+    description: "1 Bedroom Suite with Attached Washroom, Outside Sitting, Terrace and Garden Access. Stepless access - ideal for elderly guests.",
     image: roomDeluxe,
     price: "₹3,500",
     priceNote: "per night",
@@ -17,41 +17,92 @@ const rooms = [
     view: "Sunrise View",
     bedConfig: "King Bed",
     features: [
-      "East-facing with sunrise views",
+      "Stepless access - elderly friendly",
+      "East-facing sunrise views",
       "Private bathroom with 24/7 hot water",
+      "Outside sitting area",
       "Electric kettle with tea/coffee",
-      "Complimentary bottled water (1L/night)",
       "High-speed WiFi",
-      "Room service available",
     ],
   },
   {
     id: 2,
-    name: "Family Suite",
-    description: "Spacious suite with connected rooms, ideal for families. Enjoy stunning sunrise views from the large windows and private balcony.",
+    name: "Spacious Apartment",
+    description: "2 Bedrooms with Attached Washrooms, Living Area, Dining Area, Baywindow Sitting, Verandah outside room sitting, Terrace and Garden Access.",
     image: roomFamily,
     price: "₹5,500",
     priceNote: "per night",
     capacity: "4 Guests",
-    size: "450 sq ft",
+    size: "550 sq ft",
     view: "Mountain View",
     bedConfig: "2 Queen Beds",
     features: [
-      "Spacious living area",
-      "Private bathroom with 24/7 hot water",
+      "2 bedrooms with attached washrooms",
+      "Living area with baywindow sitting",
+      "Dining area included",
+      "Verandah outside room",
+      "Terrace & garden access",
       "Electric kettle with tea/coffee",
-      "Complimentary bottled water (1L/night)",
+    ],
+  },
+  {
+    id: 3,
+    name: "Family Room",
+    description: "2 Bedrooms (large and small), 1 washroom, dining area, private balcony, terrace and garden access. Perfect for families.",
+    image: roomFamily,
+    price: "₹4,500",
+    priceNote: "per night",
+    capacity: "4 Guests",
+    size: "450 sq ft",
+    view: "Mountain View",
+    bedConfig: "2 Bedrooms",
+    features: [
+      "2 bedrooms (large + small)",
+      "1 shared bathroom",
+      "Private balcony",
+      "Dining area included",
+      "Terrace & garden access",
+      "Electric kettle with tea/coffee",
+    ],
+  },
+  {
+    id: 4,
+    name: "Family Room 2",
+    description: "1 Bedroom Quadruple with 2 king size double sharing beds, 1 washroom, private balcony, dining area, terrace and garden access.",
+    image: roomDeluxe,
+    price: "₹4,000",
+    priceNote: "per night",
+    capacity: "4 Guests",
+    size: "380 sq ft",
+    view: "Sunrise View",
+    bedConfig: "2 King Beds",
+    features: [
+      "2 king size double sharing beds",
+      "Private balcony",
+      "Dining area included",
+      "Terrace & garden access",
+      "Electric kettle with tea/coffee",
       "High-speed WiFi",
-      "Room service available",
     ],
   },
 ];
 
 const allRoomAmenities = [
-  { icon: Coffee, text: "Electric kettle with complimentary tea & coffee" },
+  { icon: Shield, text: "Private entrance for each unit" },
+  { icon: Coffee, text: "Complimentary tea bags & coffee sachets" },
   { icon: Droplets, text: "1L bottled water daily" },
-  { icon: Wifi, text: "High-speed WiFi" },
+  { icon: Wifi, text: "High-speed WiFi (5G)" },
+  { icon: Car, text: "Car reaches property" },
   { icon: BedDouble, text: "Room service available" },
+];
+
+const propertyHighlights = [
+  "Each unit has private entrance",
+  "Complimentary Tea Bags & Coffee Sachets with Kettle",
+  "Larger group stays are optimal for this property",
+  "Parking: Car reaches property, even Force Travellers can reach",
+  "Sunrise View property - Himalayan Range Peaks visible",
+  "Full snow capped Himalayan range view point 50-60m walk",
 ];
 
 export function RoomsSection() {
@@ -63,7 +114,7 @@ export function RoomsSection() {
   };
 
   return (
-    <section id="rooms" className="py-20 bg-background">
+    <section id="rooms" className="py-24 bg-background">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -73,11 +124,11 @@ export function RoomsSection() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
-            Your Cozy Mountain Retreat
+            Your Mountain Home Away From Home
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Comfortable accommodations designed for relaxation, 
-            each offering stunning views and warm hospitality
+            Four unique accommodation options designed for families, groups, and couples.
+            Each unit offers privacy, comfort, and stunning Himalayan views.
           </p>
         </motion.div>
 
@@ -88,7 +139,7 @@ export function RoomsSection() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
               className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300"
             >
               {/* Image */}
@@ -162,18 +213,39 @@ export function RoomsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="bg-secondary rounded-2xl p-6 md:p-8"
+          className="bg-secondary rounded-2xl p-6 md:p-8 mb-8"
         >
           <h4 className="font-semibold text-foreground text-center mb-6">
             All Rooms Include
           </h4>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {allRoomAmenities.map((amenity, index) => (
               <div key={index} className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <amenity.icon className="h-5 w-5 text-primary" />
                 </div>
                 <span className="text-sm text-foreground">{amenity.text}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Property Highlights */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-6 md:p-8 border border-primary/20"
+        >
+          <h4 className="font-semibold text-foreground text-center mb-6">
+            Perfect for Groups & Families
+          </h4>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {propertyHighlights.map((highlight, index) => (
+              <div key={index} className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">✓</span>
+                <span className="text-sm text-foreground">{highlight}</span>
               </div>
             ))}
           </div>
