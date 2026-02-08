@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { MapPin, Clock, Car, Plane, Train } from "lucide-react";
+import { MapPin, Clock, Car, Plane, Train, ExternalLink, CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function LocationSection() {
   return (
@@ -13,10 +14,10 @@ export function LocationSection() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
-            Location & How to Reach
+            Easy to Reach, Hard to Leave
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Nestled in the hills of Mukteshwar, just a scenic drive away from major cities
+            Located in Mukteshwar Village with good road connectivity for a hassle-free journey
           </p>
         </motion.div>
 
@@ -37,7 +38,7 @@ export function LocationSection() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="EcoEscape Mukteshwar Location"
+              title="Ecoescape Mukteshwar Location"
             />
           </motion.div>
 
@@ -58,12 +59,34 @@ export function LocationSection() {
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">Address</h3>
                   <p className="text-muted-foreground">
-                    EcoEscape Mukteshwar<br />
-                    Near Mukteshwar Temple, Mukteshwar<br />
-                    District Nainital, Uttarakhand 263138
+                    Ecoescape Mukteshwar<br />
+                    Mukteshwar Village<br />
+                    Nainital District, Uttarakhand<br />
+                    India
                   </p>
+                  <Button
+                    variant="link"
+                    className="p-0 h-auto mt-2 text-primary"
+                    onClick={() => window.open("https://maps.google.com/?q=Mukteshwar,Uttarakhand", "_blank")}
+                  >
+                    Get Directions <ExternalLink className="h-4 w-4 ml-1" />
+                  </Button>
                 </div>
               </div>
+            </motion.div>
+
+            {/* Good Connectivity Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-primary/10 border border-primary/20 rounded-xl p-4 flex items-center gap-3"
+            >
+              <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+              <span className="text-foreground text-sm">
+                <strong>Good road connectivity</strong> ensures a smooth, hassle-free journey to our property
+              </span>
             </motion.div>
 
             {/* How to Reach Cards */}
@@ -83,7 +106,7 @@ export function LocationSection() {
                     <h4 className="font-semibold text-foreground">From Delhi (by road)</h4>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Clock className="h-4 w-4" />
-                      <span>350 km · 8-9 hours via NH9</span>
+                      <span>~320 km · 7-8 hours via NH9</span>
                     </div>
                   </div>
                 </div>
@@ -104,7 +127,7 @@ export function LocationSection() {
                     <h4 className="font-semibold text-foreground">Nearest Airport</h4>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Clock className="h-4 w-4" />
-                      <span>Pantnagar Airport · 100 km · 3 hours</span>
+                      <span>Pantnagar Airport · ~100 km · 3 hours</span>
                     </div>
                   </div>
                 </div>
@@ -125,8 +148,37 @@ export function LocationSection() {
                     <h4 className="font-semibold text-foreground">Nearest Railway Station</h4>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Clock className="h-4 w-4" />
-                      <span>Kathgodam · 75 km · 2.5 hours</span>
+                      <span>Kathgodam · ~70 km · 2 hours</span>
                     </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Nearby Distances */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="bg-background rounded-xl p-5 shadow-soft"
+              >
+                <h4 className="font-semibold text-foreground mb-3">Nearby Towns</h4>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Nainital</span>
+                    <span className="text-foreground">~50 km</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Bhimtal</span>
+                    <span className="text-foreground">~30 km</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Haldwani</span>
+                    <span className="text-foreground">~70 km</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Mukteshwar Dham</span>
+                    <span className="text-foreground">~7 km</span>
                   </div>
                 </div>
               </motion.div>
@@ -137,7 +189,7 @@ export function LocationSection() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
               className="bg-accent/10 border border-accent/20 rounded-xl p-4 text-center"
             >
               <p className="text-foreground text-sm">

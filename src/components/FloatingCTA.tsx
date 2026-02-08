@@ -1,19 +1,19 @@
 import { Phone, MessageCircle, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const WHATSAPP_NUMBER = "919876543210"; // Replace with actual number
-const PHONE_NUMBER = "+91 98765 43210"; // Replace with actual number
+const WHATSAPP_NUMBER = "919667846787";
+const PHONE_NUMBER = "+919667846787";
 
 export function FloatingCTA() {
   const handleWhatsApp = () => {
     const message = encodeURIComponent(
-      "Hi! I'm interested in booking a stay at EcoEscape Mukteshwar. Could you please share availability and rates?"
+      "Hi! I'm interested in booking at Ecoescape Mukteshwar. Could you help me with availability?"
     );
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank");
   };
 
   const handleCall = () => {
-    window.location.href = `tel:${PHONE_NUMBER.replace(/\s/g, "")}`;
+    window.location.href = `tel:${PHONE_NUMBER}`;
   };
 
   const handleBookNow = () => {

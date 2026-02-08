@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Users, Eye, Maximize } from "lucide-react";
+import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble } from "lucide-react";
 import roomDeluxe from "@/assets/room-deluxe.jpg";
 import roomFamily from "@/assets/room-family.jpg";
 
@@ -8,27 +8,50 @@ const rooms = [
   {
     id: 1,
     name: "Deluxe Mountain View Room",
-    description: "Cozy room with panoramic Himalayan views, private balcony, and modern amenities. Perfect for couples.",
+    description: "Cozy east-facing room with panoramic Himalayan views and sunrise views. Perfect for couples seeking a peaceful retreat.",
     image: roomDeluxe,
     price: "₹3,500",
     priceNote: "per night",
     capacity: "2 Guests",
     size: "280 sq ft",
-    view: "Mountain View",
-    features: ["King Bed", "Private Balcony", "En-suite Bathroom", "Room Heater"],
+    view: "Sunrise View",
+    bedConfig: "King Bed",
+    features: [
+      "East-facing with sunrise views",
+      "Private bathroom with 24/7 hot water",
+      "Electric kettle with tea/coffee",
+      "Complimentary bottled water (1L/night)",
+      "High-speed WiFi",
+      "Room service available",
+    ],
   },
   {
     id: 2,
     name: "Family Suite",
-    description: "Spacious suite with connected rooms, ideal for families. Enjoy sunrise views from the large windows.",
+    description: "Spacious suite with connected rooms, ideal for families. Enjoy stunning sunrise views from the large windows and private balcony.",
     image: roomFamily,
     price: "₹5,500",
     priceNote: "per night",
     capacity: "4 Guests",
     size: "450 sq ft",
-    view: "Valley View",
-    features: ["2 Queen Beds", "Living Area", "Large Windows", "Room Heater"],
+    view: "Mountain View",
+    bedConfig: "2 Queen Beds",
+    features: [
+      "Spacious living area",
+      "Private bathroom with 24/7 hot water",
+      "Electric kettle with tea/coffee",
+      "Complimentary bottled water (1L/night)",
+      "High-speed WiFi",
+      "Room service available",
+    ],
   },
+];
+
+const allRoomAmenities = [
+  { icon: Coffee, text: "Electric kettle with complimentary tea & coffee" },
+  { icon: Droplets, text: "1L bottled water daily" },
+  { icon: Wifi, text: "High-speed WiFi" },
+  { icon: BedDouble, text: "Room service available" },
 ];
 
 export function RoomsSection() {
@@ -50,7 +73,7 @@ export function RoomsSection() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
-            Rooms & Suites
+            Your Cozy Mountain Retreat
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Comfortable accommodations designed for relaxation, 
@@ -58,7 +81,7 @@ export function RoomsSection() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
           {rooms.map((room, index) => (
             <motion.div
               key={room.id}
@@ -87,7 +110,7 @@ export function RoomsSection() {
                 <h3 className="text-xl font-serif font-semibold text-foreground mb-2">
                   {room.name}
                 </h3>
-                <p className="text-muted-foreground mb-4">
+                <p className="text-muted-foreground mb-4 text-sm">
                   {room.description}
                 </p>
 
@@ -108,16 +131,17 @@ export function RoomsSection() {
                 </div>
 
                 {/* Features */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {room.features.map((feature) => (
-                    <span
+                <ul className="space-y-2 mb-6">
+                  {room.features.slice(0, 4).map((feature) => (
+                    <li
                       key={feature}
-                      className="bg-secondary text-secondary-foreground text-xs px-3 py-1 rounded-full"
+                      className="text-sm text-muted-foreground flex items-center gap-2"
                     >
+                      <span className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
                       {feature}
-                    </span>
+                    </li>
                   ))}
-                </div>
+                </ul>
 
                 <Button
                   variant="hero"
@@ -131,6 +155,29 @@ export function RoomsSection() {
             </motion.div>
           ))}
         </div>
+
+        {/* All Rooms Include */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="bg-secondary rounded-2xl p-6 md:p-8"
+        >
+          <h4 className="font-semibold text-foreground text-center mb-6">
+            All Rooms Include
+          </h4>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {allRoomAmenities.map((amenity, index) => (
+              <div key={index} className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <amenity.icon className="h-5 w-5 text-primary" />
+                </div>
+                <span className="text-sm text-foreground">{amenity.text}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
