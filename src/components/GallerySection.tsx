@@ -7,12 +7,12 @@ import roomFamily from "@/assets/room-family.jpg";
 import gardenTerrace from "@/assets/garden-terrace.jpg";
 
 const galleryImages = [
-  { src: heroImage, alt: "Sunrise view from terrace", category: "Views" },
+  { src: heroImage, alt: "Sunrise view from Ecoescape Mukteshwar terrace", category: "Views" },
   { src: roomDeluxe, alt: "Deluxe mountain view room", category: "Rooms" },
   { src: roomFamily, alt: "Family suite", category: "Rooms" },
-  { src: gardenTerrace, alt: "Garden terrace with bonfire", category: "Outdoors" },
-  { src: heroImage, alt: "Morning chai on terrace", category: "Experience" },
-  { src: gardenTerrace, alt: "Evening garden view", category: "Outdoors" },
+  { src: gardenTerrace, alt: "Garden terrace with mountain views", category: "Garden" },
+  { src: heroImage, alt: "Himalayan panorama at dawn", category: "Views" },
+  { src: gardenTerrace, alt: "Blooming roses in the garden", category: "Garden" },
 ];
 
 export function GallerySection() {
@@ -29,10 +29,10 @@ export function GallerySection() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
-            Gallery
+            Glimpse Into Your Ecoescape
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            A glimpse of what awaits you at EcoEscape Mukteshwar
+            A visual journey through our property, rooms, garden, and the stunning views that await you
           </p>
         </motion.div>
 
