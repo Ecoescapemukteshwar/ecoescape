@@ -1,9 +1,29 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
+import { useEffect } from "react";
 
 export function Footer() {
+  useEffect(() => {
+    // Load TripAdvisor widget script
+    const taScript = document.createElement("script");
+    taScript.id = "ta-rated-js";
+    taScript.src = "https://www.jscache.com/wejs?wtype=rated&uniq=150&locationId=26876576&lang=en_IN&display_version=2";
+    taScript.async = true;
+    taScript.setAttribute("data-loadtrk", "");
+    taScript.onload = function () {
+      (this as any).loadtrk = true;
+    };
+    document.body.appendChild(taScript);
+
+    return () => {
+      if (document.getElementById("ta-rated-js")) {
+        document.body.removeChild(document.getElementById("ta-rated-js")!);
+      }
+    };
+  }, []);
+
   return (
-    <footer id="contact" className="bg-foreground text-background py-16">
+    <footer id="contact" className="bg-foreground text-background py-10">
       <div className="container">
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
@@ -25,7 +45,7 @@ export function Footer() {
             </p>
             <div className="flex gap-4">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/ecoescape.mukteshwar/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-background/10 rounded-full flex items-center justify-center hover:bg-background/20 transition-colors"
@@ -34,7 +54,7 @@ export function Footer() {
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/people/Ecoescape-Mukteshwar/61554610562549/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-background/10 rounded-full flex items-center justify-center hover:bg-background/20 transition-colors"
@@ -133,8 +153,27 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-background/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-background/60">
+        <div className="pt-4 border-t border-background/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-background/60">
           <p>© 2024 Ecoescape Mukteshwar. All rights reserved.</p>
+
+          {/* TripAdvisor Widget */}
+          <div id="TA_rated150" className="TA_rated">
+            <ul id="cuH5idEHMuD" className="TA_links BkU1Sb">
+              <li id="VLnDrqWO4" className="8bgI2uhKIR">
+                <a
+                  target="_blank"
+                  href="https://www.tripadvisor.in/Hotel_Review-g1162527-d26876576-Reviews-Ecoescape_Mukteshwar-Mukteshwar_Nainital_District_Uttarakhand.html"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="https://www.tripadvisor.in/img/cdsi/img2/badges/ollie-11424-2.gif"
+                    alt="TripAdvisor"
+                  />
+                </a>
+              </li>
+            </ul>
+          </div>
+
           <p>Direct booking = Best price guaranteed</p>
         </div>
       </div>

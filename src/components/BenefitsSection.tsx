@@ -109,7 +109,7 @@ const benefitGroups = [
 
 export function BenefitsSection() {
   return (
-    <section className="py-20 bg-secondary">
+    <section className="py-24 bg-secondary">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -140,13 +140,9 @@ export function BenefitsSection() {
                 {group.title}
               </h3>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {group.items.map((item, itemIndex) => (
-                  <motion.div
+                {group.items.map((item) => (
+                  <div
                     key={item.title}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: itemIndex * 0.05 }}
                     className="bg-background rounded-xl p-5 shadow-soft hover:shadow-card transition-shadow group"
                   >
                     <div className="w-11 h-11 bg-primary/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
@@ -158,7 +154,7 @@ export function BenefitsSection() {
                     <p className="text-xs text-muted-foreground leading-relaxed">
                       {item.description}
                     </p>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </motion.div>

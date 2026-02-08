@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Calendar, Star, Shield } from "lucide-react";
+import { MessageCircle, Calendar, Star } from "lucide-react";
 import heroImage from "@/assets/hero-sunrise.jpg";
 
 export function HeroSection() {
@@ -68,21 +68,10 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-lg md:text-xl text-[hsl(40_20%_90%)] mb-4 max-w-xl"
+            className="text-lg md:text-xl text-[hsl(40_20%_90%)] mb-8 max-w-xl"
           >
-            A Green Paradise in the Mountains | Boutique Homestay & Restaurant
+            Your boutique eco-homestay in the Kumaon Himalayas
           </motion.p>
-
-          {/* Trust Micro-badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="inline-flex items-center gap-2 text-[hsl(40_20%_85%)] text-sm mb-8"
-          >
-            <Shield className="h-4 w-4" />
-            24/7 Secure Property | Family Owned
-          </motion.div>
 
           {/* CTAs */}
           <motion.div
@@ -115,19 +104,15 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="flex flex-wrap gap-6 mt-10 pt-10 border-t border-[hsl(40_20%_90%/0.2)]"
+            className="flex flex-wrap gap-8 mt-10 pt-10 border-t border-[hsl(40_20%_90%/0.2)]"
           >
             <div>
-              <div className="text-2xl font-serif font-semibold text-[hsl(40_30%_98%)]">7,200 ft</div>
-              <div className="text-sm text-[hsl(40_20%_85%)]">Altitude</div>
+              <div className="text-2xl font-serif font-semibold text-[hsl(40_30%_98%)]">4.9 ★</div>
+              <div className="text-sm text-[hsl(40_20%_85%)]">200+ reviews</div>
             </div>
             <div>
               <div className="text-2xl font-serif font-semibold text-[hsl(40_30%_98%)]">100+</div>
-              <div className="text-sm text-[hsl(40_20%_85%)]">Plant Varieties</div>
-            </div>
-            <div>
-              <div className="text-2xl font-serif font-semibold text-[hsl(40_30%_98%)]">~7 km</div>
-              <div className="text-sm text-[hsl(40_20%_85%)]">From Mukteshwar Dham</div>
+              <div className="text-sm text-[hsl(40_20%_85%)]">Plant varieties</div>
             </div>
           </motion.div>
         </div>

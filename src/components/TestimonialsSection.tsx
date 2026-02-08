@@ -1,48 +1,56 @@
 import { motion } from "framer-motion";
-import { Star, Quote, MapPin, Calendar } from "lucide-react";
+import { Star, Quote, MapPin, Calendar, ShieldCheck } from "lucide-react";
 
 const testimonials = [
   {
     id: 1,
     name: "Priya S.",
+    initials: "PS",
     location: "Delhi",
     rating: 5,
     text: "The sunrise views from our room were absolutely magical! The garden with blooming roses was a bonus. Food was home-cooked and delicious. Highly recommend!",
     date: "December 2024",
     source: "Google",
+    verified: true,
   },
   {
     id: 2,
     name: "Rajesh & Family",
+    initials: "RF",
     location: "Mumbai",
     rating: 5,
     text: "Felt completely safe with the fenced property and CCTV. The terrace dining experience was unforgettable. Kids loved the garden walks. Will definitely come back!",
     date: "January 2025",
     source: "Google",
+    verified: true,
   },
   {
     id: 3,
     name: "Ananya K.",
+    initials: "AK",
     location: "Bangalore",
     rating: 5,
     text: "Perfect for our workation! The WiFi was fast, the terrace was inspiring, and the authentic Kumaoni food was amazing. The hosts were so welcoming.",
     date: "November 2024",
     source: "TripAdvisor",
+    verified: true,
   },
   {
     id: 4,
     name: "Vikram & Meera",
+    initials: "VM",
     location: "Noida",
     rating: 5,
     text: "Such a peaceful retreat! Waking up to sunrise views over the Himalayas was surreal. The 100+ plant garden is a photographer's paradise. Highly recommended!",
     date: "October 2024",
     source: "Google",
+    verified: true,
   },
 ];
 
 export function TestimonialsSection() {
   return (
-    <section id="reviews" className="py-20 bg-secondary">
+    <section id="reviews" className="py-24 bg-secondary">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -75,40 +83,48 @@ export function TestimonialsSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-background rounded-2xl p-6 shadow-soft hover:shadow-card transition-shadow flex flex-col"
             >
-              {/* Quote Icon */}
-              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                <Quote className="h-5 w-5 text-primary" />
-              </div>
-
-              {/* Rating */}
-              <div className="flex gap-1 mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-accent text-accent" />
-                ))}
+              {/* Avatar & Quote Icon */}
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                  {testimonial.initials}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="font-semibold text-foreground">{testimonial.name}</div>
+                    {testimonial.verified && (
+                      <div className="flex items-center gap-1 text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                        <ShieldCheck className="h-3 w-3" />
+                        <span>Verified stay</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex gap-1">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="h-3.5 w-3.5 fill-accent text-accent" />
+                    ))}
+                  </div>
+                </div>
               </div>
 
               {/* Text */}
-              <p className="text-foreground mb-6 leading-relaxed text-sm flex-grow">
+              <p className="text-foreground mb-4 leading-relaxed text-sm flex-grow">
                 "{testimonial.text}"
               </p>
 
-              {/* Author */}
-              <div className="pt-4 border-t border-border">
-                <div className="font-semibold text-foreground">
-                  {testimonial.name}
-                </div>
-                <div className="flex items-center gap-3 text-xs text-muted-foreground mt-1">
+              {/* Meta Info */}
+              <div className="pt-3 border-t border-border">
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
                   <span className="flex items-center gap-1">
                     <MapPin className="h-3 w-3" />
                     {testimonial.location}
                   </span>
+                  <span>•</span>
                   <span className="flex items-center gap-1">
                     <Calendar className="h-3 w-3" />
                     {testimonial.date}
                   </span>
-                </div>
-                <div className="text-xs text-muted-foreground mt-1">
-                  via {testimonial.source}
+                  <span>•</span>
+                  <span>via {testimonial.source}</span>
                 </div>
               </div>
             </motion.div>
