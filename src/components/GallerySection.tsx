@@ -3,47 +3,47 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 
 // Suite
-import suite1 from "@/assets/suite/13072eba-63ad-4695-9f00-11993563b5b2.jpg";
-import suite2 from "@/assets/suite/IMG_2630.jpg";
-import suite3 from "@/assets/suite/IMG_2902.jpg";
-import suite4 from "@/assets/suite/IMG_3599.jpg";
+import suite1 from "@/assets/suite/IMG_4065.webp";
+import suite2 from "@/assets/suite/IMG_2630.webp";
+import suite3 from "@/assets/suite/IMG_3599.webp";
+import suite4 from "@/assets/suite/img4.webp";
 
 // Two Bed Room Apartment
-import apt1 from "@/assets/two_bed_room_apartment/75ee0385-397b-46a6-99c4-ad1227814379.jpg";
-import apt2 from "@/assets/two_bed_room_apartment/IMG_1597.jpg";
-import apt3 from "@/assets/two_bed_room_apartment/IMG_1603.jpg";
-import apt4 from "@/assets/two_bed_room_apartment/IMG_2901.jpg";
+import apt1 from "@/assets/two_bed_room_apartment/75ee0385-397b-46a6-99c4-ad1227814379.webp";
+import apt2 from "@/assets/two_bed_room_apartment/IMG_1597.webp";
+import apt3 from "@/assets/two_bed_room_apartment/IMG_1603.webp";
+import apt4 from "@/assets/two_bed_room_apartment/IMG_2901.webp";
 
 // Terrace
-import terrace1 from "@/assets/terrace/6fc849e5-c31a-42b3-954c-0a943f6c9f21.jpg";
-import terrace2 from "@/assets/terrace/IMG_1459.jpg";
-import terrace3 from "@/assets/terrace/IMG_2495.jpg";
-import terrace4 from "@/assets/terrace/IMG_2926.jpg";
+import terrace1 from "@/assets/terrace/6fc849e5-c31a-42b3-954c-0a943f6c9f21.webp";
+import terrace2 from "@/assets/terrace/IMG_1459.webp";
+import terrace3 from "@/assets/terrace/IMG_2495.webp";
+import terrace4 from "@/assets/terrace/IMG_2926.webp";
 
 // Views
-import view1 from "@/assets/view/F4E15BBC-891E-40CB-84F4-77E47B25C194_1_105_c.jpg";
-import view2 from "@/assets/view/IMG_0754.jpg";
-import view3 from "@/assets/view/IMG_0774.jpg";
-import view4 from "@/assets/view/image00004.jpg";
+import view1 from "@/assets/view/F4E15BBC-891E-40CB-84F4-77E47B25C194_1_105_c.webp";
+import view2 from "@/assets/view/IMG_0754.webp";
+import view3 from "@/assets/view/IMG_0774.webp";
+import view4 from "@/assets/view/image00004.webp";
 
 // Activities
-import act1 from "@/assets/activites/img1.jpg";
-import act2 from "@/assets/activites/img2.jpg";
-import act3 from "@/assets/activites/IMG_3113_2.jpg";
-import act4 from "@/assets/activites/IMG_3736.jpg";
+import act1 from "@/assets/activites/img1.webp";
+import act2 from "@/assets/activites/img2.webp";
+import act3 from "@/assets/activites/IMG_3113_2.webp";
+import act4 from "@/assets/activites/IMG_3736.webp";
 
 // Food
-import food1 from "@/assets/food/IMG_5696.jpg";
-import food2 from "@/assets/food/IMG_5767.jpg";
-import food3 from "@/assets/food/IMG_9928.jpg";
-import food4 from "@/assets/food/IMG_9939.jpg";
+import food1 from "@/assets/food/IMG_5696.webp";
+import food2 from "@/assets/food/IMG_5767.webp";
+import food3 from "@/assets/food/IMG_9928.webp";
+import food4 from "@/assets/food/IMG_9939.webp";
 
 const gallerySections = [
   {
     title: "Suite",
     description:
       "Our premium suite features panoramic Himalayan views, hand-crafted wooden interiors, and all modern comforts for an indulgent mountain retreat.",
-    images: [suite1, suite2, suite3, suite4],
+    images: [suite2, suite1, suite3, suite4],
   },
   {
     title: "Two Bedroom Apartment",
@@ -67,7 +67,7 @@ const gallerySections = [
     title: "Activities",
     description:
       "From guided nature walks and birdwatching to bonfire evenings and local village tours — there is always something to explore around Mukteshwar.",
-    images: [act1, act2, act3, act4],
+    images: [act1, act4, act3, act2],
   },
   {
     title: "Food & Dining",

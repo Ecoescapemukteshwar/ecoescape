@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Calendar, Star } from "lucide-react";
-import heroImage from "@/assets/hero-sunrise.jpg";
+import heroImage from "@/assets/hero-sunrise.webp";
 
 export function HeroSection() {
   const scrollToBooking = () => {

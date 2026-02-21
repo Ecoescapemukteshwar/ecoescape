@@ -11,6 +11,7 @@ import { z } from "zod";
 import { siteConfig } from "@/config/site";
 import { sanitizeForWhatsApp, sanitizeName, sanitizePhone, sanitizeEmail } from "@/lib/sanitizer";
 import { createWhatsAppMessage, openWhatsAppWithMessage } from "@/services/whatsapp";
+import { trackBookingSubmit, trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/analytics";
 
 const bookingSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -80,6 +81,13 @@ export function BookingSection() {
 
       // Step 2: Send WhatsApp message FIRST (primary method - immediate & reliable)
       sendToWhatsApp(formDataObj);
+
+      // Track booking submission
+      trackBookingSubmit({
+        roomType: formDataObj.roomType,
+        guests: formDataObj.guests,
+      });
+      trackWhatsAppClick('booking-form');
 
       // Step 3: Show success immediately (after WhatsApp)
       setIsSubmitted(true);
@@ -167,6 +175,7 @@ export function BookingSection() {
   };
 
   const handleWhatsApp = () => {
+    trackWhatsAppClick('booking-section');
     const message = createWhatsAppMessage({
       name: formData.name || "Guest",
       email: "",
@@ -201,6 +210,7 @@ export function BookingSection() {
   };
 
   const handleCall = () => {
+    trackPhoneClick('booking-section');
     window.location.href = `tel:${siteConfig.phone}`;
   };
 
@@ -549,6 +559,7 @@ export function BookingSection() {
                 <a
                   href={`mailto:${siteConfig.email.reservations}`}
                   className="flex items-center gap-3 hover:text-accent transition-colors"
+                  onClick={() => trackEmailClick(siteConfig.email.reservations)}
                 >
                   <Mail className="h-5 w-5" />
                   <span className="break-all">{siteConfig.email.reservations}</span>
@@ -556,6 +567,7 @@ export function BookingSection() {
                 <a
                   href={`mailto:${siteConfig.email.general}`}
                   className="flex items-center gap-3 hover:text-accent transition-colors"
+                  onClick={() => trackEmailClick(siteConfig.email.general)}
                 >
                   <Mail className="h-5 w-5" />
                   <span className="break-all">{siteConfig.email.general}</span>

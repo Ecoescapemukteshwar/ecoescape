@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Flower2, Camera, Bird, BookOpen, Sparkles } from "lucide-react";
-import gardenTerrace from "@/assets/garden-terrace.jpg";
+import gardenTerrace from "@/assets/garden-terrace.webp";
 
 const activities = [
   { icon: Flower2, text: "Morning garden walks" },

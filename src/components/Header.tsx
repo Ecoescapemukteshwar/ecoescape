@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import { useThrottle } from "@/hooks/useThrottle";
+import { trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/analytics";
 
 const navLinks = [
   { name: "Rooms", href: "#rooms" },
@@ -36,6 +37,7 @@ export function Header() {
   };
 
   const handleWhatsApp = useCallback(() => {
+    trackWhatsAppClick('header');
     const message = encodeURIComponent(
       "Hi! I'm interested in booking at Ecoescape Mukteshwar. Could you help me with availability?"
     );
@@ -43,6 +45,7 @@ export function Header() {
   }, []);
 
   const handleCall = useCallback(() => {
+    trackPhoneClick('header');
     window.location.href = `tel:${siteConfig.phone}`;
   }, []);
 
@@ -67,6 +70,7 @@ export function Header() {
             <a
               href={`tel:${siteConfig.phone}`}
               className="flex items-center gap-2 hover:text-accent transition-colors"
+              onClick={() => trackPhoneClick('header-top-bar')}
             >
               <Phone className="h-4 w-4" />
               {siteConfig.phoneDisplay}
@@ -74,6 +78,7 @@ export function Header() {
             <a
               href={`mailto:${siteConfig.email.reservations}`}
               className="hover:text-accent transition-colors"
+              onClick={() => trackEmailClick(siteConfig.email.reservations)}
             >
               {siteConfig.email.reservations}
             </a>
@@ -102,7 +107,7 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <div className="flex flex-col">
-              <img src={isScrolled ? "/LOGO2.png" : "/LOGO.png"} alt="Logo" width={100} height={100} />
+              <img src={isScrolled ? "/LOGO2.webp" : "/LOGO.webp"} alt="Logo" width={100} height={100} />
             </div>
           </Link>
 
