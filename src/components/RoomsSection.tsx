@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
-import roomDeluxe from "@/assets/room-deluxe.jpg";
-import roomFamily from "@/assets/room-family.jpg";
+import roomDeluxe from "@/assets/room-deluxe.webp";
+import roomFamily from "@/assets/room-family.webp";
+import { trackBookingSubmit } from "@/lib/analytics";
 
 const rooms = [
   {
@@ -106,7 +107,10 @@ const propertyHighlights = [
 ];
 
 export function RoomsSection() {
-  const scrollToBooking = () => {
+  const scrollToBooking = (roomName?: string) => {
+    if (roomName) {
+      trackBookingSubmit({ roomType: roomName, guests: 'unknown' });
+    }
     const booking = document.getElementById("booking");
     if (booking) {
       booking.scrollIntoView({ behavior: "smooth" });
@@ -198,7 +202,7 @@ export function RoomsSection() {
                   variant="hero"
                   size="lg"
                   className="w-full"
-                  onClick={scrollToBooking}
+                  onClick={() => scrollToBooking(room.name)}
                 >
                   Book This Room
                 </Button>
