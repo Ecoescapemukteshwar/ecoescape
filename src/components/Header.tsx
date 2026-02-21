@@ -101,22 +101,7 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <div className="flex flex-col">
-              <span
-                className={cn(
-                  "font-serif text-xl md:text-2xl font-semibold transition-colors",
-                  isScrolled ? "text-primary" : "text-[hsl(40_30%_98%)]"
-                )}
-              >
-                Ecoescape
-              </span>
-              <span
-                className={cn(
-                  "text-xs tracking-widest uppercase transition-colors",
-                  isScrolled ? "text-muted-foreground" : "text-[hsl(40_20%_85%)]"
-                )}
-              >
-                Mukteshwar
-              </span>
+              <img src="/LOGO.png" alt="Logo" width={100} height={100} />
             </div>
           </Link>
 
