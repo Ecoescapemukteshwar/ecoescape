@@ -67,7 +67,7 @@ const gallerySections = [
     title: "Activities",
     description:
       "From guided nature walks and birdwatching to bonfire evenings and local village tours — there is always something to explore around Mukteshwar.",
-    images: [act1, act2, act3, act4],
+    images: [act1, act4, act3, act2],
   },
   {
     title: "Food & Dining",

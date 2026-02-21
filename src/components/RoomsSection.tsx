@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
 import roomDeluxe from "@/assets/room-deluxe.webp";
 import roomFamily from "@/assets/room-family.webp";
+import mountainView from "@/assets/suite/IMG_4065.webp";
+import spacious from "@/assets/suite/img123.webp";
 import { trackBookingSubmit } from "@/lib/analytics";
 
 const rooms = [
@@ -10,7 +12,7 @@ const rooms = [
     id: 1,
     name: "Suite with Mountain View",
     description: "1 Bedroom Suite with Attached Washroom, Outside Sitting, Terrace and Garden Access. Stepless access - ideal for elderly guests.",
-    image: roomDeluxe,
+    image: mountainView,
     price: "₹3,000",
     priceNote: "per night",
     capacity: "2 Guests",
@@ -30,7 +32,7 @@ const rooms = [
     id: 2,
     name: "Spacious Apartment",
     description: "2 Bedrooms with Attached Washrooms, Living Area, Dining Area, Baywindow Sitting, Verandah outside room sitting, Terrace and Garden Access.",
-    image: roomFamily,
+    image: spacious,
     price: "₹6,000",
     priceNote: "per night",
     capacity: "4 Guests",
