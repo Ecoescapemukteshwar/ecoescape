@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, Phone, MessageCircle, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { siteConfig } from "@/config/site";
+import { useThrottle } from "@/hooks/useThrottle";
 
 const navLinks = [
   { name: "Rooms", href: "#rooms" },
@@ -18,32 +20,31 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
+  const handleScroll = useThrottle(() => {
+    setIsScrolled(window.scrollY > 50);
+  }, 100);
+
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   const scrollToSection = (href: string) => {
     setIsOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    const element = document.querySelector<HTMLElement>(href);
+    element?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleWhatsApp = () => {
+  const handleWhatsApp = useCallback(() => {
     const message = encodeURIComponent(
       "Hi! I'm interested in booking at Ecoescape Mukteshwar. Could you help me with availability?"
     );
-    window.open(`https://wa.me/919667846787?text=${message}`, "_blank");
-  };
+    window.open(`${siteConfig.whatsappUrl}?text=${message}`, "_blank");
+  }, []);
 
-  const handleCall = () => {
-    window.location.href = "tel:+919667846787";
-  };
+  const handleCall = useCallback(() => {
+    window.location.href = `tel:${siteConfig.phone}`;
+  }, []);
 
   return (
     <header
@@ -64,17 +65,17 @@ export function Header() {
         <div className="container flex items-center justify-between text-sm">
           <div className="flex items-center gap-6">
             <a
-              href="tel:+919667846787"
+              href={`tel:${siteConfig.phone}`}
               className="flex items-center gap-2 hover:text-accent transition-colors"
             >
               <Phone className="h-4 w-4" />
-              +91 96678 46787
+              {siteConfig.phoneDisplay}
             </a>
             <a
-              href="mailto:reservations@ecoescapemukteshwar.com"
+              href={`mailto:${siteConfig.email.reservations}`}
               className="hover:text-accent transition-colors"
             >
-              reservations@ecoescapemukteshwar.com
+              {siteConfig.email.reservations}
             </a>
           </div>
           <div className="flex items-center gap-4">
@@ -82,7 +83,7 @@ export function Header() {
               Direct booking = Best price guaranteed
             </span>
             <a
-              href="https://www.instagram.com/ecoescape.mukteshwar/"
+              href={siteConfig.social.instagram}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 hover:text-accent transition-colors"
@@ -101,7 +102,7 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <div className="flex flex-col">
-              <img src="/LOGO.png" alt="Logo" width={100} height={100} />
+              <img src={isScrolled ? "/LOGO2.png" : "/LOGO.png"} alt="Logo" width={100} height={100} />
             </div>
           </Link>
 
@@ -137,7 +138,7 @@ export function Header() {
               )}
             >
               <Phone className="h-4 w-4 mr-2" />
-              +91 96678 46787
+              {siteConfig.phoneDisplay}
             </Button>
             <Button variant="whatsapp" size="sm" onClick={handleWhatsApp}>
               <MessageCircle className="h-4 w-4" />
@@ -155,6 +156,8 @@ export function Header() {
             )}
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
           >
             {isOpen ? (
               <X className="h-6 w-6" />
@@ -172,6 +175,7 @@ export function Header() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               className="lg:hidden overflow-hidden bg-background rounded-xl mt-4 shadow-card"
+              id="mobile-menu"
             >
               <div className="p-4 space-y-2">
                 {navLinks.map((link) => (
@@ -191,7 +195,7 @@ export function Header() {
                     onClick={handleCall}
                   >
                     <Phone className="h-5 w-5 mr-3" />
-                    +91 96678 46787
+                    {siteConfig.phoneDisplay}
                   </Button>
                   <Button
                     variant="whatsapp"

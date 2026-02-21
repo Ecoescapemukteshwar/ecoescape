@@ -8,8 +8,6 @@ import {
   Sparkles,
   Mountain,
   Coffee,
-  Droplets,
-  UtensilsCrossed,
   Car,
   Sun,
   ChevronRight,

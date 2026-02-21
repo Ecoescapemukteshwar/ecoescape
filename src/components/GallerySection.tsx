@@ -178,12 +178,19 @@ export function GallerySection() {
       {/* Lightbox */}
       {selectedImage && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image gallery"
           className="fixed inset-0 z-50 bg-foreground/90 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setSelectedImage(null);
+          }}
         >
           <button
-            className="absolute top-6 right-6 text-background hover:text-accent transition-colors"
+            className="absolute top-6 right-6 text-background hover:text-accent transition-colors z-10"
             onClick={() => setSelectedImage(null)}
+            aria-label="Close gallery"
           >
             <X className="h-8 w-8" />
           </button>

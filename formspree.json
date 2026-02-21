@@ -1,0 +1,56 @@
+{
+  "forms": {
+    "mqknpjea": {
+      "name": "Ecoescape Booking Form",
+      "fields": {
+        "name": {
+          "type": "text",
+          "label": "Name",
+          "required": true
+        },
+        "email": {
+          "type": "email",
+          "label": "Email",
+          "required": true
+        },
+        "phone": {
+          "type": "text",
+          "label": "Phone",
+          "required": true
+        },
+        "roomType": {
+          "type": "text",
+          "label": "Room Type",
+          "required": true
+        },
+        "checkIn": {
+          "type": "text",
+          "label": "Check-in Date",
+          "required": true
+        },
+        "checkOut": {
+          "type": "text",
+          "label": "Check-out Date",
+          "required": true
+        },
+        "guests": {
+          "type": "text",
+          "label": "Number of Guests",
+          "required": true
+        },
+        "extraOptions": {
+          "type": "text",
+          "label": "Extra Options"
+        },
+        "message": {
+          "type": "textarea",
+          "label": "Message"
+        },
+        "subject": {
+          "type": "text",
+          "label": "Subject"
+        }
+      }
+    }
+  }
+}
