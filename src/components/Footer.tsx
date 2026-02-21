@@ -11,7 +11,8 @@ export function Footer() {
     taScript.async = true;
     taScript.setAttribute("data-loadtrk", "");
     taScript.onload = function () {
-      (this as any).loadtrk = true;
+      const scriptElement = this as HTMLScriptElement;
+      (scriptElement as unknown as { loadtrk: boolean }).loadtrk = true;
     };
     document.body.appendChild(taScript);
 
@@ -156,22 +157,32 @@ export function Footer() {
         <div className="pt-4 border-t border-background/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-background/60">
           <p>© 2024 Ecoescape Mukteshwar. All rights reserved.</p>
 
-          {/* TripAdvisor Widget */}
-          <div id="TA_rated150" className="TA_rated">
-            <ul id="cuH5idEHMuD" className="TA_links BkU1Sb">
-              <li id="VLnDrqWO4" className="8bgI2uhKIR">
-                <a
-                  target="_blank"
-                  href="https://www.tripadvisor.in/Hotel_Review-g1162527-d26876576-Reviews-Ecoescape_Mukteshwar-Mukteshwar_Nainital_District_Uttarakhand.html"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src="https://www.tripadvisor.in/img/cdsi/img2/badges/ollie-11424-2.gif"
-                    alt="TripAdvisor"
-                  />
-                </a>
-              </li>
-            </ul>
+          {/* Certificates Section - grouped side-by-side */}
+          <div className="flex items-center gap-4">
+            {/* TripAdvisor Widget */}
+            <div id="TA_rated150" className="TA_rated">
+              <ul id="cuH5idEHMuD" className="TA_links BkU1Sb">
+                <li id="VLnDrqWO4" className="8bgI2uhKIR">
+                  <a
+                    target="_blank"
+                    href="https://www.tripadvisor.in/Hotel_Review-g1162527-d26876576-Reviews-Ecoescape_Mukteshwar-Mukteshwar_Nainital_District_Uttarakhand.html"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src="https://www.tripadvisor.in/img/cdsi/img2/badges/ollie-11424-2.gif"
+                      alt="TripAdvisor"
+                    />
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Booking.com Certificate - image only, no link */}
+            <img
+              src="/Award2025.jpeg"
+              alt="Booking.com 2025 Award Certificate"
+              className="h-20 w-auto object-contain"
+            />
           </div>
 
           <p>Direct booking = Best price guaranteed</p>

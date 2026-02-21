@@ -8,9 +8,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Calendar, MessageCircle, Phone, Mail, Send, CheckCircle, Users, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
-
-// Formspree endpoint - using project-based endpoint
-const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT || "https://formspree.io/f/2932831038499454640";
+import { siteConfig } from "@/config/site";
+import { sanitizeForWhatsApp, sanitizeName, sanitizePhone, sanitizeEmail } from "@/lib/sanitizer";
+import { createWhatsAppMessage, openWhatsAppWithMessage } from "@/services/whatsapp";
 
 const bookingSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -60,59 +60,91 @@ export function BookingSection() {
     setErrors({});
 
     try {
+      // Step 1: Validate form data with Zod
       bookingSchema.parse(formData);
 
-      // Prepare form data for Formspree
+      // Prepare sanitized booking data
       const formDataObj = {
-        ...formData,
-        specialRequests: [
-          formData.needYogaMat ? "Yoga mat needed" : "",
-          formData.extraBed ? "Extra bed required (Rs. 600/night)" : "",
-          formData.specialOccasion ? "Special occasion" : "",
-          formData.message,
-        ].filter(Boolean).join(" | "),
+        name: sanitizeName(formData.name),
+        email: sanitizeEmail(formData.email),
+        phone: sanitizePhone(formData.phone),
+        roomType: formData.roomType,
+        checkIn: formData.checkIn,
+        checkOut: formData.checkOut,
+        guests: formData.guests,
+        message: formData.message,
+        needYogaMat: formData.needYogaMat,
+        extraBed: formData.extraBed,
+        specialOccasion: formData.specialOccasion,
       };
 
-      // Submit to Formspree
-      const response = await fetch(FORMSPREE_ENDPOINT, {
+      // Step 2: Send WhatsApp message FIRST (primary method - immediate & reliable)
+      sendToWhatsApp(formDataObj);
+
+      // Step 3: Show success immediately (after WhatsApp)
+      setIsSubmitted(true);
+      toast({
+        title: "Inquiry Sent via WhatsApp!",
+        description: "Please send the message in WhatsApp. We'll respond within 2 hours!",
+      });
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        roomType: "",
+        checkIn: "",
+        checkOut: "",
+        guests: "2",
+        message: "",
+        needYogaMat: false,
+        extraBed: false,
+        specialOccasion: false,
+      });
+
+      // Step 4: Attempt Formspree in background (fire & forget - non-blocking)
+      // This doesn't affect user experience if it fails
+      const extraOptions = [
+        formDataObj.needYogaMat ? "Yoga mat needed" : "",
+        formDataObj.extraBed ? "Extra bed required (Rs. 600/night)" : "",
+        formDataObj.specialOccasion ? "Special occasion" : "",
+      ].filter(Boolean).join(", ");
+
+      const formspreeData = {
+        name: formDataObj.name,
+        email: formDataObj.email,
+        phone: formDataObj.phone,
+        roomType: formDataObj.roomType,
+        checkIn: formDataObj.checkIn,
+        checkOut: formDataObj.checkOut,
+        guests: formDataObj.guests,
+        extraOptions: extraOptions || "None",
+        message: formDataObj.message || "No additional message",
+        subject: `New Booking Inquiry from ${formDataObj.name} - Ecoescape Mukteshwar`,
+      };
+
+      // Fire and forget - don't await, don't block
+      fetch(siteConfig.formspreeEndpoint, {
         method: "POST",
-        body: JSON.stringify(formDataObj),
+        body: JSON.stringify(formspreeData),
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-      });
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("Formspree submission successful");
+          } else {
+            console.error("Formspree submission failed:", response.status, response.statusText);
+          }
+        })
+        .catch((error) => {
+          // Silent error logging for debugging - doesn't affect user
+          console.error("Formspree background submission failed:", error);
+        });
 
-      if (response.ok) {
-        setIsSubmitted(true);
-        toast({
-          title: "Inquiry Sent Successfully!",
-          description: "We'll respond within 2 hours. Thank you!",
-        });
-        // Also send to WhatsApp
-        sendToWhatsApp(formDataObj);
-        // Reset form
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          roomType: "",
-          checkIn: "",
-          checkOut: "",
-          guests: "2",
-          message: "",
-          needYogaMat: false,
-          extraBed: false,
-          specialOccasion: false,
-        });
-      } else {
-        const data = await response.json();
-        toast({
-          title: "Submission Failed",
-          description: data.error || "Please try again or contact us directly.",
-          variant: "destructive",
-        });
-      }
     } catch (error) {
       if (error instanceof z.ZodError) {
         const newErrors: Record<string, string> = {};
@@ -135,52 +167,41 @@ export function BookingSection() {
   };
 
   const handleWhatsApp = () => {
-    const extraOptions = [];
-    if (formData.needYogaMat) extraOptions.push("Yoga mat needed");
-    if (formData.extraBed) extraOptions.push("Extra bed required (Rs. 600/night)");
-    if (formData.specialOccasion) extraOptions.push("Special occasion");
-
-    const message = encodeURIComponent(
-      `Hi! I'm interested in booking at Ecoescape Mukteshwar.
-
-Room Type: ${formData.roomType || "Not selected"}
-Check-in: ${formData.checkIn || "Not selected"}
-Check-out: ${formData.checkOut || "Not selected"}
-Guests: ${formData.guests}
-${extraOptions.length > 0 ? `Special Requests: ${extraOptions.join(", ")}` : ""}
-${formData.message ? `Message: ${formData.message}` : ""}
-
-Could you help me with availability?`
-    );
-    window.open(`https://wa.me/919667846787?text=${message}`, "_blank");
+    const message = createWhatsAppMessage({
+      name: formData.name || "Guest",
+      email: "",
+      phone: "",
+      roomType: formData.roomType || "Not selected",
+      checkIn: formData.checkIn || "Not selected",
+      checkOut: formData.checkOut || "Not selected",
+      guests: formData.guests,
+      message: formData.message,
+      needYogaMat: formData.needYogaMat,
+      extraBed: formData.extraBed,
+      specialOccasion: formData.specialOccasion,
+    });
+    openWhatsAppWithMessage(message);
   };
 
   const sendToWhatsApp = (data: typeof formData) => {
-    const extraOptions = [];
-    if (data.needYogaMat) extraOptions.push("Yoga mat needed");
-    if (data.extraBed) extraOptions.push("Extra bed required (Rs. 600/night)");
-    if (data.specialOccasion) extraOptions.push("Special occasion");
-
-    const message = encodeURIComponent(
-      `🏔️ NEW BOOKING INQUIRY - Ecoescape Mukteshwar
-
-👤 Name: ${data.name}
-📧 Email: ${data.email}
-📱 Phone: ${data.phone}
-🏠 Room Type: ${data.roomType}
-📅 Check-in: ${data.checkIn}
-📅 Check-out: ${data.checkOut}
-👥 Guests: ${data.guests}
-${extraOptions.length > 0 ? `✨ Special Requests: ${extraOptions.join(", ")}` : ""}
-${data.message ? `💬 Message: ${data.message}` : ""}
-
-Please confirm availability and rates. Thank you!`
-    );
-    window.open(`https://wa.me/919667846787?text=${message}`, "_blank");
+    const message = createWhatsAppMessage({
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      roomType: data.roomType,
+      checkIn: data.checkIn,
+      checkOut: data.checkOut,
+      guests: data.guests,
+      message: data.message,
+      needYogaMat: data.needYogaMat,
+      extraBed: data.extraBed,
+      specialOccasion: data.specialOccasion,
+    });
+    openWhatsAppWithMessage(message);
   };
 
   const handleCall = () => {
-    window.location.href = "tel:+919667846787";
+    window.location.href = `tel:${siteConfig.phone}`;
   };
 
   if (isSubmitted) {
@@ -195,15 +216,18 @@ Please confirm availability and rates. Thank you!`
           >
             <CheckCircle className="h-16 w-16 mx-auto mb-6 text-accent" />
             <h2 className="text-3xl font-serif font-semibold mb-4">
-              Thank You!
+              Inquiry Sent via WhatsApp!
             </h2>
-            <p className="text-lg opacity-90 mb-8">
-              We've received your inquiry and will respond within 2 hours.
+            <p className="text-lg opacity-90 mb-4">
+              WhatsApp should have opened with your pre-filled inquiry message.
+            </p>
+            <p className="text-base opacity-80 mb-8">
+              Please click send in WhatsApp. We'll respond within 2 hours!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="whatsapp" size="lg" onClick={handleWhatsApp}>
                 <MessageCircle className="h-5 w-5" />
-                WhatsApp Us Now
+                Open WhatsApp Again
               </Button>
               <Button variant="heroSecondary" size="lg" onClick={handleCall}>
                 <Phone className="h-5 w-5" />
@@ -514,7 +538,7 @@ Please confirm availability and rates. Thank you!`
                   onClick={handleCall}
                 >
                   <Phone className="h-5 w-5" />
-                  Call +91 96678 46787
+                  Call {siteConfig.phoneDisplay}
                 </Button>
               </div>
             </div>
@@ -523,18 +547,18 @@ Please confirm availability and rates. Thank you!`
               <h4 className="font-semibold mb-4">Email Us</h4>
               <div className="space-y-3 text-sm">
                 <a
-                  href="mailto:reservations@ecoescapemukteshwar.com"
+                  href={`mailto:${siteConfig.email.reservations}`}
                   className="flex items-center gap-3 hover:text-accent transition-colors"
                 >
                   <Mail className="h-5 w-5" />
-                  <span className="break-all">reservations@ecoescapemukteshwar.com</span>
+                  <span className="break-all">{siteConfig.email.reservations}</span>
                 </a>
                 <a
-                  href="mailto:ecoescape.mukteshwar@gmail.com"
+                  href={`mailto:${siteConfig.email.general}`}
                   className="flex items-center gap-3 hover:text-accent transition-colors"
                 >
                   <Mail className="h-5 w-5" />
-                  <span className="break-all">ecoescape.mukteshwar@gmail.com</span>
+                  <span className="break-all">{siteConfig.email.general}</span>
                 </a>
               </div>
             </div>

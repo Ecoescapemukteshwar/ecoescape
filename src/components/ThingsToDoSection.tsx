@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Sunrise, Camera, Utensils, TreePine, MapPin, Clock, Car, Plane, Train, ExternalLink } from "lucide-react";
+import { Sunrise, Camera, Utensils, TreePine, Car, Plane, Train } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 

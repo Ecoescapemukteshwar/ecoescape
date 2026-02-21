@@ -47,7 +47,7 @@ export function HeroSection() {
               ))}
             </div>
             <span className="text-sm font-medium text-foreground">
-              4.9 · 200+ Happy Guests
+              4.9 · 100+ Happy Guests
             </span>
           </motion.div>
 
