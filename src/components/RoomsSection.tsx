@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
@@ -6,14 +7,16 @@ import roomFamily from "@/assets/room-family.webp";
 import mountainView from "@/assets/suite/IMG_4065.webp";
 import spacious from "@/assets/suite/img123.webp";
 import { trackBookingSubmit } from "@/lib/analytics";
+import { getCurrentPrice, formatPrice, type RoomType } from "@/services/pricing";
 
-const rooms = [
+// Room data without prices (prices added dynamically)
+const roomData = [
   {
     id: 1,
     name: "Suite with Mountain View",
+    roomType: "suite" as RoomType,
     description: "1 Bedroom Suite with Attached Washroom, Outside Sitting, Terrace and Garden Access. Stepless access - ideal for elderly guests.",
     image: mountainView,
-    price: "₹3,000",
     priceNote: "per night",
     capacity: "2 Guests",
     size: "280 sq ft",
@@ -31,9 +34,9 @@ const rooms = [
   {
     id: 2,
     name: "Spacious Apartment",
+    roomType: "apartment" as RoomType,
     description: "2 Bedrooms with Attached Washrooms, Living Area, Dining Area, Baywindow Sitting, Verandah outside room sitting, Terrace and Garden Access.",
     image: spacious,
-    price: "₹6,000",
     priceNote: "per night",
     capacity: "4 Guests",
     size: "550 sq ft",
@@ -51,9 +54,9 @@ const rooms = [
   {
     id: 3,
     name: "Family Room",
+    roomType: "familyRoom" as RoomType,
     description: "2 Bedrooms (large and small), 1 washroom, dining area, private balcony, terrace and garden access. Perfect for families.",
     image: roomFamily,
-    price: "₹4,500",
     priceNote: "per night",
     capacity: "4 Guests",
     size: "450 sq ft",
@@ -71,9 +74,9 @@ const rooms = [
   {
     id: 4,
     name: "Family Room 2",
+    roomType: "familyRoom2" as RoomType,
     description: "1 Bedroom Quadruple with 2 king size double sharing beds, 1 washroom, private balcony, dining area, terrace and garden access.",
     image: roomDeluxe,
-    price: "₹4,000",
     priceNote: "per night",
     capacity: "4 Guests",
     size: "380 sq ft",
@@ -109,6 +112,14 @@ const propertyHighlights = [
 ];
 
 export function RoomsSection() {
+  // Generate rooms array with dynamic pricing
+  const rooms = useMemo(() => {
+    return roomData.map((room) => ({
+      ...room,
+      price: formatPrice(getCurrentPrice(room.roomType)),
+    }));
+  }, []);
+
   const scrollToBooking = (roomName?: string) => {
     if (roomName) {
       trackBookingSubmit({ roomType: roomName, guests: 'unknown' });
