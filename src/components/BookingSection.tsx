@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,7 @@ import { siteConfig } from "@/config/site";
 import { sanitizeName, sanitizePhone, sanitizeEmail } from "@/lib/sanitizer";
 import { createWhatsAppMessage, openWhatsAppWithMessage } from "@/services/whatsapp";
 import { trackBookingSubmit, trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/analytics";
+import { getCurrentPrice, formatPrice, getBookingPrice, mapRoomTypeToPricingType, isPeakSeason } from "@/services/pricing";
 
 const bookingSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -42,6 +43,45 @@ export function BookingSection() {
     specialOccasion: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Price summary state for live calculator
+  const [priceSummary, setPriceSummary] = useState<{
+    pricePerNight: number;
+    nights: number;
+    totalPrice: number;
+    isPeak: boolean;
+  } | null>(null);
+
+  // Dynamic room options with current pricing
+  const roomOptions = useMemo(() => [
+    { value: "suite-mountain-view", label: `Suite with Mountain View (${formatPrice(getCurrentPrice('suite'))}/night)` },
+    { value: "spacious-apartment", label: `Spacious Apartment (${formatPrice(getCurrentPrice('apartment'))}/night)` },
+    { value: "family-room", label: `Family Room (${formatPrice(getCurrentPrice('familyRoom'))}/night)` },
+    { value: "family-room-2", label: `Family Room 2 (${formatPrice(getCurrentPrice('familyRoom2'))}/night)` },
+  ], []);
+
+  // Calculate price summary when dates and room type change
+  useEffect(() => {
+    if (formData.checkIn && formData.checkOut && formData.roomType) {
+      const checkIn = new Date(formData.checkIn);
+      const checkOut = new Date(formData.checkOut);
+      const roomType = mapRoomTypeToPricingType(formData.roomType);
+
+      if (roomType && checkOut > checkIn) {
+        const pricing = getBookingPrice(roomType, checkIn, checkOut);
+        setPriceSummary({
+          pricePerNight: pricing.basePrice,
+          nights: pricing.nights,
+          totalPrice: pricing.totalPrice,
+          isPeak: pricing.isPeakSeason,
+        });
+      } else {
+        setPriceSummary(null);
+      }
+    } else {
+      setPriceSummary(null);
+    }
+  }, [formData.checkIn, formData.checkOut, formData.roomType]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -205,6 +245,10 @@ export function BookingSection() {
       needYogaMat: data.needYogaMat,
       extraBed: data.extraBed,
       specialOccasion: data.specialOccasion,
+      pricePerNight: priceSummary?.pricePerNight,
+      totalPrice: priceSummary?.totalPrice,
+      nights: priceSummary?.nights,
+      isPeakSeason: priceSummary?.isPeak,
     });
     openWhatsAppWithMessage(message);
   };
@@ -389,10 +433,11 @@ export function BookingSection() {
                   required
                 >
                   <option value="">Select a room type</option>
-                  <option value="suite-mountain-view">Suite with Mountain View (₹3,500/night)</option>
-                  <option value="spacious-apartment">Spacious Apartment (₹5,500/night)</option>
-                  <option value="family-room">Family Room (₹4,500/night)</option>
-                  <option value="family-room-2">Family Room 2 (₹4,000/night)</option>
+                  {roomOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
                 {errors.roomType && (
                   <p className="text-accent text-sm mt-1">{errors.roomType}</p>
@@ -443,6 +488,20 @@ export function BookingSection() {
                   )}
                 </div>
               </div>
+
+              {/* Price Summary - Live Calculator */}
+              {priceSummary && (
+                <div className="bg-primary-foreground/20 rounded-lg p-4 mb-4 border border-primary-foreground/20">
+                  <p className="font-semibold text-primary-foreground">Price Summary</p>
+                  <div className="flex justify-between items-center mt-2">
+                    <span className="text-primary-foreground/90">₹{priceSummary.pricePerNight.toLocaleString("en-IN")} × {priceSummary.nights} night{priceSummary.nights > 1 ? 's' : ''}</span>
+                  </div>
+                  {priceSummary.isPeak && (
+                    <p className="text-accent text-sm mt-1">June Peak Season rates apply</p>
+                  )}
+                  <p className="text-xl font-bold mt-2 text-primary-foreground">Total: ₹{priceSummary.totalPrice.toLocaleString("en-IN")}</p>
+                </div>
+              )}
 
               <div className="mb-4">
                 <Label htmlFor="message" className="text-primary-foreground/90">
