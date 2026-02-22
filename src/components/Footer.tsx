@@ -1,10 +1,29 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export function Footer() {
+function LazyTripAdvisor() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
-    // Load TripAdvisor widget script
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
     const taScript = document.createElement("script");
     taScript.id = "ta-rated-js";
     taScript.src = "https://www.jscache.com/wejs?wtype=rated&uniq=150&locationId=26876576&lang=en_IN&display_version=2";
@@ -17,12 +36,41 @@ export function Footer() {
     document.body.appendChild(taScript);
 
     return () => {
-      if (document.getElementById("ta-rated-js")) {
-        document.body.removeChild(document.getElementById("ta-rated-js")!);
-      }
+      const el = document.getElementById("ta-rated-js");
+      if (el) document.body.removeChild(el);
     };
-  }, []);
+  }, [isVisible]);
 
+  return (
+    <div ref={ref}>
+      {isVisible ? (
+        <div id="TA_rated150" className="TA_rated">
+          <ul id="cuH5idEHMuD" className="TA_links BkU1Sb">
+            <li id="VLnDrqWO4" className="8bgI2uhKIR">
+              <a
+                target="_blank"
+                href="https://www.tripadvisor.in/Hotel_Review-g1162527-d26876576-Reviews-Ecoescape_Mukteshwar-Mukteshwar_Nainital_District_Uttarakhand.html"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="https://www.tripadvisor.in/img/cdsi/img2/badges/ollie-11424-2.gif"
+                  alt="TripAdvisor"
+                  width={120}
+                  height={50}
+                  loading="lazy"
+                />
+              </a>
+            </li>
+          </ul>
+        </div>
+      ) : (
+        <div style={{ width: 120, height: 50 }} />
+      )}
+    </div>
+  );
+}
+
+export function Footer() {
   return (
     <footer id="contact" className="bg-foreground text-background py-10">
       <div className="container">
@@ -159,29 +207,17 @@ export function Footer() {
 
           {/* Certificates Section - grouped side-by-side */}
           <div className="flex items-center gap-4">
-            {/* TripAdvisor Widget */}
-            <div id="TA_rated150" className="TA_rated">
-              <ul id="cuH5idEHMuD" className="TA_links BkU1Sb">
-                <li id="VLnDrqWO4" className="8bgI2uhKIR">
-                  <a
-                    target="_blank"
-                    href="https://www.tripadvisor.in/Hotel_Review-g1162527-d26876576-Reviews-Ecoescape_Mukteshwar-Mukteshwar_Nainital_District_Uttarakhand.html"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      src="https://www.tripadvisor.in/img/cdsi/img2/badges/ollie-11424-2.gif"
-                      alt="TripAdvisor"
-                    />
-                  </a>
-                </li>
-              </ul>
-            </div>
+            {/* TripAdvisor Widget - lazy loaded */}
+            <LazyTripAdvisor />
 
             {/* Booking.com Certificate - image only, no link */}
             <img
               src="/Award2025.jpeg"
               alt="Booking.com 2025 Award Certificate"
               className="h-20 w-auto object-contain"
+              width={80}
+              height={80}
+              loading="lazy"
             />
           </div>
 

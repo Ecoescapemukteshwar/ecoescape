@@ -9,7 +9,7 @@ import { Calendar, MessageCircle, Phone, Mail, Send, CheckCircle, Users, User } 
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { siteConfig } from "@/config/site";
-import { sanitizeForWhatsApp, sanitizeName, sanitizePhone, sanitizeEmail } from "@/lib/sanitizer";
+import { sanitizeName, sanitizePhone, sanitizeEmail } from "@/lib/sanitizer";
 import { createWhatsAppMessage, openWhatsAppWithMessage } from "@/services/whatsapp";
 import { trackBookingSubmit, trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/analytics";
 
