@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone, MessageCircle, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,17 +9,15 @@ import { useThrottle } from "@/hooks/useThrottle";
 import { trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/analytics";
 
 const navLinks = [
-  { name: "Rooms", href: "#rooms" },
-  { name: "Dining", href: "#dining" },
-  { name: "Garden", href: "#garden" },
-  { name: "Gallery", href: "#gallery" },
-  { name: "Things to Do", href: "#things-to-do" },
-  { name: "Reviews", href: "#reviews" },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Rooms", href: "/rooms" },
 ];
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   const handleScroll = useThrottle(() => {
     setIsScrolled(window.scrollY > 50);
@@ -32,8 +30,21 @@ export function Header() {
 
   const scrollToSection = (href: string) => {
     setIsOpen(false);
-    const element = document.querySelector<HTMLElement>(href);
-    element?.scrollIntoView({ behavior: "smooth" });
+    // For external routes, use navigate
+    if (href.startsWith("/")) {
+      window.location.href = href;
+    } else {
+      // For anchor links (if any remain)
+      const element = document.querySelector<HTMLElement>(href);
+      element?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const isActiveLink = (href: string) => {
+    if (href === "/") {
+      return location.pathname === "/";
+    }
+    return location.pathname.startsWith(href);
   };
 
   const handleWhatsApp = useCallback(() => {
@@ -114,18 +125,20 @@ export function Header() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
-              <button
+              <Link
                 key={link.name}
-                onClick={() => scrollToSection(link.href)}
+                to={link.href}
                 className={cn(
                   "font-medium transition-colors text-sm",
-                  isScrolled
-                    ? "text-foreground/80 hover:text-primary"
-                    : "text-[hsl(40_20%_90%)] hover:text-[hsl(40_30%_98%)]"
+                  isActiveLink(link.href)
+                    ? "text-primary font-semibold"
+                    : isScrolled
+                      ? "text-foreground/80 hover:text-primary"
+                      : "text-[hsl(40_20%_90%)] hover:text-[hsl(40_30%_98%)]"
                 )}
               >
                 {link.name}
-              </button>
+              </Link>
             ))}
           </div>
 
@@ -184,13 +197,19 @@ export function Header() {
             >
               <div className="p-4 space-y-2">
                 {navLinks.map((link) => (
-                  <button
+                  <Link
                     key={link.name}
-                    onClick={() => scrollToSection(link.href)}
-                    className="block w-full text-left text-foreground hover:text-primary font-medium py-3 px-4 rounded-lg hover:bg-secondary transition-colors"
+                    to={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={cn(
+                      "block w-full text-left font-medium py-3 px-4 rounded-lg transition-colors",
+                      isActiveLink(link.href)
+                        ? "text-primary bg-primary/10"
+                        : "text-foreground hover:text-primary hover:bg-secondary"
+                    )}
                   >
                     {link.name}
-                  </button>
+                  </Link>
                 ))}
                 <div className="pt-4 border-t border-border space-y-2">
                   <Button
@@ -211,14 +230,16 @@ export function Header() {
                     <MessageCircle className="h-5 w-5" />
                     WhatsApp Us
                   </Button>
-                  <Button
-                    variant="hero"
-                    size="lg"
-                    className="w-full"
-                    onClick={() => scrollToSection("#booking")}
-                  >
-                    Check Availability
-                  </Button>
+                  <Link to="/rooms" className="block">
+                    <Button
+                      variant="hero"
+                      size="lg"
+                      className="w-full"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Check Availability
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </motion.div>

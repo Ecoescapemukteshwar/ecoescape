@@ -1,13 +1,15 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
+import { Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
 import roomDeluxe from "@/assets/room-deluxe.webp";
 import roomFamily from "@/assets/room-family.webp";
 import mountainView from "@/assets/suite/IMG_4065.webp";
 import spacious from "@/assets/suite/img123.webp";
 import { trackBookingSubmit } from "@/lib/analytics";
 import { getCurrentPrice, formatPrice, type RoomType } from "@/services/pricing";
+import { RoomDetailsModal, type Room } from "@/components/RoomDetailsModal";
 
 // Room data without prices (prices added dynamically)
 const roomData = [
@@ -111,7 +113,19 @@ const propertyHighlights = [
   "Full snow capped Himalayan range view point 50-60m walk",
 ];
 
-export function RoomsSection() {
+export type RoomsSectionMode = "teaser" | "modal";
+
+interface RoomsSectionProps {
+  mode?: RoomsSectionMode;
+  preselectedRoom?: RoomType;
+  onBookRoom?: (roomType: RoomType) => void;
+}
+
+export function RoomsSection({ mode = "modal", preselectedRoom, onBookRoom }: RoomsSectionProps) {
+  const navigate = useNavigate();
+  const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   // Generate rooms array with dynamic pricing
   const rooms = useMemo(() => {
     return roomData.map((room) => ({
@@ -120,14 +134,37 @@ export function RoomsSection() {
     }));
   }, []);
 
-  const scrollToBooking = (roomName?: string) => {
-    if (roomName) {
-      trackBookingSubmit({ roomType: roomName, guests: 'unknown' });
+  const scrollToBooking = (roomType?: RoomType) => {
+    if (roomType) {
+      trackBookingSubmit({ roomType: roomType.toString(), guests: 'unknown' });
     }
-    const booking = document.getElementById("booking");
-    if (booking) {
-      booking.scrollIntoView({ behavior: "smooth" });
+    if (mode === "teaser") {
+      // On home page, navigate to rooms page
+      navigate("/rooms", { state: { selectedRoom: roomType } });
+    } else {
+      // On rooms page, scroll to booking form
+      const booking = document.getElementById("booking");
+      if (booking) {
+        booking.scrollIntoView({ behavior: "smooth" });
+      }
     }
+  };
+
+  const handleBookFromModal = (roomType: RoomType) => {
+    scrollToBooking(roomType);
+    if (onBookRoom) {
+      onBookRoom(roomType);
+    }
+  };
+
+  const openModal = (room: Room) => {
+    setSelectedRoom(room);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedRoom(null);
   };
 
   return (
@@ -160,66 +197,41 @@ export function RoomsSection() {
               className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300"
             >
               {/* Image */}
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-72 overflow-hidden">
                 <img
                   src={room.image}
                   alt={room.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                   width={600}
-                  height={256}
+                  height={288}
                 />
-                <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm rounded-full px-4 py-2">
-                  <span className="font-serif font-semibold text-primary">{room.price}</span>
-                  <span className="text-xs text-muted-foreground ml-1">{room.priceNote}</span>
-                </div>
+                {mode === "modal" ? (
+                  <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm rounded-full px-4 py-2">
+                    <span className="font-serif font-semibold text-primary">{room.price}</span>
+                    <span className="text-xs text-muted-foreground ml-1">{room.priceNote}</span>
+                  </div>
+                ) : (
+                  <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm rounded-full px-4 py-2">
+                    <span className="font-serif font-semibold text-primary">From {room.price}</span>
+                    <span className="text-xs text-muted-foreground ml-1">{room.priceNote}</span>
+                  </div>
+                )}
               </div>
 
-              {/* Content */}
+              {/* Content - Simplified */}
               <div className="p-6">
-                <h3 className="text-xl font-serif font-semibold text-foreground mb-2">
+                <h3 className="text-xl font-serif font-semibold text-foreground mb-4">
                   {room.name}
                 </h3>
-                <p className="text-muted-foreground mb-4 text-sm">
-                  {room.description}
-                </p>
-
-                {/* Quick Info */}
-                <div className="flex flex-wrap gap-4 mb-4 text-sm">
-                  <span className="flex items-center gap-1.5 text-foreground">
-                    <Users className="h-4 w-4 text-primary" />
-                    {room.capacity}
-                  </span>
-                  <span className="flex items-center gap-1.5 text-foreground">
-                    <Maximize className="h-4 w-4 text-primary" />
-                    {room.size}
-                  </span>
-                  <span className="flex items-center gap-1.5 text-foreground">
-                    <Eye className="h-4 w-4 text-primary" />
-                    {room.view}
-                  </span>
-                </div>
-
-                {/* Features */}
-                <ul className="space-y-2 mb-6">
-                  {room.features.slice(0, 4).map((feature) => (
-                    <li
-                      key={feature}
-                      className="text-sm text-muted-foreground flex items-center gap-2"
-                    >
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
 
                 <Button
-                  variant="hero"
+                  variant="outline"
                   size="lg"
                   className="w-full"
-                  onClick={() => scrollToBooking(room.name)}
+                  onClick={() => openModal(room)}
                 >
-                  Book This Room
+                  View Details
                 </Button>
               </div>
             </motion.div>
@@ -270,6 +282,19 @@ export function RoomsSection() {
           </div>
         </motion.div>
       </div>
+
+      {/* Room Details Modal */}
+      {selectedRoom && (
+        <RoomDetailsModal
+          room={selectedRoom}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onBook={handleBookFromModal}
+        />
+      )}
     </section>
   );
 }
+
+// Export room data for use in other components
+export { roomData };

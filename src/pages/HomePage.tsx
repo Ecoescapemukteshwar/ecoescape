@@ -11,13 +11,11 @@ const GardenSection = lazy(() => import("@/components/GardenSection").then(m => 
 const GallerySection = lazy(() => import("@/components/GallerySection").then(m => ({ default: m.GallerySection })));
 const ThingsToDoSection = lazy(() => import("@/components/ThingsToDoSection").then(m => ({ default: m.ThingsToDoSection })));
 const AmenitiesSection = lazy(() => import("@/components/AmenitiesSection").then(m => ({ default: m.AmenitiesSection })));
-const PoliciesSection = lazy(() => import("@/components/PoliciesSection").then(m => ({ default: m.PoliciesSection })));
-const BookingSection = lazy(() => import("@/components/BookingSection").then(m => ({ default: m.BookingSection })));
 const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
 
 const SectionFallback = () => <div className="min-h-[200px]" />;
 
-const Index = () => {
+const HomePage = () => {
   return (
     <div className="min-h-screen">
       <Header />
@@ -25,7 +23,7 @@ const Index = () => {
         <HeroSection />
         <BenefitsSection />
         <Suspense fallback={<SectionFallback />}>
-          <RoomsSection />
+          <RoomsSection mode="modal" />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <TestimonialsSection />
@@ -45,12 +43,6 @@ const Index = () => {
         <Suspense fallback={<SectionFallback />}>
           <AmenitiesSection />
         </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <PoliciesSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <BookingSection />
-        </Suspense>
       </main>
       <Suspense fallback={<SectionFallback />}>
         <Footer />
@@ -60,4 +52,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default HomePage;

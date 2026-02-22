@@ -12,7 +12,7 @@ import { siteConfig } from "@/config/site";
 import { sanitizeName, sanitizePhone, sanitizeEmail } from "@/lib/sanitizer";
 import { createWhatsAppMessage, openWhatsAppWithMessage } from "@/services/whatsapp";
 import { trackBookingSubmit, trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/analytics";
-import { getCurrentPrice, formatPrice, getBookingPrice, mapRoomTypeToPricingType, isPeakSeason } from "@/services/pricing";
+import { getCurrentPrice, formatPrice, getBookingPrice, mapRoomTypeToPricingType, isPeakSeason, type RoomType } from "@/services/pricing";
 
 const bookingSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -25,7 +25,11 @@ const bookingSchema = z.object({
   message: z.string().max(1000).optional(),
 });
 
-export function BookingSection() {
+interface BookingSectionProps {
+  preselectedRoom?: RoomType;
+}
+
+export function BookingSection({ preselectedRoom }: BookingSectionProps) {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -59,6 +63,24 @@ export function BookingSection() {
     { value: "family-room", label: `Family Room (${formatPrice(getCurrentPrice('familyRoom'))}/night)` },
     { value: "family-room-2", label: `Family Room 2 (${formatPrice(getCurrentPrice('familyRoom2'))}/night)` },
   ], []);
+
+  // Map preselectedRoom to room option value
+  const roomTypeMap: Record<RoomType, string> = {
+    suite: "suite-mountain-view",
+    apartment: "spacious-apartment",
+    familyRoom: "family-room",
+    familyRoom2: "family-room-2",
+  };
+
+  // Initialize with preselected room if provided
+  useEffect(() => {
+    if (preselectedRoom && roomTypeMap[preselectedRoom]) {
+      setFormData((prev) => ({
+        ...prev,
+        roomType: roomTypeMap[preselectedRoom],
+      }));
+    }
+  }, [preselectedRoom]);
 
   // Calculate price summary when dates and room type change
   useEffect(() => {
