@@ -5,9 +5,9 @@ import { Header } from "./Header";
 // Mock framer-motion to avoid animation issues in tests
 vi.mock("framer-motion", () => ({
   motion: {
-    div: ({ children, ...props }: unknown) => <div {...(props as Record<string, unknown>)}>{children as React.ReactNode}</div>,
+    div: ({ children, ...props }: React.PropsWithChildren<Record<string, unknown>>) => <div {...props}>{children}</div>,
   },
-  AnimatePresence: ({ children }: unknown) => <>{children as React.ReactNode}</>,
+  AnimatePresence: ({ children }: React.PropsWithChildren) => <>{children}</>,
 }));
 
 // Mock react-router-dom
@@ -15,9 +15,9 @@ vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return {
     ...actual,
-    Link: ({ children, to, ...props }: unknown) => (
-      <a href={to as string} {...(props as Record<string, unknown>)}>
-        {children as React.ReactNode}
+    Link: ({ children, to, ...props }: React.PropsWithChildren<{ to: string } & Record<string, unknown>>) => (
+      <a href={to} {...props}>
+        {children}
       </a>
     ),
   };

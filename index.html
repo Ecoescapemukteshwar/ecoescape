@@ -1,20 +1,19 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P1EDMZPGVW"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-P1EDMZPGVW');
-    </script>
-
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    
+
+    <!-- Preconnect hints -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.tripadvisor.in">
+    <link rel="preconnect" href="https://static.tacdn.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+
+    <!-- Hero image preload -->
+    <link rel="preload" as="image" href="/src/assets/hero-sunrise.webp" fetchpriority="high">
+
     <!-- Primary SEO -->
     <title>Ecoescape Mukteshwar | Boutique Homestay with Sunrise Views & Garden</title>
     <meta name="description" content="Book your stay at Ecoescape Mukteshwar - boutique homestay in Mukteshwar village with 100+ plant garden, sunrise views, in-house restaurant, terrace dining. 24/7 secure. Best homestay in Mukteshwar." />
@@ -47,6 +46,22 @@
     <!-- Geo -->
     <meta name="geo.region" content="IN-UT" />
     <meta name="geo.placename" content="Mukteshwar" />
+
+    <!-- Deferred Google Tag Manager -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P1EDMZPGVW');
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var s = document.createElement('script');
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-P1EDMZPGVW';
+          s.async = true;
+          document.head.appendChild(s);
+        }, 3000);
+      });
+    </script>
     
     <!-- Schema.org LodgingBusiness + Restaurant -->
     <script type="application/ld+json">

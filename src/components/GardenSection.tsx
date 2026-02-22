@@ -86,6 +86,8 @@ export function GardenSection() {
                 alt="Ecoescape Mukteshwar garden with blooming roses and mountain views"
                 className="w-full h-[400px] lg:h-[500px] object-cover"
                 loading="lazy"
+                width={800}
+                height={500}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 to-transparent" />
               

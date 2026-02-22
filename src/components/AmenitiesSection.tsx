@@ -13,7 +13,21 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-const amenityCategories = [
+interface AmenityItem {
+  text: string;
+  highlight?: boolean;
+  indent?: boolean;
+  emoji?: string;
+}
+
+const amenityCategories: {
+  id: string;
+  title: string;
+  icon: React.ElementType;
+  color: string;
+  bgColor: string;
+  items: AmenityItem[];
+}[] = [
   {
     id: "bathroom",
     title: "Bathroom Essentials",
