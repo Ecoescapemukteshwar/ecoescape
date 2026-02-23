@@ -138,16 +138,8 @@ export function RoomsSection({ mode = "modal", preselectedRoom, onBookRoom }: Ro
     if (roomType) {
       trackBookingSubmit({ roomType: roomType.toString(), guests: 'unknown' });
     }
-    if (mode === "teaser") {
-      // On home page, navigate to rooms page
-      navigate("/rooms", { state: { selectedRoom: roomType } });
-    } else {
-      // On rooms page, scroll to booking form
-      const booking = document.getElementById("booking");
-      if (booking) {
-        booking.scrollIntoView({ behavior: "smooth" });
-      }
-    }
+    // Always navigate to rooms page with selected room state
+    navigate("/rooms", { state: { selectedRoom: roomType } });
   };
 
   const handleBookFromModal = (roomType: RoomType) => {
