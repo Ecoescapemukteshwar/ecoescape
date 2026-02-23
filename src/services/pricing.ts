@@ -1,4 +1,4 @@
-import type { RoomType, RoomPricing, BookingPricing } from "@/types/pricing";
+import type { RoomType, RoomPricing, BookingPricing, MonthlyPeakConfig } from "@/types/pricing";
 
 // Base prices for each room type (standard season)
 const BASE_PRICES: Record<RoomType, number> = {
@@ -8,23 +8,80 @@ const BASE_PRICES: Record<RoomType, number> = {
   familyRoom2: 4000,
 };
 
-// Month-based markup percentages (0-indexed: 0=Jan, 3=Apr, 4=May, 5=Jun, 6=Jul, 7=Aug)
-// Gradual bell-curve pricing around summer peak season
-const MONTHLY_MARKUPS: Record<number, number> = {
-  3: 0.10,  // April: 10% markup (early shoulder season)
-  4: 0.20,  // May: 20% markup (pre-peak)
-  5: 0.35,  // June: 35% markup (peak season - summer holidays)
-  6: 0.20,  // July: 20% markup (post-peak but still busy)
-  7: 0.10,  // August: 10% markup (late shoulder season)
-};
+// Year-agnostic peak season configurations (applies to all years)
+const MONTHLY_PEAK_CONFIGS: MonthlyPeakConfig[] = [
+  // March: 1st-4th, 27th-31st (20% weekday, 25% weekend)
+  { month: 2, dateRanges: [{start: 1, end: 4}, {start: 27, end: 31}], weekdayMarkup: 0.20, weekendMarkup: 0.25 },
+
+  // April: 3rd-5th (20% flat)
+  { month: 3, dateRanges: [{start: 3, end: 5}], weekdayMarkup: 0.20, weekendMarkup: 0.20 },
+
+  // May: 1st-3rd, 16th-31st (20% weekday, 25% weekend)
+  { month: 4, dateRanges: [{start: 1, end: 3}, {start: 16, end: 31}], weekdayMarkup: 0.20, weekendMarkup: 0.25 },
+
+  // June: 1st-30th (25% weekday, 35% weekend)
+  { month: 5, dateRanges: [{start: 1, end: 30}], weekdayMarkup: 0.25, weekendMarkup: 0.35 },
+
+  // August: 14th-16th (20% weekday, 25% weekend)
+  { month: 7, dateRanges: [{start: 14, end: 16}], weekdayMarkup: 0.20, weekendMarkup: 0.25 },
+
+  // October: 2nd-4th, 17th-20th (20% flat)
+  { month: 9, dateRanges: [{start: 2, end: 4}, {start: 17, end: 20}], weekdayMarkup: 0.20, weekendMarkup: 0.20 },
+
+  // November: 6th-11th (20% flat)
+  { month: 10, dateRanges: [{start: 6, end: 11}], weekdayMarkup: 0.20, weekendMarkup: 0.20 },
+
+  // December: 24th-31st (20% flat)
+  { month: 11, dateRanges: [{start: 24, end: 31}], weekdayMarkup: 0.20, weekendMarkup: 0.20 },
+
+  // January: 1st-3rd, 23rd-26th (20% flat)
+  { month: 0, dateRanges: [{start: 1, end: 3}, {start: 23, end: 26}], weekdayMarkup: 0.20, weekendMarkup: 0.20 },
+];
+
+// Special case: July - all weekends get 15% markup (year-agnostic)
+const JULY_WEEKEND_ONLY_MARKUP = { month: 6, markup: 0.15 };
+
+/**
+ * Check if a given date is a weekend (Saturday or Sunday)
+ */
+function isWeekend(date: Date): boolean {
+  const day = date.getDay();
+  return day === 0 || day === 6; // 0=Sunday, 6=Saturday
+}
+
+/**
+ * Check if a specific date falls within any date range in a peak season config
+ */
+function isDateInRanges(date: Date, dateRanges: { start: number; end: number }[]): boolean {
+  const day = date.getDate();
+  return dateRanges.some(range => day >= range.start && day <= range.end);
+}
 
 /**
  * Get markup percentage for a specific date
- * Returns 0 for months without markup (base price)
+ * Returns 0 for dates without markup (base price)
+ * Checks July weekends first, then peak season configs
+ * Applies year-agnostic pattern to all years
  */
 export function getMarkupForDate(date: Date): number {
   const month = date.getMonth();
-  return MONTHLY_MARKUPS[month] || 0;
+  const day = date.getDate();
+
+  // Special case: July - all weekends get 15% markup (applies to all years)
+  if (month === JULY_WEEKEND_ONLY_MARKUP.month && isWeekend(date)) {
+    return JULY_WEEKEND_ONLY_MARKUP.markup;
+  }
+
+  // Check if date matches any monthly peak season config (year-agnostic)
+  const config = MONTHLY_PEAK_CONFIGS.find(
+    config => config.month === month && isDateInRanges(date, config.dateRanges)
+  );
+
+  if (config) {
+    return isWeekend(date) ? config.weekendMarkup : config.weekdayMarkup;
+  }
+
+  return 0; // No markup for non-peak dates
 }
 
 /**
@@ -143,7 +200,7 @@ export function formatPriceExact(price: number): string {
 }
 
 /**
- * Get peak season price for a room type (June - 35% markup)
+ * Get peak season price for a room type (maximum markup: 35% for June weekends)
  */
 export function getPeakSeasonPrice(roomType: RoomType): number {
   const basePrice = getBasePrice(roomType);
