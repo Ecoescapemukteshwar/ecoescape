@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface Photo {
   id: string;
@@ -84,8 +85,15 @@ export function PhotoTour() {
   const [selectedPhoto, setSelectedPhoto] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
+  // Mobile carousel state
+  const [mobileCarouselOpen, setMobileCarouselOpen] = useState(false);
+  const [mobileSectionIndex, setMobileSectionIndex] = useState(0);
+  const [mobilePhotoIndex, setMobilePhotoIndex] = useState(0);
+
   const currentSection = sections[selectedSection];
   const currentPhoto = currentSection.photos[selectedPhoto];
+  const mobileCurrentSection = sections[mobileSectionIndex];
+  const mobileCurrentPhoto = mobileCurrentSection?.photos[mobilePhotoIndex];
 
   const goToPhoto = useCallback((index: number) => {
     setSelectedPhoto(index);
@@ -107,6 +115,21 @@ export function PhotoTour() {
     setLightboxOpen(false);
   }, []);
 
+  // Mobile carousel handlers
+  const openMobileCarousel = useCallback((sectionIndex: number) => {
+    setMobileSectionIndex(sectionIndex);
+    setMobilePhotoIndex(0);
+    setMobileCarouselOpen(true);
+  }, []);
+
+  const mobileGoToNext = useCallback(() => {
+    setMobilePhotoIndex((prev) => (prev + 1) % mobileCurrentSection.photos.length);
+  }, [mobileCurrentSection?.photos.length]);
+
+  const mobileGoToPrevious = useCallback(() => {
+    setMobilePhotoIndex((prev) => (prev - 1 + mobileCurrentSection.photos.length) % mobileCurrentSection.photos.length);
+  }, [mobileCurrentSection?.photos.length]);
+
   return (
     <section className="py-20 bg-background">
       <div className="container">
@@ -124,137 +147,177 @@ export function PhotoTour() {
           </p>
         </motion.div>
 
-        {/* Section Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {sections.map((section, index) => (
-            <button
-              key={section.id}
-              onClick={() => {
-                setSelectedSection(index);
-                setSelectedPhoto(0);
-              }}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                selectedSection === index
-                  ? "bg-primary text-primary-foreground shadow-lg"
-                  : "bg-secondary text-foreground hover:bg-secondary/80"
-              }`}
-            >
-              {section.title}
-            </button>
-          ))}
-        </div>
-
-        {/* Main Photo Gallery */}
-        <motion.div
-          key={selectedSection}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="mb-8"
-        >
-          {/* Section Description */}
-          <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-semibold text-foreground mb-3">
-              {currentSection.title}
-            </h2>
-            <p className="text-muted-foreground">{currentSection.description}</p>
-          </div>
-
-          {/* Photo Grid - Airbnb Style */}
-          <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[600px] rounded-2xl overflow-hidden">
-            {/* Main Large Photo */}
-            <motion.div
-              key={currentPhoto.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="col-span-2 row-span-2 relative group cursor-pointer overflow-hidden"
-              onClick={openLightbox}
-            >
-              <img
-                src={currentPhoto.src}
-                alt={currentPhoto.alt}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-4 left-4 flex items-center gap-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <ZoomIn className="h-5 w-5" />
-                <span className="text-sm font-medium">View all photos</span>
-              </div>
-            </motion.div>
-
-            {/* Thumbnail Grid */}
-            {currentSection.photos.slice(1, 5).map((photo, index) => (
+        {/* ==================== MOBILE VERSION ==================== */}
+        <div className="md:hidden">
+          {/* 2-Column Grid of Cards */}
+          <div className="grid grid-cols-2 gap-4">
+            {sections.map((section, index) => (
               <motion.div
-                key={photo.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
+                key={section.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                className={`relative group cursor-pointer overflow-hidden ${
-                  index === 0 ? 'col-span-1 row-span-1' :
-                  index === 1 ? 'col-span-1 row-span-1' :
-                  index === 2 ? 'col-span-1 row-span-1' :
-                  'col-span-1 row-span-1'
-                }`}
-                onClick={() => goToPhoto(index + 1)}
+                className="cursor-pointer"
+                onClick={() => openMobileCarousel(index)}
               >
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                {selectedPhoto === index + 1 && (
-                  <div className="absolute inset-0 border-4 border-primary" />
-                )}
-              </motion.div>
-            ))}
+                <div className="bg-card rounded-2xl overflow-hidden shadow-soft hover:shadow-elevated transition-all duration-300">
+                  {/* Square Cover Photo */}
+                  <div className="aspect-square relative overflow-hidden">
+                    <img
+                      src={section.photos[0].src}
+                      alt={section.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                      <ZoomIn className="h-8 w-8 text-white" />
+                    </div>
+                  </div>
 
-            {/* More Photos Indicator */}
-            {currentSection.photos.length > 5 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="relative group cursor-pointer overflow-hidden bg-secondary flex items-center justify-center"
-                onClick={openLightbox}
-              >
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-foreground">+{currentSection.photos.length - 5}</div>
-                  <div className="text-sm text-muted-foreground">more photos</div>
+                  {/* Card Info */}
+                  <div className="p-3">
+                    <h3 className="font-semibold text-foreground text-sm mb-1">
+                      {section.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground">
+                      {section.photos.length} {section.photos.length === 1 ? 'photo' : 'photos'}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
-            )}
+            ))}
+          </div>
+        </div>
+
+        {/* ==================== DESKTOP VERSION ==================== */}
+        <div className="hidden md:block">
+          {/* Section Tabs */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
+            {sections.map((section, index) => (
+              <button
+                key={section.id}
+                onClick={() => {
+                  setSelectedSection(index);
+                  setSelectedPhoto(0);
+                }}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  selectedSection === index
+                    ? "bg-primary text-primary-foreground shadow-lg"
+                    : "bg-secondary text-foreground hover:bg-secondary/80"
+                }`}
+              >
+                {section.title}
+              </button>
+            ))}
           </div>
 
-          {/* Navigation Arrows */}
-          <div className="flex justify-center gap-4 mt-6">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={goToPrevious}
-              disabled={currentSection.photos.length <= 1}
-              className="rounded-full"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
-            <div className="flex items-center gap-2 px-4 py-2 bg-secondary rounded-full">
-              <span className="font-semibold text-foreground">{selectedPhoto + 1}</span>
-              <span className="text-muted-foreground">/</span>
-              <span className="text-muted-foreground">{currentSection.photos.length}</span>
+          {/* Main Photo Gallery */}
+          <motion.div
+            key={selectedSection}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="mb-8"
+          >
+            {/* Section Description */}
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-serif font-semibold text-foreground mb-3">
+                {currentSection.title}
+              </h2>
+              <p className="text-muted-foreground">{currentSection.description}</p>
             </div>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={goToNext}
-              disabled={currentSection.photos.length <= 1}
-              className="rounded-full"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </Button>
-          </div>
-        </motion.div>
+
+            {/* Photo Grid - Airbnb Style */}
+            <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[600px] rounded-2xl overflow-hidden">
+              {/* Main Large Photo */}
+              <motion.div
+                key={currentPhoto.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="col-span-2 row-span-2 relative group cursor-pointer overflow-hidden"
+                onClick={openLightbox}
+              >
+                <img
+                  src={currentPhoto.src}
+                  alt={currentPhoto.alt}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute bottom-4 left-4 flex items-center gap-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <ZoomIn className="h-5 w-5" />
+                  <span className="text-sm font-medium">View all photos</span>
+                </div>
+              </motion.div>
+
+              {/* Thumbnail Grid */}
+              {currentSection.photos.slice(1, 5).map((photo, index) => (
+                <motion.div
+                  key={photo.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  className="relative group cursor-pointer overflow-hidden"
+                  onClick={() => goToPhoto(index + 1)}
+                >
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  {selectedPhoto === index + 1 && (
+                    <div className="absolute inset-0 border-4 border-primary" />
+                  )}
+                </motion.div>
+              ))}
+
+              {/* More Photos Indicator */}
+              {currentSection.photos.length > 5 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="relative group cursor-pointer overflow-hidden bg-secondary flex items-center justify-center"
+                  onClick={openLightbox}
+                >
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-foreground">+{currentSection.photos.length - 5}</div>
+                    <div className="text-sm text-muted-foreground">more photos</div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Navigation Arrows */}
+            <div className="flex justify-center gap-4 mt-6">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={goToPrevious}
+                disabled={currentSection.photos.length <= 1}
+                className="rounded-full"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </Button>
+              <div className="flex items-center gap-2 px-4 py-2 bg-secondary rounded-full">
+                <span className="font-semibold text-foreground">{selectedPhoto + 1}</span>
+                <span className="text-muted-foreground">/</span>
+                <span className="text-muted-foreground">{currentSection.photos.length}</span>
+              </div>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={goToNext}
+                disabled={currentSection.photos.length <= 1}
+                className="rounded-full"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </Button>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
-      {/* Lightbox */}
+      {/* ==================== DESKTOP LIGHTBOX ==================== */}
       <AnimatePresence>
         {lightboxOpen && (
           <motion.div
@@ -339,6 +402,91 @@ export function PhotoTour() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ==================== MOBILE CAROUSEL DIALOG ==================== */}
+      <Dialog open={mobileCarouselOpen} onOpenChange={setMobileCarouselOpen}>
+        <DialogContent className="max-w-md w-full h-[80vh] p-0 gap-0">
+          {mobileCurrentSection && (
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="flex items-center justify-between p-4 border-b">
+                <h3 className="font-serif font-semibold text-lg">{mobileCurrentSection.title}</h3>
+                <button
+                  onClick={() => setMobileCarouselOpen(false)}
+                  className="text-muted-foreground hover:text-foreground"
+                  aria-label="Close"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Image Container */}
+              <div className="flex-1 relative bg-black">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={mobilePhotoIndex}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    src={mobileCurrentPhoto?.src}
+                    alt={mobileCurrentPhoto?.alt}
+                    className="w-full h-full object-contain"
+                  />
+                </AnimatePresence>
+
+                {/* Navigation Arrows */}
+                {mobileCurrentSection.photos.length > 1 && (
+                  <>
+                    <button
+                      onClick={mobileGoToPrevious}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                      aria-label="Previous photo"
+                    >
+                      <ChevronLeft className="h-6 w-6" />
+                    </button>
+                    <button
+                      onClick={mobileGoToNext}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                      aria-label="Next photo"
+                    >
+                      <ChevronRight className="h-6 w-6" />
+                    </button>
+                  </>
+                )}
+
+                {/* Counter */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                  {mobilePhotoIndex + 1} / {mobileCurrentSection.photos.length}
+                </div>
+              </div>
+
+              {/* Thumbnail Strip */}
+              <div className="p-3 border-t bg-background">
+                <div className="flex gap-2 overflow-x-auto">
+                  {mobileCurrentSection.photos.map((photo, index) => (
+                    <button
+                      key={photo.id}
+                      onClick={() => setMobilePhotoIndex(index)}
+                      className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                        mobilePhotoIndex === index
+                          ? "border-primary scale-105"
+                          : "border-border"
+                      }`}
+                    >
+                      <img
+                        src={photo.src}
+                        alt={photo.alt}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
