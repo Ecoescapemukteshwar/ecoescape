@@ -12,6 +12,7 @@ const navLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Experiences", href: "/experiences" },
+  { name: "Gallery", href: "/gallery" },
 ];
 
 export function Header() {
