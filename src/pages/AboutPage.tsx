@@ -346,7 +346,7 @@ const AboutPage = () => {
               <Button
                 variant="hero"
                 size="xl"
-                onClick={() => window.location.href = "/rooms"}
+                onClick={() => window.location.href = "/#booking"}
               >
                 Book Your Stay
               </Button>

@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
 import roomDeluxe from "@/assets/room-deluxe.webp";
@@ -122,7 +121,6 @@ interface RoomsSectionProps {
 }
 
 export function RoomsSection({ mode = "modal", preselectedRoom, onBookRoom }: RoomsSectionProps) {
-  const navigate = useNavigate();
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -138,15 +136,19 @@ export function RoomsSection({ mode = "modal", preselectedRoom, onBookRoom }: Ro
     if (roomType) {
       trackBookingSubmit({ roomType: roomType.toString(), guests: 'unknown' });
     }
-    // Always navigate to rooms page with selected room state
-    navigate("/rooms", { state: { selectedRoom: roomType } });
+    // Scroll to booking form on current page
+    const bookingElement = document.getElementById("booking");
+    if (bookingElement) {
+      bookingElement.scrollIntoView({ behavior: "smooth" });
+    }
+    // Call onBookRoom callback to update parent state
+    if (onBookRoom && roomType) {
+      onBookRoom(roomType);
+    }
   };
 
   const handleBookFromModal = (roomType: RoomType) => {
     scrollToBooking(roomType);
-    if (onBookRoom) {
-      onBookRoom(roomType);
-    }
   };
 
   const openModal = (room: Room) => {

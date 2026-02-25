@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Calendar, Star } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-sunrise.webp";
 
 export function HeroSection() {
-  const navigate = useNavigate();
-
   const scrollToBooking = () => {
-    navigate("/rooms");
+    const bookingElement = document.getElementById("booking");
+    if (bookingElement) {
+      bookingElement.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const handleWhatsApp = () => {

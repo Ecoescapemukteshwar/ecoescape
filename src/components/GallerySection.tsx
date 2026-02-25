@@ -92,7 +92,7 @@ export function GallerySection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
-            Glimpse Into Your Ecoescape
+            Glimpse of Paradise
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             A visual journey through our spaces, surroundings, and the

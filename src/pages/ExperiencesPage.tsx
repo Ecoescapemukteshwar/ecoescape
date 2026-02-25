@@ -63,7 +63,13 @@ const ExperiencesPage = () => {
             <h2 className="text-3xl font-serif font-semibold text-foreground mb-6">
               Ready to Experience Ecoescape?
             </h2>
-            <Button variant="hero" size="xl" onClick={() => window.location.href = "/rooms"}>
+            <Button
+              variant="hero"
+              size="xl"
+              onClick={() => {
+                window.location.href = "/#booking";
+              }}
+            >
               Book Your Stay
             </Button>
           </div>

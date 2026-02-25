@@ -12,8 +12,6 @@ const navLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Experiences", href: "/experiences" },
-  { name: "Rooms", href: "/rooms" },
-  { name: "Gallery", href: "/gallery" },
 ];
 
 export function Header() {
@@ -232,16 +230,20 @@ export function Header() {
                     <MessageCircle className="h-5 w-5" />
                     WhatsApp Us
                   </Button>
-                  <Link to="/rooms" className="block">
-                    <Button
-                      variant="hero"
-                      size="lg"
-                      className="w-full"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Check Availability
-                    </Button>
-                  </Link>
+                  <Button
+                    variant="hero"
+                    size="lg"
+                    className="w-full"
+                    onClick={() => {
+                      setIsOpen(false);
+                      const bookingElement = document.getElementById("booking");
+                      if (bookingElement) {
+                        bookingElement.scrollIntoView({ behavior: "smooth" });
+                      }
+                    }}
+                  >
+                    Check Availability
+                  </Button>
                 </div>
               </div>
             </motion.div>
