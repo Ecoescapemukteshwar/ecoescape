@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -129,6 +129,33 @@ export function PhotoTour() {
   const mobileGoToPrevious = useCallback(() => {
     setMobilePhotoIndex((prev) => (prev - 1 + mobileCurrentSection.photos.length) % mobileCurrentSection.photos.length);
   }, [mobileCurrentSection?.photos.length]);
+
+  // Touch handlers for swipe gestures
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.changedTouches[0].screenX;
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].screenX;
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    const swipeThreshold = 50; // Minimum swipe distance in pixels
+    const swipeDistance = touchStartX.current - touchEndX.current;
+
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+      if (swipeDistance > 0) {
+        // Swiped left - go to next
+        mobileGoToNext();
+      } else {
+        // Swiped right - go to previous
+        mobileGoToPrevious();
+      }
+    }
+  }, [mobileGoToNext, mobileGoToPrevious]);
 
   return (
     <section className="py-20 bg-background">
@@ -421,17 +448,23 @@ export function PhotoTour() {
               </div>
 
               {/* Image Container */}
-              <div className="flex-1 relative bg-black">
+              <div
+                className="flex-1 relative bg-black flex items-center justify-center overflow-hidden"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={mobilePhotoIndex}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.3 }}
                     src={mobileCurrentPhoto?.src}
                     alt={mobileCurrentPhoto?.alt}
-                    className="w-full h-full object-contain"
+                    className="max-w-full max-h-full object-contain"
+                    draggable={false}
                   />
                 </AnimatePresence>
 
@@ -459,6 +492,22 @@ export function PhotoTour() {
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
                   {mobilePhotoIndex + 1} / {mobileCurrentSection.photos.length}
                 </div>
+
+                {/* Swipe Hint */}
+                {mobileCurrentSection.photos.length > 1 && (
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                    <motion.div
+                      initial={{ opacity: 0.6 }}
+                      animate={{ opacity: 0 }}
+                      transition={{ delay: 2, duration: 1 }}
+                      className="flex items-center gap-4 text-white/60 text-sm"
+                    >
+                      <ChevronLeft className="h-8 w-8" />
+                      <span>Swipe to navigate</span>
+                      <ChevronRight className="h-8 w-8" />
+                    </motion.div>
+                  </div>
+                )}
               </div>
 
               {/* Thumbnail Strip */}
