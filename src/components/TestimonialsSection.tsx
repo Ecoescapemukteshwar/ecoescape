@@ -1,11 +1,10 @@
-import { motion } from "framer-motion";
+import { motion, useAnimate } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Star, MapPin, Calendar, ShieldCheck } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 
 const testimonials = [
@@ -56,6 +55,20 @@ const testimonials = [
 ];
 
 export function TestimonialsSection() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto-scroll for mobile (duplicate array for infinite scroll effect)
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }, 4000); // Change every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
   return (
     <section id="reviews" className="py-24 bg-secondary">
       <div className="container">
@@ -80,28 +93,31 @@ export function TestimonialsSection() {
           </div>
         </motion.div>
 
-        {/* Mobile Carousel */}
+        {/* Mobile Auto-Scrolling Carousel */}
         <div className="md:hidden">
-          <Carousel
-            opts={{
-              align: "start",
-              dragFree: true,
-              containScroll: "trimSnaps",
-            }}
-          >
-            <CarouselContent>
-              {testimonials.map((testimonial, index) => (
-                <CarouselItem
-                  key={testimonial.id}
-                  className="pl-4 basis-[85%]"
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-background rounded-2xl p-6 shadow-soft hover:shadow-card transition-shadow flex flex-col"
-                  >
+          <div className="relative min-h-[380px]">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={testimonial.id}
+                initial={false}
+                animate={{
+                  opacity: currentIndex === index ? 1 : 0,
+                  scale: currentIndex === index ? 1 : 0.92,
+                  x: currentIndex === index ? 0 : (index > currentIndex ? 30 : -30),
+                }}
+                transition={{
+                  opacity: { duration: 0.4 },
+                  scale: { duration: 0.4 },
+                  x: { duration: 0.4 },
+                }}
+                className="absolute inset-0 flex items-center justify-center px-4"
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+                onTouchStart={() => setIsPaused(true)}
+                onTouchEnd={() => setIsPaused(false)}
+              >
+                <div className="w-full max-w-sm">
+                  <div className="bg-background rounded-2xl p-6 shadow-soft hover:shadow-card transition-shadow flex flex-col">
                     {/* Avatar & Quote Icon */}
                     <div className="flex items-start gap-4 mb-4">
                       <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
@@ -146,13 +162,27 @@ export function TestimonialsSection() {
                         <span>via {testimonial.source}</span>
                       </div>
                     </div>
-                  </motion.div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Dot Indicators */}
+          <div className="flex items-center justify-center gap-2 mt-6">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`transition-all duration-300 ${
+                  currentIndex === index
+                    ? "w-8 h-2 bg-primary rounded-full"
+                    : "w-2 h-2 bg-muted-foreground/30 rounded-full"
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Desktop Grid */}
