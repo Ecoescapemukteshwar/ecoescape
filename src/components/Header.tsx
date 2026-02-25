@@ -11,7 +11,9 @@ import { trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/anal
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
+  { name: "Experiences", href: "/experiences" },
   { name: "Rooms", href: "/rooms" },
+  { name: "Gallery", href: "/gallery" },
 ];
 
 export function Header() {

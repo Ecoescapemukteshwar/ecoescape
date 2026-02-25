@@ -1,21 +1,32 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { FloatingCTA } from "@/components/FloatingCTA";
+import { useLocation } from "react-router-dom";
 
 const RoomsSection = lazy(() => import("@/components/RoomsSection").then(m => ({ default: m.RoomsSection })));
 const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection").then(m => ({ default: m.TestimonialsSection })));
-const DiningSection = lazy(() => import("@/components/DiningSection").then(m => ({ default: m.DiningSection })));
-const GardenSection = lazy(() => import("@/components/GardenSection").then(m => ({ default: m.GardenSection })));
-const GallerySection = lazy(() => import("@/components/GallerySection").then(m => ({ default: m.GallerySection })));
-const ThingsToDoSection = lazy(() => import("@/components/ThingsToDoSection").then(m => ({ default: m.ThingsToDoSection })));
-const AmenitiesSection = lazy(() => import("@/components/AmenitiesSection").then(m => ({ default: m.AmenitiesSection })));
+const GalleryPreviewSection = lazy(() => import("@/components/GalleryPreviewSection").then(m => ({ default: m.GalleryPreviewSection })));
 const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
 
 const SectionFallback = () => <div className="min-h-[200px]" />;
 
 const HomePage = () => {
+  const location = useLocation();
+
+  // Handle hash scrolling for deep links
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location.hash]);
   return (
     <div className="min-h-screen">
       <Header />
@@ -23,25 +34,13 @@ const HomePage = () => {
         <HeroSection />
         <BenefitsSection />
         <Suspense fallback={<SectionFallback />}>
-          <RoomsSection mode="modal" />
+          <RoomsSection mode="teaser" />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <TestimonialsSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
-          <DiningSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <GardenSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <GallerySection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <ThingsToDoSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <AmenitiesSection />
+          <GalleryPreviewSection />
         </Suspense>
       </main>
       <Suspense fallback={<SectionFallback />}>

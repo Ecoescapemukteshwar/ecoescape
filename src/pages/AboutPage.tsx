@@ -1,4 +1,5 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { FloatingCTA } from "@/components/FloatingCTA";
 import { motion } from "framer-motion";
@@ -37,6 +38,20 @@ const SectionFallback = () => <div className="min-h-[200px]" />;
 
 const AboutPage = () => {
   const [expandedSection, setExpandedSection] = useState<string | undefined>(undefined);
+  const location = useLocation();
+
+  // Handle hash scrolling for deep links
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location.hash]);
 
   return (
     <div className="min-h-screen">
