@@ -1,8 +1,16 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+
+// Flattened photo with section info
+interface PhotoWithSection {
+  photo: Photo;
+  sectionId: string;
+  sectionTitle: string;
+  globalIndex: number;
+}
 
 interface Photo {
   id: string;
@@ -81,39 +89,83 @@ const sections: Section[] = [
 ];
 
 export function PhotoTour() {
-  const [selectedSection, setSelectedSection] = useState(0);
-  const [selectedPhoto, setSelectedPhoto] = useState(0);
+  // Create flattened array of all photos with section info
+  const allPhotos: PhotoWithSection[] = sections.flatMap((section) =>
+    section.photos.map((photo, index) => ({
+      photo,
+      sectionId: section.id,
+      sectionTitle: section.title,
+      globalIndex: index,
+    }))
+  );
+
+  // Desktop: Global lightbox state (all photos)
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   // Mobile carousel state
   const [mobileCarouselOpen, setMobileCarouselOpen] = useState(false);
   const [mobileSectionIndex, setMobileSectionIndex] = useState(0);
   const [mobilePhotoIndex, setMobilePhotoIndex] = useState(0);
 
-  const currentSection = sections[selectedSection];
-  const currentPhoto = currentSection.photos[selectedPhoto];
   const mobileCurrentSection = sections[mobileSectionIndex];
   const mobileCurrentPhoto = mobileCurrentSection?.photos[mobilePhotoIndex];
+  const currentLightboxPhoto = allPhotos[lightboxIndex];
 
-  const goToPhoto = useCallback((index: number) => {
-    setSelectedPhoto(index);
-  }, []);
-
-  const goToNext = useCallback(() => {
-    setSelectedPhoto((prev) => (prev + 1) % currentSection.photos.length);
-  }, [currentSection.photos.length]);
-
-  const goToPrevious = useCallback(() => {
-    setSelectedPhoto((prev) => (prev - 1 + currentSection.photos.length) % currentSection.photos.length);
-  }, [currentSection.photos.length]);
-
-  const openLightbox = useCallback(() => {
+  // Desktop lightbox handlers
+  const openLightboxAtIndex = useCallback((globalIndex: number) => {
+    setLightboxIndex(globalIndex);
     setLightboxOpen(true);
   }, []);
 
   const closeLightbox = useCallback(() => {
     setLightboxOpen(false);
   }, []);
+
+  const goToNext = useCallback(() => {
+    setLightboxIndex((prev) => (prev + 1) % allPhotos.length);
+  }, [allPhotos.length]);
+
+  const goToPrevious = useCallback(() => {
+    setLightboxIndex((prev) => (prev - 1 + allPhotos.length) % allPhotos.length);
+  }, [allPhotos.length]);
+
+  const goToPhoto = useCallback((index: number) => {
+    setLightboxIndex(index);
+  }, []);
+
+  // Scroll to section handler
+  const scrollToSection = useCallback((sectionId: string) => {
+    const element = document.getElementById(`section-${sectionId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
+
+  // Keyboard navigation handler
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!lightboxOpen) return;
+
+      switch (e.key) {
+        case "ArrowLeft":
+          e.preventDefault();
+          goToPrevious();
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          goToNext();
+          break;
+        case "Escape":
+          e.preventDefault();
+          closeLightbox();
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxOpen, goToPrevious, goToNext, closeLightbox]);
 
   // Mobile carousel handlers
   const openMobileCarousel = useCallback((sectionIndex: number) => {
@@ -218,135 +270,100 @@ export function PhotoTour() {
 
         {/* ==================== DESKTOP VERSION ==================== */}
         <div className="hidden md:block">
-          {/* Section Tabs */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {sections.map((section, index) => (
-              <button
-                key={section.id}
-                onClick={() => {
-                  setSelectedSection(index);
-                  setSelectedPhoto(0);
-                }}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                  selectedSection === index
-                    ? "bg-primary text-primary-foreground shadow-lg"
-                    : "bg-secondary text-foreground hover:bg-secondary/80"
-                }`}
-              >
-                {section.title}
-              </button>
-            ))}
+          {/* Sticky Navigation Tabs */}
+          <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm py-4 mb-8 border-b">
+            <div className="flex flex-wrap justify-center gap-3">
+              {sections.map((section) => (
+                <button
+                  key={section.id}
+                  onClick={() => scrollToSection(section.id)}
+                  className="px-6 py-3 rounded-full font-medium transition-all duration-300 bg-secondary text-foreground hover:bg-secondary/80 hover:shadow-md"
+                >
+                  {section.title}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Main Photo Gallery */}
-          <motion.div
-            key={selectedSection}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="mb-8"
-          >
-            {/* Section Description */}
-            <div className="text-center mb-8">
-              <h2 className="text-2xl md:text-3xl font-serif font-semibold text-foreground mb-3">
-                {currentSection.title}
-              </h2>
-              <p className="text-muted-foreground">{currentSection.description}</p>
-            </div>
+          {/* All Sections - Stacked */}
+          {sections.map((section, sectionIndex) => {
+            // Calculate global starting index for this section
+            let globalStartIndex = 0;
+            for (let i = 0; i < sectionIndex; i++) {
+              globalStartIndex += sections[i].photos.length;
+            }
 
-            {/* Photo Grid - Airbnb Style */}
-            <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[600px] rounded-2xl overflow-hidden">
-              {/* Main Large Photo */}
+            return (
               <motion.div
-                key={currentPhoto.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                className="col-span-2 row-span-2 relative group cursor-pointer overflow-hidden"
-                onClick={openLightbox}
+                key={section.id}
+                id={`section-${section.id}`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5, delay: sectionIndex * 0.1 }}
+                className="mb-20 scroll-mt-24"
               >
-                <img
-                  src={currentPhoto.src}
-                  alt={currentPhoto.alt}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-4 left-4 flex items-center gap-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <ZoomIn className="h-5 w-5" />
-                  <span className="text-sm font-medium">View all photos</span>
+                {/* Section Layout: Left Title, Right Images */}
+                <div className="grid grid-cols-12 gap-8 items-start">
+                  {/* Left Side: Title & Description */}
+                  <div className="col-span-4 sticky top-24">
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <h2 className="text-3xl font-serif font-semibold text-foreground mb-4">
+                        {section.title}
+                      </h2>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {section.description}
+                      </p>
+                      <div className="mt-4 text-sm text-muted-foreground">
+                        {section.photos.length} {section.photos.length === 1 ? 'photo' : 'photos'}
+                      </div>
+                    </motion.div>
+                  </div>
+
+                  {/* Right Side: Photo Grid */}
+                  <div className="col-span-8">
+                    {/* Photo Grid - Masonry Style */}
+                    <div className="grid grid-cols-3 gap-3">
+                      {section.photos.map((photo, photoIndex) => (
+                        <motion.div
+                          key={photo.id}
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.3, delay: photoIndex * 0.05 }}
+                          className={`relative group cursor-pointer overflow-hidden rounded-xl ${
+                            photoIndex === 0 ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square'
+                          }`}
+                          onClick={() => openLightboxAtIndex(globalStartIndex + photoIndex)}
+                        >
+                          <img
+                            src={photo.src}
+                            alt={photo.alt}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <ZoomIn className="h-10 w-10 text-white" />
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </motion.div>
-
-              {/* Thumbnail Grid */}
-              {currentSection.photos.slice(1, 5).map((photo, index) => (
-                <motion.div
-                  key={photo.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="relative group cursor-pointer overflow-hidden"
-                  onClick={() => goToPhoto(index + 1)}
-                >
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  {selectedPhoto === index + 1 && (
-                    <div className="absolute inset-0 border-4 border-primary" />
-                  )}
-                </motion.div>
-              ))}
-
-              {/* More Photos Indicator */}
-              {currentSection.photos.length > 5 && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="relative group cursor-pointer overflow-hidden bg-secondary flex items-center justify-center"
-                  onClick={openLightbox}
-                >
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-foreground">+{currentSection.photos.length - 5}</div>
-                    <div className="text-sm text-muted-foreground">more photos</div>
-                  </div>
-                </motion.div>
-              )}
-            </div>
-
-            {/* Navigation Arrows */}
-            <div className="flex justify-center gap-4 mt-6">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={goToPrevious}
-                disabled={currentSection.photos.length <= 1}
-                className="rounded-full"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </Button>
-              <div className="flex items-center gap-2 px-4 py-2 bg-secondary rounded-full">
-                <span className="font-semibold text-foreground">{selectedPhoto + 1}</span>
-                <span className="text-muted-foreground">/</span>
-                <span className="text-muted-foreground">{currentSection.photos.length}</span>
-              </div>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={goToNext}
-                disabled={currentSection.photos.length <= 1}
-                className="rounded-full"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </Button>
-            </div>
-          </motion.div>
+            );
+          })}
         </div>
       </div>
 
       {/* ==================== DESKTOP LIGHTBOX ==================== */}
       <AnimatePresence>
-        {lightboxOpen && (
+        {lightboxOpen && currentLightboxPhoto && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -354,10 +371,10 @@ export function PhotoTour() {
             className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
             onClick={closeLightbox}
           >
-            {/* Close Button */}
+            {/* Close Button - TOP LEFT */}
             <button
               onClick={closeLightbox}
-              className="absolute top-6 right-6 text-white hover:text-gray-300 transition-colors z-10"
+              className="absolute top-6 left-6 text-white hover:text-gray-300 transition-colors z-10"
               aria-label="Close lightbox"
             >
               <X className="h-8 w-8" />
@@ -387,44 +404,30 @@ export function PhotoTour() {
 
             {/* Main Image */}
             <motion.img
-              key={currentPhoto.id}
+              key={currentLightboxPhoto.photo.id}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3 }}
-              src={currentPhoto.src}
-              alt={currentPhoto.alt}
+              src={currentLightboxPhoto.photo.src}
+              alt={currentLightboxPhoto.photo.alt}
               className="max-w-full max-h-[85vh] object-contain"
               onClick={(e) => e.stopPropagation()}
             />
 
-            {/* Counter */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white text-sm">
-              {selectedPhoto + 1} / {currentSection.photos.length}
+            {/* Section Name - BOTTOM LEFT */}
+            <div className="absolute bottom-6 left-6 text-white">
+              <h3 className="text-lg font-serif font-semibold">{currentLightboxPhoto.sectionTitle}</h3>
             </div>
 
-            {/* Thumbnails */}
-            <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-2 max-w-[90vw] overflow-x-auto">
-              {currentSection.photos.map((photo, index) => (
-                <button
-                  key={photo.id}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goToPhoto(index);
-                  }}
-                  className={`flex-shrink-0 w-16 h-16 rounded overflow-hidden border-2 transition-all ${
-                    selectedPhoto === index
-                      ? "border-white scale-110"
-                      : "border-white/30 hover:border-white/60"
-                  }`}
-                >
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
+            {/* Counter */}
+            <div className="absolute bottom-6 right-6 text-white text-sm">
+              {lightboxIndex + 1} / {allPhotos.length}
+            </div>
+
+            {/* Keyboard Hint */}
+            <div className="absolute top-6 right-6 text-white/60 text-sm">
+              Use ← → to navigate
             </div>
           </motion.div>
         )}
