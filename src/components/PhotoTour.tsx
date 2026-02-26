@@ -272,14 +272,26 @@ export function PhotoTour() {
         <div className="hidden md:block">
           {/* Sticky Navigation Tabs */}
           <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm py-4 mb-8 border-b">
-            <div className="flex flex-wrap justify-center gap-3">
+            <div className="flex flex-wrap justify-center gap-4">
               {sections.map((section) => (
                 <button
                   key={section.id}
                   onClick={() => scrollToSection(section.id)}
-                  className="px-6 py-3 rounded-full font-medium transition-all duration-300 bg-secondary text-foreground hover:bg-secondary/80 hover:shadow-md"
+                  className="group flex flex-col items-center gap-2 transition-all duration-300 hover:scale-105"
                 >
-                  {section.title}
+                  {/* Image Thumbnail */}
+                  <div className="relative w-16 h-16 rounded-lg overflow-hidden shadow-md group-hover:shadow-lg transition-shadow">
+                    <img
+                      src={section.photos[0].src}
+                      alt={section.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  {/* Section Name */}
+                  <span className="text-xs font-medium text-foreground whitespace-nowrap">
+                    {section.title}
+                  </span>
                 </button>
               ))}
             </div>
