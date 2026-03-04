@@ -1,4 +1,5 @@
-import { useRef, useEffect, useState, useCallback, useMemo } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { ChevronLeft, Share } from "lucide-react";
 
 interface Photo {
@@ -12,40 +13,76 @@ interface Room {
   photos: Photo[];
 }
 
-export function PhotoTour() {
+interface PhotoTourProps {
+  suiteName?: string;
+}
+
+export function PhotoTour({ suiteName }: PhotoTourProps) {
+  const { suite: suiteParam } = useParams<{ suite: string }>();
+  const navigate = useNavigate();
   const [rooms, setRooms] = useState<Room[]>([]);
   const [activeRoomId, setActiveRoomId] = useState<string>("");
   const thumbnailStripRef = useRef<HTMLDivElement>(null);
 
-  // Dynamically load all images from PhotoTour folder
-  useEffect(() => {
-    // Import all webp images from PhotoTour folder
-    const imageModules = import.meta.glob('/public/PhotoTour/**/*.webp', { eager: true });
+  // Determine which suite to load
+  // Convert URL-friendly format back to original folder name
+  const urlSuite = suiteName || suiteParam || "";
+  const currentSuite = urlSuite ? fromUrlFriendly(urlSuite) : "";
 
-    // Group images by folder
-    const folderMap = new Map<string, Photo[]>();
+  // Dynamically load all images from the specific suite folder
+  useEffect(() => {
+    // Import all webp images from PhotoTour folder (all suites) in src directory
+    const imageModules = import.meta.glob('@/assets/PhotoTour/**/*.webp', {
+      eager: true
+    });
+
+    console.log('[PhotoTour] Loading images for suite:', currentSuite);
+    console.log('[PhotoTour] Total image modules found:', Object.keys(imageModules).length);
+
+    // Group images by suite and room
+    const suiteFolderMap = new Map<string, Map<string, Photo[]>>();
 
     Object.entries(imageModules).forEach(([path, module]: [string, any]) => {
-      // Extract folder name and image number from path
-      // Path format: /public/PhotoTour/Folder Name/imgX.webp
-      const match = path.match(/\/PhotoTour\/([^/]+)\/img(\d+)\.webp/);
+      // Extract suite name, room folder name and image number from path
+      // Path format: /assets/PhotoTour/Suite Name/Room Name/imgX.webp
+      const match = path.match(/\/assets\/PhotoTour\/([^/]+)\/([^/]+)\/img(\d+)\.webp/);
 
       if (match) {
-        const [, folderName, imageNumber] = match;
+        const [, suiteName, roomName, imageNumber] = match;
 
-        if (!folderMap.has(folderName)) {
-          folderMap.set(folderName, []);
+        if (!suiteFolderMap.has(suiteName)) {
+          suiteFolderMap.set(suiteName, new Map());
         }
 
-        folderMap.get(folderName)!.push({
-          src: path.replace('/public', ''),
-          alt: `${folderName} Photo ${imageNumber}`
+        const roomMap = suiteFolderMap.get(suiteName)!;
+        if (!roomMap.has(roomName)) {
+          roomMap.set(roomName, []);
+        }
+
+        // Use the default export which is the module
+        roomMap.get(roomName)!.push({
+          src: module.default,
+          alt: `${roomName} Photo ${imageNumber}`
         });
       }
     });
 
+    console.log('[PhotoTour] Suites discovered:', Array.from(suiteFolderMap.keys()));
+    console.log('[PhotoTour] Looking for suite:', currentSuite);
+
+    // If no suite specified or suite not found, show no rooms
+    if (!currentSuite || !suiteFolderMap.has(currentSuite)) {
+      console.log('[PhotoTour] Suite not found or no suite specified');
+      setRooms([]);
+      return;
+    }
+
+    // Get the current suite's room map
+    const roomMap = suiteFolderMap.get(currentSuite)!;
+    console.log('[PhotoTour] Rooms found for suite:', Array.from(roomMap.keys()));
+
     // Sort photos by image number in each folder
-    folderMap.forEach((photos) => {
+    roomMap.forEach((photos) => {
       photos.sort((a, b) => {
         const numA = parseInt(a.alt.match(/Photo (\d+)$/)?.[1] || '0');
         const numB = parseInt(b.alt.match(/Photo (\d+)$/)?.[1] || '0');
@@ -54,17 +91,18 @@ export function PhotoTour() {
     });
 
     // Convert to rooms array
-    const roomsArray: Room[] = Array.from(folderMap.entries()).map(([name, photos]) => ({
+    const roomsArray: Room[] = Array.from(roomMap.entries()).map(([name, photos]) => ({
       id: name.toLowerCase().replace(/\s+/g, '-'),
       name,
       photos
     }));
 
+    console.log('[PhotoTour] Final rooms array:', roomsArray);
     setRooms(roomsArray);
     if (roomsArray.length > 0) {
       setActiveRoomId(roomsArray[0].id);
     }
-  }, []);
+  }, [currentSuite]);
 
   // Set active room and scroll thumbnail into view
   const setActiveRoom = useCallback((roomId: string) => {
@@ -243,4 +281,41 @@ export function PhotoTour() {
       </div>
     </div>
   );
+}
+
+// Helper function to get all available suites (synchronous)
+export function getAvailableSuitesSync(): string[] {
+  const imageModules = import.meta.glob('@/assets/PhotoTour/**/*.webp', {
+    eager: true
+  });
+  const suites = new Set<string>();
+
+  Object.entries(imageModules).forEach(([path]: [string, any]) => {
+    const match = path.match(/\/assets\/PhotoTour\/([^/]+)\//);
+    if (match) {
+      suites.add(match[1]);
+    }
+  });
+
+  const suitesArray = Array.from(suites).sort();
+  console.log('[getAvailableSuitesSync] Suites found:', suitesArray);
+  return suitesArray;
+}
+
+// Helper function to convert suite name to URL-friendly format
+export function toUrlFriendly(name: string): string {
+  return name.toLowerCase().replace(/\s+/g, '-');
+}
+
+// Helper function to convert URL-friendly format back to suite name
+export function fromUrlFriendly(slug: string): string {
+  return slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
+// Helper function to get suite nav items (for dropdown)
+export function getSuiteNavItems(): Array<{ name: string; href: string }> {
+  return getAvailableSuitesSync().map(suite => ({
+    name: suite,
+    href: `/gallery/${toUrlFriendly(suite)}`
+  }));
 }

@@ -53,7 +53,7 @@ function LazyTripAdvisor() {
                 rel="noopener noreferrer"
               >
                 <img
-                  src="https://www.tripadvisor.in/img/cdsi/img2/badges/ollie-11424-2.gif"
+                  src="/tripadvisor.png"
                   alt="TripAdvisor"
                   width={120}
                   height={50}
@@ -207,7 +207,7 @@ export function Footer() {
 
             {/* Booking.com Certificate - image only, no link */}
             <img
-              src="/Award2025.jpeg"
+              src="/Award2025.webp"
               alt="Booking.com 2025 Award Certificate"
               className="h-20 w-auto object-contain"
               width={80}
