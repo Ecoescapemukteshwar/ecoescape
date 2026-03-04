@@ -274,3 +274,13 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: hsl(150 35% 28% / 0.5);
 }
+
+/* Scrollbar Hide Utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
