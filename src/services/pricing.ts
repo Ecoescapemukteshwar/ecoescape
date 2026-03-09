@@ -66,8 +66,6 @@ function isDateInRanges(date: Date, dateRanges: { start: number; end: number }[]
  */
 export function getMarkupForDate(date: Date): number {
   const month = date.getMonth();
-  const day = date.getDate();
-
   // Special case: July - all weekends get 15% markup (applies to all years)
   if (month === JULY_WEEKEND_ONLY_MARKUP.month && isWeekend(date)) {
     return JULY_WEEKEND_ONLY_MARKUP.markup;
