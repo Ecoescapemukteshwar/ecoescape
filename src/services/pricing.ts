@@ -120,7 +120,7 @@ export function getCurrentPrice(roomType: RoomType): number {
 export function getRoomPricing(roomType: RoomType): RoomPricing {
   const basePrice = getBasePrice(roomType);
   const currentPrice = getCurrentPrice(roomType);
-  const currentMarkup = getMarkupForDate(new Date());
+  // Peak season price is now June's 35% markup (max)
   // Peak season price is now June's 35% markup
   const peakSeasonPrice = Math.round(basePrice * (1 + 0.35));
 
