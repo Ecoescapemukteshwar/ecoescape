@@ -1,4 +1,5 @@
 import type { RoomType, RoomPricing, BookingPricing, MonthlyPeakConfig } from "@/types/pricing";
+export type { RoomType };
 
 // Base prices for each room type (standard season)
 const BASE_PRICES: Record<RoomType, number> = {
