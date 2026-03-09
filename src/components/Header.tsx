@@ -199,15 +199,26 @@ export function Header() {
               id="mobile-menu"
             >
               <div className="p-4 space-y-2">
-                {navLinks.map((link) => (
-                  <button
-                    key={link.name}
-                    onClick={() => scrollToSection(link.href)}
-                    className="block w-full text-left text-foreground hover:text-primary font-medium py-3 px-4 rounded-lg hover:bg-secondary transition-colors"
-                  >
-                    {link.name}
-                  </button>
-                ))}
+                {navLinks.map((link) =>
+                  'isRoute' in link && link.isRoute ? (
+                    <Link
+                      key={link.name}
+                      to={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="block w-full text-left text-foreground hover:text-primary font-medium py-3 px-4 rounded-lg hover:bg-secondary transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <button
+                      key={link.name}
+                      onClick={() => scrollToSection(link.href)}
+                      className="block w-full text-left text-foreground hover:text-primary font-medium py-3 px-4 rounded-lg hover:bg-secondary transition-colors"
+                    >
+                      {link.name}
+                    </button>
+                  )
+                )}
                 <div className="pt-4 border-t border-border space-y-2">
                   <Button
                     variant="outline"
