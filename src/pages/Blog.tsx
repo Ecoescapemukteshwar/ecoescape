@@ -6,8 +6,32 @@ import { PageMeta } from "@/seo/PageMeta";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import heroSunriseImg from "@/assets/hero-sunrise.webp";
 import gardenTerraceImg from "@/assets/garden-terrace.webp";
+import chauliKiJaliImg from "@/assets/blog/things-to-do/chauli-ki-jali.webp";
+import kumaoniFoodImg from "@/assets/blog/kumaoni-food-guide/kumaoni-thali.webp";
 
 const blogPosts = [
+  {
+    slug: "kumaoni-food-guide",
+    title: "Kumaoni Food Guide: Traditional Cuisine & Dining in Mukteshwar | Ecoescape",
+    excerpt:
+      "Discover authentic Kumaoni food in Mukteshwar - 12 traditional dishes, local ingredients, best restaurants, terrace dining experiences, and Uttarakhand cuisine guide. Taste the Himalayas!",
+    date: "March 18, 2026",
+    readTime: "10 min read",
+    image: kumaoniFoodImg,
+    imageAlt: "Traditional Kumaoni thali with bhat ki churkani, kafuli, baadi served at Ecoescape Mukteshwar with Himalayan views",
+    category: "Food & Culture",
+  },
+  {
+    slug: "things-to-do-in-mukteshwar",
+    title: "Things to Do in Mukteshwar | 15 Must-Visit Attractions & Hidden Gems (2026)",
+    excerpt:
+      "Discover the best things to do in Mukteshwar - from ancient temples and adventure sports to scenic viewpoints and cultural experiences. Complete guide with distances and tips.",
+    date: "March 18, 2026",
+    readTime: "12 min read",
+    image: chauliKiJaliImg,
+    imageAlt: "Dramatic Chauli Ki Jali cliff edge in Mukteshwar with Himalayan mountain backdrop",
+    category: "Travel Guide",
+  },
   {
     slug: "mukteshwar-mahadev-temple-guide",
     title: "Mukteshwar Mahadev Temple — Complete Visitor Guide & Where to Stay in Mukteshwar",

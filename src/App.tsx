@@ -10,6 +10,8 @@ import { PricingTestPage } from "@/components/PricingTestPage";
 import { lazy, Suspense } from "react";
 
 const Blog = lazy(() => import("./pages/Blog"));
+const KumaoniFoodGuide = lazy(() => import("./pages/blog/KumaoniFoodGuide"));
+const ThingsToDoInMukteshwar = lazy(() => import("./pages/blog/ThingsToDoInMukteshwar"));
 const MukteshwarTempleGuide = lazy(() => import("./pages/blog/MukteshwarTempleGuide"));
 const MukteshwarWeatherGuide = lazy(() => import("./pages/blog/MukteshwarWeatherGuide"));
 const SuiteWithMountainView = lazy(() => import("./pages/rooms/SuiteWithMountainView"));
@@ -29,6 +31,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/blog" element={<Suspense fallback={<div className="min-h-screen" />}><Blog /></Suspense>} />
+            <Route path="/blog/kumaoni-food-guide" element={<Suspense fallback={<div className="min-h-screen" />}><KumaoniFoodGuide /></Suspense>} />
+            <Route path="/blog/things-to-do-in-mukteshwar" element={<Suspense fallback={<div className="min-h-screen" />}><ThingsToDoInMukteshwar /></Suspense>} />
             <Route path="/blog/mukteshwar-mahadev-temple-guide" element={<Suspense fallback={<div className="min-h-screen" />}><MukteshwarTempleGuide /></Suspense>} />
             <Route path="/blog/mukteshwar-weather-guide" element={<Suspense fallback={<div className="min-h-screen" />}><MukteshwarWeatherGuide /></Suspense>} />
             <Route path="/rooms/suite-with-mountain-view" element={<Suspense fallback={<div className="min-h-screen" />}><SuiteWithMountainView /></Suspense>} />
