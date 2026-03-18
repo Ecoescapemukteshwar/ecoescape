@@ -119,7 +119,10 @@ export function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <div className="flex flex-col">
+            <div className={cn(
+              "flex flex-col p-2 rounded-lg transition-all duration-300",
+              !showScrolledStyle && "bg-white/10 backdrop-blur-sm"
+            )}>
               <img src={showScrolledStyle ? "/LOGO2.webp" : "/LOGO.webp"} alt="Ecoescape Mukteshwar Logo" width={175} height={136} className="w-[100px] h-auto" />
             </div>
           </Link>
