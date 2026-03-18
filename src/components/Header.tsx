@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Phone, MessageCircle, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -42,21 +42,32 @@ export function Header() {
     }
   }, [handleScroll]);
 
+  const navigate = useNavigate();
+
   const scrollToSection = (href: string) => {
     setIsOpen(false);
 
     if (!isHomePage) {
-      // If not on home page, we need to navigate to home page first
-      if (typeof window !== 'undefined') {
-        window.location.href = `/${href}`;
-      }
+      // If not on home page, we navigate to home page with the hash
+      navigate(`/${href}`);
       return;
     }
 
-    if (typeof document !== 'undefined') {
-      const element = document.querySelector<HTMLElement>(href);
-      element?.scrollIntoView({ behavior: "smooth" });
-    }
+    // Update the hash in the URL without a full page reload
+    // This also helps useHashScroll hook if it's monitoring
+    navigate(`/${href}`, { replace: true });
+
+    // Use a small delay to allow the mobile menu to begin closing
+    // and avoid layout shifts that can interrupt smooth scrolling
+    setTimeout(() => {
+      if (typeof document !== 'undefined') {
+        const id = href.replace("#", "");
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }, 100);
   };
 
   const handleWhatsApp = useCallback(() => {
