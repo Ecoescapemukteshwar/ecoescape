@@ -69,7 +69,10 @@ export default defineConfig(({ mode }) => ({
             }
           }
         ]
-      }
+      },
+      // Disable inline service worker registration
+      injectRegister: false,
+      selfDestroying: false
     })
   ].filter(Boolean),
   resolve: {
@@ -81,27 +84,15 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          if (id.includes("node_modules")) {
-            if (id.includes("react") || id.includes("react-dom")) {
-              return "vendor-react";
-            }
-            if (id.includes("react-router-dom")) {
-              return "vendor-router";
-            }
-            if (id.includes("lucide-react")) {
-              return "vendor-icons";
-            }
-            if (id.includes("framer-motion") || id.includes("@radix-ui")) {
-              return "vendor-ui";
-            }
-            return "vendor";
-          }
+          // Keep room and blog pages separate
           if (id.includes("src/pages/rooms")) {
             return "room-pages";
           }
           if (id.includes("src/pages/blog")) {
             return "blog-pages";
           }
+          // Don't split vendor chunks to avoid loading order issues
+          return undefined;
         },
       },
     },
@@ -110,5 +101,6 @@ export default defineConfig(({ mode }) => ({
   },
   optimizeDeps: {
     include: ["react", "react-dom", "react-router-dom"],
+    exclude: [],
   },
 }));

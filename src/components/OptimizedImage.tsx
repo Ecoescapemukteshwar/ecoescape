@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-interface OptimizedImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'loading' | 'fetchPriority'> {
+interface OptimizedImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'loading' | 'fetchpriority'> {
   src: string;
   alt: string;
   width?: number;
@@ -30,7 +30,7 @@ export function OptimizedImage({
         src={src}
         alt={alt}
         loading={priority ? "eager" : "lazy"}
-        fetchPriority={priority ? "high" : "auto"}
+        fetchpriority={priority ? "high" : "auto"}
         width={width}
         height={height}
         onLoad={() => setIsLoading(false)}
