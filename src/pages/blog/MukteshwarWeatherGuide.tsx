@@ -8,6 +8,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, MessageCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
+import gardenTerraceImg from "@/assets/garden-terrace.webp";
 
 const weatherData = [
   { month: "January", temp: "2°C – 15°C", weather: "Cold, clear skies, occasional frost", best: "Snow views, bonfire evenings", crowd: "Low" },
@@ -86,6 +87,18 @@ export default function MukteshwarWeatherGuide() {
               </span>
             </div>
           </header>
+
+          {/* Featured Image */}
+          <div className="mb-10 rounded-2xl overflow-hidden shadow-lg">
+            <img
+              src={gardenTerraceImg}
+              alt="Seasonal views of Mukteshwar showing the garden terrace"
+              className="w-full h-auto"
+              loading="eager"
+              width="1200"
+              height="675"
+            />
+          </div>
 
           <div className="prose prose-lg max-w-none text-foreground">
             <p className="text-lg leading-relaxed text-muted-foreground">

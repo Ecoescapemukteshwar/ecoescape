@@ -8,6 +8,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, MapPin, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
+import heroSunriseImg from "@/assets/hero-sunrise.webp";
 
 export default function MukteshwarTempleGuide() {
   // Article Schema
@@ -73,6 +74,18 @@ export default function MukteshwarTempleGuide() {
               </span>
             </div>
           </header>
+
+          {/* Featured Image */}
+          <div className="mb-10 rounded-2xl overflow-hidden shadow-lg">
+            <img
+              src={heroSunriseImg}
+              alt="Mukteshwar Mahadev Temple with Himalayan sunrise views"
+              className="w-full h-auto"
+              loading="eager"
+              width="1200"
+              height="675"
+            />
+          </div>
 
           {/* Content */}
           <div className="prose prose-lg max-w-none text-foreground">

@@ -4,6 +4,8 @@ import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
 import { PageMeta } from "@/seo/PageMeta";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
+import heroSunriseImg from "@/assets/hero-sunrise.webp";
+import gardenTerraceImg from "@/assets/garden-terrace.webp";
 
 const blogPosts = [
   {
@@ -13,7 +15,7 @@ const blogPosts = [
       "Discover the ancient Mukteshwar Mahadev Temple, its history, timings, how to reach, and the best places to stay nearby for a memorable Himalayan pilgrimage.",
     date: "March 5, 2026",
     readTime: "8 min read",
-    image: "/placeholder.svg",
+    image: heroSunriseImg,
     imageAlt: "Mukteshwar Mahadev Temple with Himalayan mountain backdrop and traditional architecture",
     category: "Travel Guide",
   },
@@ -24,7 +26,7 @@ const blogPosts = [
       "Everything you need to know about Mukteshwar's weather throughout the year — best months to visit, what to pack, and seasonal highlights for every traveler.",
     date: "March 2, 2026",
     readTime: "6 min read",
-    image: "/placeholder.svg",
+    image: gardenTerraceImg,
     imageAlt: "Seasonal weather views of Mukteshwar showing Himalayan peaks through different seasons",
     category: "Planning",
   },
@@ -58,14 +60,14 @@ export default function Blog() {
                 to={`/blog/${post.slug}`}
                 className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 flex flex-col sm:flex-row"
               >
-                <div className="sm:w-72 h-48 sm:h-auto bg-muted flex-shrink-0 overflow-hidden">
+                <div className="sm:w-72 aspect-video bg-muted flex-shrink-0 overflow-hidden">
                   <img
                     src={post.image}
                     alt={post.imageAlt || post.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                     width={288}
-                    height={192}
+                    height={162}
                     sizes="(max-width: 640px) 100vw, 288px"
                   />
                 </div>
