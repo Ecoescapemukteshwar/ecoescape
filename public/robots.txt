@@ -12,3 +12,10 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Disallow test and admin routes
+Disallow: /test-pricing
+Disallow: /admin
+
+# Sitemap location
+Sitemap: https://ecoescapemukteshwar.com/sitemap.xml

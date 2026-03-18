@@ -12,6 +12,10 @@ import { lazy, Suspense } from "react";
 const Blog = lazy(() => import("./pages/Blog"));
 const MukteshwarTempleGuide = lazy(() => import("./pages/blog/MukteshwarTempleGuide"));
 const MukteshwarWeatherGuide = lazy(() => import("./pages/blog/MukteshwarWeatherGuide"));
+const SuiteWithMountainView = lazy(() => import("./pages/rooms/SuiteWithMountainView"));
+const SpaciousApartment = lazy(() => import("./pages/rooms/SpaciousApartment"));
+const FamilyRoom = lazy(() => import("./pages/rooms/FamilyRoom"));
+const FamilyRoom2 = lazy(() => import("./pages/rooms/FamilyRoom2"));
 
 const queryClient = new QueryClient();
 
@@ -27,6 +31,10 @@ const App = () => (
             <Route path="/blog" element={<Suspense fallback={<div className="min-h-screen" />}><Blog /></Suspense>} />
             <Route path="/blog/mukteshwar-mahadev-temple-guide" element={<Suspense fallback={<div className="min-h-screen" />}><MukteshwarTempleGuide /></Suspense>} />
             <Route path="/blog/mukteshwar-weather-guide" element={<Suspense fallback={<div className="min-h-screen" />}><MukteshwarWeatherGuide /></Suspense>} />
+            <Route path="/rooms/suite-with-mountain-view" element={<Suspense fallback={<div className="min-h-screen" />}><SuiteWithMountainView /></Suspense>} />
+            <Route path="/rooms/spacious-apartment" element={<Suspense fallback={<div className="min-h-screen" />}><SpaciousApartment /></Suspense>} />
+            <Route path="/rooms/family-room" element={<Suspense fallback={<div className="min-h-screen" />}><FamilyRoom /></Suspense>} />
+            <Route path="/rooms/family-room-2" element={<Suspense fallback={<div className="min-h-screen" />}><FamilyRoom2 /></Suspense>} />
             <Route path="/test-pricing" element={<PricingTestPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

@@ -267,3 +267,97 @@ export function formatDateForSchema(dateString: string): string {
   // If already in ISO format or other format, return as is (you can extend this)
   return dateString;
 }
+
+/**
+ * LodgingReservation Schema Interface
+ */
+export interface LodgingReservationData {
+  name: string;
+  description: string;
+  url: string;
+  image: string;
+  price: string;
+  priceCurrency: string;
+  capacity: string;
+  size: string;
+  bedConfig: string;
+  amenities: string[];
+  bookingUrl: string;
+}
+
+/**
+ * LodgingReservation Schema Interface
+ */
+export interface LodgingReservationSchema {
+  "@context": string;
+  "@type": "LodgingReservation";
+  reservationFor: {
+    "@type": "LodgingBusiness";
+    name: string;
+    description: string;
+    url: string;
+    image: string[];
+    address: {
+      "@type": "PostalAddress";
+      streetAddress: string;
+      addressLocality: string;
+      addressRegion: string;
+      postalCode: string;
+      addressCountry: string;
+    };
+    telephone: string;
+    email: string;
+    amenities: string[];
+    priceRange: string;
+    aggregateRating?: {
+      "@type": "AggregateRating";
+      ratingValue: string;
+      reviewCount: string;
+      bestRating: string;
+    };
+  };
+  reservationStatus: {
+    "@type": "ReservationStatusType";
+  };
+  priceCurrency: string;
+}
+
+/**
+ * Generate LodgingReservation Schema for individual room pages
+ * This schema type is used by Google to display rich information about accommodations
+ */
+export function generateLodgingReservationSchema(data: LodgingReservationData): LodgingReservationSchema {
+  return {
+    "@context": "https://schema.org",
+    "@type": "LodgingReservation",
+    reservationFor: {
+      "@type": "LodgingBusiness",
+      name: data.name,
+      description: data.description,
+      url: data.url,
+      image: [data.image],
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Mukteshwar Village",
+        addressLocality: "Mukteshwar",
+        addressRegion: "Uttarakhand",
+        postalCode: "263138",
+        addressCountry: "IN",
+      },
+      telephone: "+919667846787",
+      email: "reservations@ecoescapemukteshwar.com",
+      amenities: data.amenities,
+      priceRange: data.price,
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        reviewCount: "125",
+        bestRating: "5",
+      },
+    },
+    reservationStatus: {
+      "@type": "ReservationStatusType",
+    },
+    priceCurrency: data.priceCurrency,
+  };
+}
