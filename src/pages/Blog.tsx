@@ -16,8 +16,56 @@ import snowfallImg from "@/assets/blog/snowfall/featured.png";
 import itineraryImg from "@/assets/blog/itinerary/featured.png";
 import howToReachImg from "@/assets/blog/how-to-reach/featured.png";
 import cafesImg from "@/assets/blog/cafes/featured.png";
+import workcationImg from "@/assets/blog/workcation/featured.png";
+import romanticImg from "@/assets/blog/romantic/featured.png";
+import soloImg from "@/assets/blog/solo/featured.png";
+import familyImg from "@/assets/blog/family/featured.png";
 
 const blogPosts = [
+  {
+    slug: "workcation-guide",
+    title: "Workcation in Mukteshwar: A Digital Nomad's Guide to Working from the Hills",
+    excerpt:
+      "Planning a workcation in Mukteshwar? Our guide for digital nomads covers high-speed WiFi, power backup, quiet workspaces, and why Ecoescape is the perfect mountain office.",
+    date: "March 19, 2026",
+    readTime: "7 min read",
+    image: workcationImg,
+    imageAlt: "A productive home office setup with Himalayan mountain views",
+    category: "Digital Nomad",
+  },
+  {
+    slug: "romantic-getaway-guide",
+    title: "Romantic Getaway in Mukteshwar: Best Spots for Couples in 2026",
+    excerpt:
+      "Planning a romantic trip to Mukteshwar? Our couples guide covers candlelit terrace dinners, sunrise viewpoints, private bonfires, and the most romantic spots in the Kumaon hills.",
+    date: "March 19, 2026",
+    readTime: "8 min read",
+    image: romanticImg,
+    imageAlt: "A romantic candlelit dinner setup on a terrace with mountain views at night",
+    category: "Couples Guide",
+  },
+  {
+    slug: "solo-travel-guide",
+    title: "Solo Travel in Mukteshwar: A Safe and Serene Guide for Adventurers",
+    excerpt:
+      "Planning a solo trip to Mukteshwar? Our solo travel guide covers safety tips, navigation, meeting locals, and the best ways to explore the Kumaon hills on your own.",
+    date: "March 19, 2026",
+    readTime: "7 min read",
+    image: soloImg,
+    imageAlt: "A solo traveler standing on a ridge with vast Himalayan views at golden hour",
+    category: "Solo Travel",
+  },
+  {
+    slug: "family-vacation-guide",
+    title: "Mukteshwar Family Vacation: Best Activities for Kids and Seniors",
+    excerpt:
+      "Planning a family trip to Mukteshwar? Our guide covers activities for kids and seniors, family-friendly rooms, local picnics, and why Ecoescape is the perfect multigenerational retreat.",
+    date: "March 19, 2026",
+    readTime: "8 min read",
+    image: familyImg,
+    imageAlt: "A multigenerational family enjoying a sunny day in a mountain garden",
+    category: "Family Guide",
+  },
   {
     slug: "how-to-reach-mukteshwar-guide",
     title: "How to Reach Mukteshwar: The Ultimate Transport Guide (2026)",

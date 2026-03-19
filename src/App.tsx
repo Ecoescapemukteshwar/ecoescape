@@ -22,6 +22,10 @@ const SnowfallGuide = lazy(() => import("./pages/blog/SnowfallGuide"));
 const WeekendItinerary = lazy(() => import("./pages/blog/WeekendItinerary"));
 const HowToReachGuide = lazy(() => import("./pages/blog/HowToReachGuide"));
 const CafesAndRestaurantsGuide = lazy(() => import("./pages/blog/CafesAndRestaurantsGuide"));
+const WorkcationGuide = lazy(() => import("./pages/blog/WorkcationGuide"));
+const RomanticGetawayGuide = lazy(() => import("./pages/blog/RomanticGetawayGuide"));
+const SoloTravelGuide = lazy(() => import("./pages/blog/SoloTravelGuide"));
+const FamilyVacationGuide = lazy(() => import("./pages/blog/FamilyVacationGuide"));
 const SuiteWithMountainView = lazy(() => import("./pages/rooms/SuiteWithMountainView"));
 const SpaciousApartment = lazy(() => import("./pages/rooms/SpaciousApartment"));
 const FamilyRoom = lazy(() => import("./pages/rooms/FamilyRoom"));
@@ -51,6 +55,10 @@ const App = () => (
             <Route path="/blog/mukteshwar-weekend-itinerary" element={<Suspense fallback={<div className="min-h-screen" />}><WeekendItinerary /></Suspense>} />
             <Route path="/blog/how-to-reach-mukteshwar-guide" element={<Suspense fallback={<div className="min-h-screen" />}><HowToReachGuide /></Suspense>} />
             <Route path="/blog/best-cafes-and-restaurants-in-mukteshwar" element={<Suspense fallback={<div className="min-h-screen" />}><CafesAndRestaurantsGuide /></Suspense>} />
+            <Route path="/blog/workcation-guide" element={<Suspense fallback={<div className="min-h-screen" />}><WorkcationGuide /></Suspense>} />
+            <Route path="/blog/romantic-getaway-guide" element={<Suspense fallback={<div className="min-h-screen" />}><RomanticGetawayGuide /></Suspense>} />
+            <Route path="/blog/solo-travel-guide" element={<Suspense fallback={<div className="min-h-screen" />}><SoloTravelGuide /></Suspense>} />
+            <Route path="/blog/family-vacation-guide" element={<Suspense fallback={<div className="min-h-screen" />}><FamilyVacationGuide /></Suspense>} />
             <Route path="/rooms/suite-with-mountain-view" element={<Suspense fallback={<div className="min-h-screen" />}><SuiteWithMountainView /></Suspense>} />
             <Route path="/rooms/spacious-apartment" element={<Suspense fallback={<div className="min-h-screen" />}><SpaciousApartment /></Suspense>} />
             <Route path="/rooms/family-room" element={<Suspense fallback={<div className="min-h-screen" />}><FamilyRoom /></Suspense>} />
