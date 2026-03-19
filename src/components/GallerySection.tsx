@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
+import { OptimizedImage } from "@/components/OptimizedImage";
 
 // Suite
 import suite1 from "@/assets/suite/IMG_4065.webp";
@@ -183,14 +184,12 @@ export function GallerySection() {
                       alt: section.altTexts?.[imgIndex] || `${section.title} photo ${imgIndex + 1} at Ecoescape Mukteshwar`
                     })}
                   >
-                    <img
+                    <OptimizedImage
                       src={src}
                       alt={section.altTexts?.[imgIndex] || `${section.title} photo ${imgIndex + 1} at Ecoescape Mukteshwar`}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      loading="lazy"
+                      className="transition-transform duration-500 group-hover:scale-110"
                       width={400}
                       height={400}
-                      sizes="(max-width: 768px) 50vw, 25vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </motion.div>

@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
 import { PageMeta } from "@/seo/PageMeta";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
-import heroSunriseImg from "@/assets/hero-sunrise.webp";
+const heroSunriseImg = "/images/hero-sunrise.webp";
 import gardenTerraceImg from "@/assets/garden-terrace.webp";
 import chauliKiJaliImg from "@/assets/blog/things-to-do/chauli-ki-jali.webp";
 import kumaoniFoodImg from "@/assets/blog/kumaoni-food-guide/kumaoni-thali.webp";

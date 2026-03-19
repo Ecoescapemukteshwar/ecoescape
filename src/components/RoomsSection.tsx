@@ -1,3 +1,4 @@
+import { OptimizedImage } from "@/components/OptimizedImage";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -91,14 +92,12 @@ export function RoomsSection() {
             >
               {/* Image */}
               <div className="relative h-64 overflow-hidden">
-                <img
+                <OptimizedImage
                   src={room.image}
                   alt={`${room.name} with mountain views at Ecoescape Mukteshwar`}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
                   width={600}
                   height={256}
-                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
                 <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm rounded-full px-4 py-2">
                   <span className="font-serif font-semibold text-primary">{room.price}</span>

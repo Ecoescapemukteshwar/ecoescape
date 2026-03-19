@@ -7,7 +7,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, MapPin, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import heroSunriseImg from "@/assets/hero-sunrise.webp";
+const heroSunriseImg = "/images/hero-sunrise.webp";
 
 export default function MukteshwarTempleGuide() {
   // Article Schema

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Calendar, Star } from "lucide-react";
-import heroImage from "@/assets/hero-sunrise.webp";
+
 
 export function HeroSection() {
   const scrollToBooking = () => {
@@ -22,7 +22,7 @@ export function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src={heroImage}
+          src="/images/hero-sunrise.webp"
           alt="Sunrise view over the Himalayan mountains from the terrace of Ecoescape Mukteshwar boutique homestay"
           className="w-full h-full object-cover"
           loading="eager"
@@ -31,9 +31,9 @@ export function HeroSection() {
           height={1080}
           sizes="100vw"
           srcSet={`
-            ${heroImage} 1920w,
-            ${heroImage} 1280w,
-            ${heroImage} 640w
+            /images/hero-sunrise.webp 1920w,
+            /images/hero-sunrise.webp 1280w,
+            /images/hero-sunrise.webp 640w
           `}
         />
         <div className="absolute inset-0 bg-hero-overlay" />

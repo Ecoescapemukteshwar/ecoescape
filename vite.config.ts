@@ -6,9 +6,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
-  const prerenderPlugin = mode === "production" 
-    ? (await import("vite-plugin-prerender")).default 
-    : null;
+  const prerenderPlugin = null; // Temporarily disabled due to ESM/require issue in the plugin
 
   return {
     server: {
@@ -79,7 +77,7 @@ export default defineConfig(async ({ mode }) => {
         injectRegister: false,
         selfDestroying: false
       }),
-      prerenderPlugin && prerenderPlugin({
+      prerenderPlugin && (prerenderPlugin as any)({
         staticDir: path.join(__dirname, "dist"),
         routes: [
           "/",
