@@ -39,7 +39,7 @@ export default function LocalFestivalsGuide() {
     <div className="min-h-screen bg-background">
       <PageMeta
         title="Local Festivals & Culture in Mukteshwar | Kumaoni Heritage Guide"
-        description="Experience the soul of the Kumaon hills. Discover the traditional festivals, folk music, and unique customs of Mukteshwar. A guide to authentic cultural travel."
+        description="Experience the vibrant soul of the Kumaon hills. Discover Phool Dei, Harela, and the mesmerizing Choliya dance. Your guide to authentic cultural travel in Mukteshwar."
         canonical="https://ecoescapemukteshwar.com/blog/local-festivals-and-culture-guide"
         keywords="festivals in Mukteshwar, Kumaoni culture, Phool Dei festival, Harela festival Uttarakhand, Choliya dance, local traditions Mukteshwar"
         jsonLd={[articleSchema, breadcrumbSchema]}

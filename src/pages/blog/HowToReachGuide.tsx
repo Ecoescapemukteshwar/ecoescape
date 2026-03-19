@@ -38,8 +38,8 @@ export default function HowToReachGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="How to Reach Mukteshwar | Delhi to Mukteshwar Transport Guide (2026)"
-        description="Complete guide on how to reach Mukteshwar by train, road, and bus. Get details on Delhi to Kathgodam trains, taxi fares, and driving routes to Ecoescape Mukteshwar."
+        title="How to Reach Mukteshwar | 2026 Delhi to Mukteshwar Transport Guide"
+        description="Plan your journey to the hills easily. Complete guide on reaching Mukteshwar by train (Kathgodam), road, and bus. Includes taxi fares and driving tips."
         canonical="https://ecoescapemukteshwar.com/blog/how-to-reach-mukteshwar-guide"
         keywords="how to reach Mukteshwar, Delhi to Mukteshwar, Kathgodam to Mukteshwar taxi, Delhi to Kathgodam train, Mukteshwar distance from Delhi, reaching Mukteshwar by road"
         jsonLd={[articleSchema, breadcrumbSchema]}

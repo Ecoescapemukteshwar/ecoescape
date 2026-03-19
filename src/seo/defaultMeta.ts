@@ -3,7 +3,7 @@
 export const defaultMeta = {
   title: "Ecoescape Mukteshwar | Best Boutique Homestay in Uttarakhand with Sunrise Views",
   description:
-    "Book your stay at Ecoescape Mukteshwar - the best boutique homestay in Mukteshwar, Uttarakhand. Enjoy sunrise views, 100+ plant garden, in-house restaurant & terrace dining.",
+    "Experience Ecoescape Mukteshwar, the top-rated boutique homestay in Uttarakhand. Enjoy breathtaking Himalayan sunrise views, a lush 100+ plant garden, and authentic Kumaoni dining. Perfect for families, couples, and digital nomads seeking a serene mountain retreat.",
   keywords:
     "Ecoescape Mukteshwar, Mukteshwar homestay, Mukteshwar bed and breakfast, sunrise view property Mukteshwar, garden homestay Uttarakhand, safe homestay Mukteshwar, terrace dining Mukteshwar, best place to stay Mukteshwar",
   ogImage: "https://ecoescapemukteshwar.com/LOGO.png",

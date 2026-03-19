@@ -38,8 +38,8 @@ export default function WorkcationGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Workcation in Mukteshwar | Digital Nomad & Remote Work Guide"
-        description="Escape the city office and work from the Himalayas. Discover why Mukteshwar is ideal for workcations with high-speed WiFi, power backup, and serene mountain views at Ecoescape."
+        title="Workcation in Mukteshwar | 2026 Digital Nomad & Remote Work Guide"
+        description="Ditch the concrete office for the Himalayas. Discover why Mukteshwar is India's top workcation spot, with fiber-optic WiFi and power backup at Ecoescape."
         canonical="https://ecoescapemukteshwar.com/blog/workcation-guide"
         keywords="workcation in Mukteshwar, digital nomad Mukteshwar, remote work Uttarakhand, best places for workcation India, mountain office Mukteshwar"
         jsonLd={[articleSchema, breadcrumbSchema]}

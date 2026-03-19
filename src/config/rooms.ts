@@ -47,8 +47,8 @@ The suite features stepless access throughout, making it elderly-friendly and ea
 What sets this suite apart is its east-facing orientation, ensuring you catch the first rays of sunrise painting the snow-capped peaks in golden hues. The private sitting area outside is perfect for morning coffee, evening reading, or simply soaking in the pristine mountain air.
 
 Our suite comes equipped with modern amenities including high-speed 5G WiFi, electric kettle with complimentary tea and coffee supplies, and daily bottled water. The room service ensures you have everything you need without leaving the comfort of your suite.`,
-    metaTitle: "Suite with Mountain View Mukteshwar | Sunrise Himalayan Views | Ecoescape",
-    metaDescription: "Book our east-facing Suite with Mountain View in Mukteshwar. 280 sq ft suite with sunrise views, king bed, private sitting area, stepless access. Perfect for couples. ₹3,500/night",
+    metaTitle: "Suite with East-Facing Mountain View | Romantic Stay Mukteshwar | Ecoescape",
+    metaDescription: "Wake up to magical Himalayan sunrises. Book our 280 sq ft east-facing Suite in Mukteshwar. Features king bed, private sitting area, and stepless access. Ideal for couples & solo travelers. Book direct for best rates.",
     keywords: "suite with mountain view Mukteshwar, sunrise view room Mukteshwar, Himalayan view suite, couple suite Mukteshwar, king bed room Mukteshwar, luxury suite Mukteshwar, private sitting area room, elderly friendly accommodation",
     images: [mountainView1, mountainView2, mountainView3],
     capacity: "2 Guests",
@@ -128,8 +128,8 @@ What makes this apartment special is the thoughtful layout that provides separat
 The apartment comes fully equipped with modern amenities including electric kettle, tea/coffee supplies, high-speed WiFi, and daily bottled water. Both bedrooms feature comfortable queen-sized beds with premium linens, ensuring a good night's sleep for all guests.
 
 The property's unique feature is that each unit has a private entrance, giving you the freedom to come and go as you please. The terrace and garden access provides additional space to relax and enjoy the natural surroundings.`,
-    metaTitle: "Spacious 2-Bedroom Apartment Mukteshwar | Family Accommodation | Ecoescape",
-    metaDescription: "Book our spacious 2-bedroom apartment in Mukteshwar. 550 sq ft with living area, dining, 2 attached baths, baywindow seating, verandah. Perfect for families. ₹5,500/night",
+    metaTitle: "Spacious 2-Bedroom Apartment Mukteshwar | Large Family Group Stay | Ecoescape",
+    metaDescription: "Experience the comforts of home in the Himalayas. Our 550 sq ft 2-bedroom apartment features private living & dining areas, 2 attached baths, and a scenic baywindow. Perfect for families and groups.",
     keywords: "2 bedroom apartment Mukteshwar, family accommodation Mukteshwar, spacious apartment Mukteshwar, family room with living area, group stay Mukteshwar, apartment with dining room, baywindow sitting room, verandah room Mukteshwar",
     images: [spacious1, spacious2, spacious3, spacious4],
     capacity: "4 Guests",
@@ -208,8 +208,8 @@ What makes this family room special is its practical layout - one large bedroom 
 The room comes equipped with family-friendly amenities including electric kettle, tea/coffee supplies, high-speed WiFi, and daily bottled water for all family members. The shared bathroom features modern fixtures with 24/7 hot water supply.
 
 Like all our accommodations, this family room has a private entrance, giving your family the freedom to come and go as you please. The terrace and garden access provides additional space for family relaxation and outdoor activities.`,
-    metaTitle: "Family Room Mukteshwar | 2 Bedrooms with Balcony | Best for Families | Ecoescape",
-    metaDescription: "Book our Family Room in Mukteshwar with 2 bedrooms (large & small), private balcony, dining area, terrace access. Perfect for families with kids. ₹4,500/night",
+    metaTitle: "Cozy 2-Bedroom Family Retreat | Private Balcony & Garden Access | Ecoescape",
+    metaDescription: "The perfect space for your mountain family vacation. Our 450 sq ft Family Room features a parent's master bed, kids' room, private balcony, and shared dining area. Book your Himalayan escape today.",
     keywords: "family room Mukteshwar, 2 bedroom family room, family accommodation with balcony, kids friendly room Mukteshwar, family suite Mukteshwar, family room with dining area, private balcony family room, best family stay Mukteshwar",
     images: [family1, family2],
     capacity: "4 Guests",
@@ -288,8 +288,8 @@ What makes this room special is its practicality for families - everything in on
 The room comes equipped with all essential amenities including electric kettle, tea/coffee supplies, high-speed WiFi, and daily bottled water. The private bathroom features modern fixtures with 24/7 hot water supply.
 
 Like all our accommodations, this family room has a private entrance, giving you the freedom to come and go as you please. The east-facing orientation ensures you catch beautiful sunrise views right from your balcony.`,
-    metaTitle: "Family Room with 2 King Beds Mukteshwar | Quadruple Room | Ecoescape",
-    metaDescription: "Book Family Room 2 with 2 king-size beds, private balcony, dining area, sunrise views. Perfect for families & groups. 380 sq ft. ₹4,000/night",
+    metaTitle: "East-Facing Family Room 2 | Quadruple Room with Sunrise View | Ecoescape",
+    metaDescription: "Perfect for close-knit families and groups. Our Quadruple Family Room 2 features two king-size beds, a private sunrise-view balcony, and shared dining space. Enjoy the ultimate Himalayan group retreat.",
     keywords: "family room 2 king beds Mukteshwar, quadruple room Mukteshwar, 2 king beds room, family room with sunrise view, group accommodation Mukteshwar, king size bed room Mukteshwar, family room with balcony, double sharing room Mukteshwar",
     images: [familyRoom2_1, familyRoom2_2, familyRoom2_3],
     capacity: "4 Guests",

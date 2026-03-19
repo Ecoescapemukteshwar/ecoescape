@@ -38,8 +38,8 @@ export default function SnowfallGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Snowfall in Mukteshwar | Best Time for Snow & Winter Guide"
-        description="Plan your winter trip to Mukteshwar with our guide to snowfall. Discover the best months to see snow, top spots like Chauli Ki Jali, and winter travel tips for Uttarakhand."
+        title="Snowfall in Mukteshwar | Best Time for Snow & 2026 Winter Guide"
+        description="Plan your winter wonderland escape. Discover the best months for snowfall in Mukteshwar, top viewing spots, and essential winter travel tips for Uttarakhand."
         canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-snowfall-guide"
         keywords="Mukteshwar snowfall, snow in Mukteshwar, winter in Mukteshwar, best time for snow in Uttarakhand, Mukteshwar winter guide, snow near Nainital"
         jsonLd={[articleSchema, breadcrumbSchema]}

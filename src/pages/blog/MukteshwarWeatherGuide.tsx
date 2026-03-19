@@ -53,8 +53,8 @@ export default function MukteshwarWeatherGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Mukteshwar Weather Guide | Best Time to Visit, Month-by-Month Climate"
-        description="Planning a trip to Mukteshwar? Know when to go — monthly weather breakdown, best seasons, packing tips, and monsoon alerts. Perfect for Uttarakhand travel planning."
+        title="Weather in Mukteshwar 2026 | Month-by-Month Best Time to Visit"
+        description="When is the best time to visit Mukteshwar? Get a month-by-month weather breakdown, temperature charts, and seasonal highlights for your Himalayan trip."
         canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-weather-guide"
         keywords="Mukteshwar weather, best time to visit Mukteshwar, Mukteshwar monsoon, Uttarakhand weather, Mukteshwar temperature, when to visit Mukteshwar"
         jsonLd={[articleSchema, breadcrumbSchema]}

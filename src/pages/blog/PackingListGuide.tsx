@@ -38,7 +38,7 @@ export default function PackingListGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Ultimate Packing List for Mukteshwar | Seasonal Travel Essentials"
+        title="Ultimate Mukteshwar Packing List | 2026 Seasonal Travel Essentials"
         description="Don't leave without the essentials. Discover what to pack for Mukteshwar, including layer-by-layer clothing advice and trekking gear for the Kumaon hills."
         canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-ultimate-packing-list"
         keywords="packing list for Mukteshwar, travel essentials Uttarakhand, what to wear in Mukteshwar, trekking gear for Himalayas, packing for mountain trip India"

@@ -38,8 +38,8 @@ export default function PhotographySpotsGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="10 Best Photography Spots in Mukteshwar | Himalayan Landscape Guide"
-        description="Capture the beauty of the Himalayas. Discover the top 10 locations in Mukteshwar for landscape, nature, and sunset photography. Including tips for stargazing shots."
+        title="10 Best Photography Spots in Mukteshwar | 2026 Himalayan Landscape Guide"
+        description="Capture the soul of the Himalayas. Discover the top 10 photography spots in Mukteshwar, from the dramatic cliffs of Chauli Ki Jali to golden hour at Ecoescape."
         canonical="https://ecoescapemukteshwar.com/blog/best-photography-spots-in-mukteshwar"
         keywords="photography spots in Mukteshwar, best views in Mukteshwar, Himalayan landscape photography, Chauli Ki Jali photography, sunset spots Mukteshwar"
         jsonLd={[articleSchema, breadcrumbSchema]}

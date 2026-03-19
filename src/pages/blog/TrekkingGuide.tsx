@@ -74,8 +74,8 @@ export default function TrekkingGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Mukteshwar Trekking Guide | Best Hiking Trails & Forest Walks"
-        description="Plan your adventure with our Mukteshwar trekking guide. Explore top trails like Bhalu Gaad, Chauli Ki Jali, and hidden forest paths near Ecoescape Mukteshwar."
+        title="Mukteshwar Trekking Guide | 5 Best Hiking Trails & 2026 Forest Walks"
+        description="Plan your Himalayan adventure. Explore the top trekking trails in Mukteshwar, from the Bhalu Gaad waterfall to hidden forest paths starting at Ecoescape."
         canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-trekking-guide"
         keywords="Mukteshwar trekking, hiking in Mukteshwar, Bhalu Gaad waterfall trek, Mukteshwar trails, Uttarakhand trekking, trekking near Ecoescape"
         jsonLd={[articleSchema, breadcrumbSchema]}

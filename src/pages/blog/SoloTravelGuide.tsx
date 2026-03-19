@@ -38,8 +38,8 @@ export default function SoloTravelGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Solo Travel in Mukteshwar | Safe & Serene Solo Trip Guide"
-        description="Escape on your own terms. Discover why Mukteshwar is perfect for solo travel, with safe trails, welcoming locals, and a peaceful retreat at Ecoescape Mukteshwar."
+        title="Solo Travel in Mukteshwar | 2026 Safe & Serene Solo Trip Guide"
+        description="Rediscover yourself in the Himalayas. Learn why Mukteshwar is perfect for solo travelers, with safe trails, welcoming locals, and a peaceful retreat at Ecoescape."
         canonical="https://ecoescapemukteshwar.com/blog/solo-travel-guide"
         keywords="solo travel Mukteshwar, solo trip Uttarakhand, safe for solo female travelers, solo travel guide India, exploring Mukteshwar on your own"
         jsonLd={[articleSchema, breadcrumbSchema]}

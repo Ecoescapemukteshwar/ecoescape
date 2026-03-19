@@ -44,8 +44,8 @@ export default function KumaoniFoodGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Kumaoni Food Guide: Traditional Cuisine & Dining in Mukteshwar | Ecoescape"
-        description="Discover authentic Kumaoni food in Mukteshwar - 12 traditional dishes, local ingredients, best restaurants, terrace dining experiences, and Uttarakhand cuisine guide. Taste the Himalayas!"
+        title="Kumaoni Food Guide | Authentic Traditional Cuisine & Dining Mukteshwar"
+        description="Savor the taste of the Himalayas. Discover 12 must-try Kumaoni dishes, from Bhat ki Churkani to Bal Mithai, and experience authentic terrace dining at Ecoescape."
         canonical="https://ecoescapemukteshwar.com/blog/kumaoni-food-guide"
         keywords="Kumaoni food, Mukteshwar restaurants, Uttarakhand cuisine, traditional Kumaoni dishes, Kumaoni thali, bhat ki churkani, bal mithai, kafuli, baadi, Kumaon food culture, authentic Kumaoni food, where to eat in Mukteshwar, Himalayan cuisine"
         jsonLd={[articleSchema, breadcrumbSchema, restaurantSchema]}

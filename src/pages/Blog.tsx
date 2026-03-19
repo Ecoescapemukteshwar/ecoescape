@@ -252,10 +252,10 @@ export default function Blog() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Mukteshwar Travel Blog | Guides, Tips & Things to Do - Ecoescape"
-        description="Discover Mukteshwar through local guides - weather tips, temple guides, trekking routes, and Kumaon travel advice. Plan your Uttarakhand trip with expert insights."
+        title="Mukteshwar Travel Blog | Local Guides, Tips & Hidden Gems - Ecoescape"
+        description="Plan your ultimate Himalayan escape with our Mukteshwar travel blog. Expert guides on weather, trekking trails, local Kumaoni food, and must-visit attractions in 2026."
         canonical="https://ecoescapemukteshwar.com/blog"
-        keywords="Mukteshwar travel blog, Mukteshwar guide, Mukteshwar weather, Mukteshwar temple, Uttarakhand travel, Kumaon tourism"
+        keywords="Mukteshwar travel blog, Mukteshwar guide, Mukteshwar travel tips, trekking in Mukteshwar, Kumaoni food guide, best time to visit Mukteshwar"
       />
       <Header />
       <main className="pt-40 pb-20">

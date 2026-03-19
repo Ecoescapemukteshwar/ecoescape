@@ -41,8 +41,8 @@ export default function CafesAndRestaurantsGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Best Cafes in Mukteshwar | Restaurants & Dining Guide (2026)"
-        description="Looking for the best places to eat in Mukteshwar? Explore our top picks for cafes and restaurants, including local Kumaoni cuisine and panoramic mountain views."
+        title="Best Cafes in Mukteshwar 2026 | Top Restaurants & Local Dining Guide"
+        description="Where to eat in Mukteshwar? Discover the best cafes for artisanal chocolates, wood-fired pizzas, and authentic Kumaoni thalis with breathtaking mountain views."
         canonical="https://ecoescapemukteshwar.com/blog/best-cafes-and-restaurants-in-mukteshwar"
         keywords="best cafes in Mukteshwar, restaurants in Mukteshwar, where to eat in Mukteshwar, Mukteshwar food guide, Nirvana Cafe Mukteshwar, Choco-House Mukteshwar, Kumaoni food"
         jsonLd={[articleSchema, breadcrumbSchema, restaurantSchema]}

@@ -38,8 +38,8 @@ export default function FamilyVacationGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Mukteshwar Family Vacation | Best Activities for Kids & Seniors"
-        description="Escape with your loved ones to the Kumaon hills. Discover family-friendly activities in Mukteshwar, from orchard walks to bonfire nights at Ecoescape Mukteshwar."
+        title="Mukteshwar Family Vacation Guide | Best Activities for Kids & Seniors"
+        description="Plan the perfect multigenerational trip. Discover senior-friendly spots, garden activities for kids, and family-friendly stays at Ecoescape Mukteshwar."
         canonical="https://ecoescapemukteshwar.com/blog/family-vacation-guide"
         keywords="family trip Mukteshwar, kids activities Mukteshwar, senior-friendly travel Uttarakhand, family homestay Mukteshwar, vacations for multigenerational families"
         jsonLd={[articleSchema, breadcrumbSchema]}

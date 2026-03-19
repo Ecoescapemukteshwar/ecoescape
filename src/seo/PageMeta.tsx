@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { siteUrl, defaultMeta } from "./defaultMeta";
+import { siteUrl, defaultMeta, defaultSchema } from "./defaultMeta";
 
 /**
  * PageMeta Component
@@ -58,6 +58,9 @@ export function PageMeta({
   const finalOgTitle = ogTitle || title;
   const finalOgDescription = ogDescription || description;
 
+  // Merge defaultSchema with provided jsonLd
+  const finalJsonLd = Array.isArray(jsonLd) ? [defaultSchema, ...jsonLd] : jsonLd ? [defaultSchema, jsonLd] : [defaultSchema];
+
   return (
     <Helmet>
       {/* Basic Meta Tags */}
@@ -88,9 +91,9 @@ export function PageMeta({
       {finalOgImage && <meta name="twitter:image" content={finalOgImage} />}
 
       {/* Structured Data (JSON-LD) */}
-      {jsonLd && (
+      {finalJsonLd && (
         <script type="application/ld+json">
-          {JSON.stringify(jsonLd)}
+          {JSON.stringify(finalJsonLd)}
         </script>
       )}
     </Helmet>

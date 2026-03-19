@@ -38,8 +38,8 @@ export default function StargazingGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Stargazing in Mukteshwar | Guide to Night Sky & Astro-Tourism"
-        description="Experience the magic of the Himalayan night sky. Best time for stargazing in Mukteshwar, what to see, astrophotography tips, and dark sky experiences at Ecoescape Mukteshwar."
+        title="Stargazing in Mukteshwar | 2026 Guide to Night Sky & Astro-Tourism"
+        description="Witness the magic of the Milky Way. Your complete guide to stargazing in Mukteshwar, best viewing months, and dark-sky experiences at Ecoescape Mukteshwar."
         canonical="https://ecoescapemukteshwar.com/blog/stargazing-in-mukteshwar"
         keywords="stargazing in Mukteshwar, astro-tourism India, night sky Mukteshwar, Milky Way photography Uttarakhand, dark sky retreat, Himalayan astronomy, things to do in Mukteshwar at night"
         jsonLd={[articleSchema, breadcrumbSchema]}

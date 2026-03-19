@@ -38,10 +38,10 @@ export default function BirdwatchingGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Birdwatching in Mukteshwar | Himalayan Birding Guide & Trails"
-        description="Discover the top birdwatching spots in Mukteshwar. A guide to Himalayan birds, best birding seasons, must-visit trails, and birding experiences at Ecoescape Mukteshwar."
+        title="Birdwatching in Mukteshwar | 200+ Species & Best Forest Trails"
+        description="Explore the avian wonders of the Himalayas. Our Mukteshwar birdwatching guide covers 200+ species, top forest trails, and unique sightings at Ecoescape's botanical garden."
         canonical="https://ecoescapemukteshwar.com/blog/birdwatching-in-mukteshwar-guide"
-        keywords="birdwatching in Mukteshwar, Himalayan birds guide, Uttarakhand birding, Himalayan Monal Mukteshwar, birding trails Kumaon, eco-tourism Uttarakhand, birdwatching near Nainital"
+        keywords="birdwatching in Mukteshwar, Himalayan birds guide, Uttarakhand birding, Himalayan Monal Mukteshwar, birding trails Kumaon, eco-tourism Uttarakhand, birding near Nainital"
         jsonLd={[articleSchema, breadcrumbSchema]}
       />
       <Header />

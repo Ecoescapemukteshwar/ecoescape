@@ -44,8 +44,8 @@ export default function ThingsToDoInMukteshwar() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Things to Do in Mukteshwar | 15 Must-Visit Attractions & Activities (2026)"
-        description="Discover the best things to do in Mukteshwar - ancient temples, adventure sports, Himalayan viewpoints, nature trails, and cultural experiences. Complete guide with distances from Ecoescape Mukteshwar."
+        title="15 Best Things to Do in Mukteshwar | 2026 Tourist Attractions Guide"
+        description="Discover the top things to do in Mukteshwar — ancient temples, adventure sports, mountain trails, and cultural experiences. Your complete 2026 sightseeing guide."
         canonical="https://ecoescapemukteshwar.com/blog/things-to-do-in-mukteshwar"
         keywords="things to do in Mukteshwar, places to visit in Mukteshwar, Mukteshwar attractions, Mukteshwar tourist places, Mukteshwar sightseeing, weekend getaways near Delhi, Kumaon tourism, Uttarakhand travel guide"
         jsonLd={[articleSchema, breadcrumbSchema]}

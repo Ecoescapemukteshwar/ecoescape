@@ -38,8 +38,8 @@ export default function RomanticGetawayGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Romantic Getaway in Mukteshwar | Best Honeymoon & Couples Guide"
-        description="Escape to the mountains for a romantic retreat. Discover the most intimate spots in Mukteshwar, from sunrise viewpoints at Ecoescape to candlelit dinners under the stars."
+        title="Romantic Getaway in Mukteshwar | Best 2026 Honeymoon & Couples Guide"
+        description="Escape to the mountains for a romantic retreat. Discover the most intimate spots in Mukteshwar, from private bonfires at Ecoescape to candlelit terrace dinners."
         canonical="https://ecoescapemukteshwar.com/blog/romantic-getaway-guide"
         keywords="romantic getaway Mukteshwar, honeymoon in Mukteshwar, best places for couples Uttarakhand, romantic restaurants Mukteshwar, private bonfire Mukteshwar"
         jsonLd={[articleSchema, breadcrumbSchema]}

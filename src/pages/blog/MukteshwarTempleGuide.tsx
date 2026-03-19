@@ -38,8 +38,8 @@ export default function MukteshwarTempleGuide() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Mukteshwar Mahadev Temple Guide | Complete Visitor Info & Where to Stay"
-        description="Plan your visit to Mukteshwar Mahadev Temple (7 km from Ecoescape). Discover temple timings, history, how to reach, and best places to stay in Mukteshwar. Includes travel tips for Uttarakhand pilgrims."
+        title="Mukteshwar Mahadev Temple Guide | Timings, History & Best Stays"
+        description="Visit the ancient Mukteshwar Mahadev Temple (7 km from Ecoescape). Your complete 2026 guide to temple history, timings, and stunning Himalayan sunrise views."
         canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-mahadev-temple-guide"
         keywords="Mukteshwar Mahadev Temple, Mukteshwar Dham, Mukteshwar temple guide, Uttarakhand temples, places to visit Mukteshwar, stay near Mukteshwar temple"
         jsonLd={[articleSchema, breadcrumbSchema]}

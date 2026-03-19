@@ -64,7 +64,7 @@ export default function FruitOrchardsGuide() {
     <div className="min-h-screen bg-background">
       <PageMeta
         title="Mukteshwar Fruit Orchards Guide | Apple, Peach & Plum Seasons"
-        description="Discover why Mukteshwar is called the fruit bowl of Uttarakhand. Plan your visit during the apple, peach, or plum harvest seasons with our local guide."
+        description="Experience the 'Fruit Bowl of Kumaon'. Explore Mukteshwar's lush orchards during apple, peach, and plum harvest seasons. Plan your orchard walk at Ecoescape."
         canonical="https://ecoescapemukteshwar.com/blog/fruit-orchards-of-mukteshwar-guide"
         keywords="Mukteshwar fruit orchards, apple season Mukteshwar, Mukteshwar apples, peach orchards Uttarakhand, Mukteshwar tourism, Kumaon fruit harvest"
         jsonLd={[articleSchema, breadcrumbSchema]}

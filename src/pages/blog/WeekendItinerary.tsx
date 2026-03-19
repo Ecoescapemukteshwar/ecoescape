@@ -39,8 +39,8 @@ export default function WeekendItinerary() {
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
-        title="Mukteshwar 2-Day Itinerary | Perfect Weekend Getaway Guide"
-        description="The ultimate 2-day itinerary for Mukteshwar. Plan your weekend trip with top things to do, where to eat, and scenic spots for a memorable Himalayan escape."
+        title="Mukteshwar 2-Day Itinerary | Ultimate 2026 Weekend Getaway Guide"
+        description="Maximize your 48 hours in the hills. Plan the perfect 2-day trip to Mukteshwar with our detailed itinerary covering adventure, temples, and the best Himalayan views."
         canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-weekend-itinerary"
         keywords="Mukteshwar itinerary, 2 days in Mukteshwar, Mukteshwar weekend trip, Delhi to Mukteshwar getaway, things to do in Mukteshwar, Mukteshwar travel guide"
         jsonLd={[articleSchema, breadcrumbSchema]}
