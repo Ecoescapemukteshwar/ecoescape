@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
+import prerender from "vite-plugin-prerender";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -73,7 +74,42 @@ export default defineConfig(({ mode }) => ({
       // Disable inline service worker registration
       injectRegister: false,
       selfDestroying: false
-    })
+    }),
+    prerender({
+      staticDir: path.join(__dirname, "dist"),
+      routes: [
+        "/",
+        "/blog",
+        "/blog/kumaoni-food-guide",
+        "/blog/things-to-do-in-mukteshwar",
+        "/blog/mukteshwar-mahadev-temple-guide",
+        "/blog/mukteshwar-weather-guide",
+        "/blog/stargazing-in-mukteshwar",
+        "/blog/birdwatching-in-mukteshwar-guide",
+        "/blog/mukteshwar-trekking-guide",
+        "/blog/fruit-orchards-of-mukteshwar-guide",
+        "/blog/mukteshwar-snowfall-guide",
+        "/blog/mukteshwar-weekend-itinerary",
+        "/blog/how-to-reach-mukteshwar-guide",
+        "/blog/best-cafes-and-restaurants-in-mukteshwar",
+        "/blog/workcation-guide",
+        "/blog/romantic-getaway-guide",
+        "/blog/solo-travel-guide",
+        "/blog/family-vacation-guide",
+        "/blog/monsoon-in-mukteshwar-guide",
+        "/blog/best-photography-spots-in-mukteshwar",
+        "/blog/local-festivals-and-culture-guide",
+        "/blog/mukteshwar-ultimate-packing-list",
+        "/rooms/suite-with-mountain-view",
+        "/rooms/spacious-apartment",
+        "/rooms/family-room",
+        "/rooms/family-room-2",
+      ],
+      renderer: new prerender.PuppeteerRenderer({
+        maxConcurrentRoutes: 1,
+        renderAfterTime: 500,
+      }),
+    }),
   ].filter(Boolean),
   resolve: {
     alias: {
