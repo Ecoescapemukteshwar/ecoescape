@@ -51,15 +51,7 @@ export function RoomsSection() {
     }));
   }, []);
 
-  const scrollToBooking = (_roomName?: string) => {
-    if (roomName) {
-      trackBookingSubmit({ roomType: roomName, guests: 'unknown' });
-    }
-    const booking = document.getElementById("booking");
-    if (booking) {
-      booking.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  // scrollToBooking removed — booking links handled by room detail pages
 
   return (
     <section id="rooms" className="py-24 bg-background">
