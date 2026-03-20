@@ -53,6 +53,8 @@ const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <Analytics />
+        <SpeedInsights />
         <Toaster />
         <Sonner />
         <BrowserRouter>
