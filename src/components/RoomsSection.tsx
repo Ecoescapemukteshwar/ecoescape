@@ -51,7 +51,7 @@ export function RoomsSection() {
     }));
   }, []);
 
-  const scrollToBooking = (roomName?: string) => {
+  const scrollToBooking = (_roomName?: string) => {
     if (roomName) {
       trackBookingSubmit({ roomType: roomName, guests: 'unknown' });
     }
