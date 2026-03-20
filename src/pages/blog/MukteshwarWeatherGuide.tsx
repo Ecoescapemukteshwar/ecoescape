@@ -75,7 +75,7 @@ export default function MukteshwarWeatherGuide() {
               Weather & Planning
             </span>
             <h1 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mt-3 mb-4 leading-tight">
-              Weather in Mukteshwar 10 Days: Month-by-Month Guide for Planning Your Trip (2026)
+              Mukteshwar Weather Today & Month-by-Month Temperature Guide (2026)
             </h1>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span className="flex items-center gap-1">
