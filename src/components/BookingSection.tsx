@@ -52,35 +52,77 @@ export function BookingSection() {
     isPeak: boolean;
   } | null>(null);
 
+  // Room prices state
+  const [roomPrices, setRoomPrices] = useState<Record<string, string>>({});
+  const [pricesLoading, setPricesLoading] = useState(true);
+
+  // Load current prices for all rooms on mount
+  useEffect(() => {
+    const loadPrices = async () => {
+      try {
+        const [suitePrice, aptPrice, familyPrice, family2Price] = await Promise.all([
+          getCurrentPrice('suite'),
+          getCurrentPrice('apartment'),
+          getCurrentPrice('familyRoom'),
+          getCurrentPrice('familyRoom2'),
+        ]);
+
+        setRoomPrices({
+          suite: formatPrice(suitePrice),
+          apartment: formatPrice(aptPrice),
+          familyRoom: formatPrice(familyPrice),
+          familyRoom2: formatPrice(family2Price),
+        });
+      } catch (error) {
+        console.error('Failed to load room prices:', error);
+        // Use base prices on error
+        setRoomPrices({
+          suite: formatPrice(3500),
+          apartment: formatPrice(5500),
+          familyRoom: formatPrice(4500),
+          familyRoom2: formatPrice(4000),
+        });
+      } finally {
+        setPricesLoading(false);
+      }
+    };
+
+    loadPrices();
+  }, []);
+
   // Dynamic room options with current pricing
   const roomOptions = useMemo(() => [
-    { value: "suite-mountain-view", label: `Suite with Mountain View (${formatPrice(getCurrentPrice('suite'))}/night)` },
-    { value: "spacious-apartment", label: `Spacious Apartment (${formatPrice(getCurrentPrice('apartment'))}/night)` },
-    { value: "family-room", label: `Family Room (${formatPrice(getCurrentPrice('familyRoom'))}/night)` },
-    { value: "family-room-2", label: `Family Room 2 (${formatPrice(getCurrentPrice('familyRoom2'))}/night)` },
-  ], []);
+    { value: "suite-mountain-view", label: `Suite with Mountain View (${roomPrices.suite || '₹3,500'}/night)` },
+    { value: "spacious-apartment", label: `Spacious Apartment (${roomPrices.apartment || '₹5,500'}/night)` },
+    { value: "family-room", label: `Family Room (${roomPrices.familyRoom || '₹4,500'}/night)` },
+    { value: "family-room-2", label: `Family Room 2 (${roomPrices.familyRoom2 || '₹4,000'}/night)` },
+  ], [roomPrices]);
 
   // Calculate price summary when dates and room type change
   useEffect(() => {
-    if (formData.checkIn && formData.checkOut && formData.roomType) {
-      const checkIn = new Date(formData.checkIn);
-      const checkOut = new Date(formData.checkOut);
-      const roomType = mapRoomTypeToPricingType(formData.roomType);
+    const calculatePrice = async () => {
+      if (formData.checkIn && formData.checkOut && formData.roomType) {
+        const checkIn = new Date(formData.checkIn);
+        const checkOut = new Date(formData.checkOut);
+        const roomType = mapRoomTypeToPricingType(formData.roomType);
 
-      if (roomType && checkOut > checkIn) {
-        const pricing = getBookingPrice(roomType, checkIn, checkOut);
-        setPriceSummary({
-          pricePerNight: pricing.basePrice,
-          nights: pricing.nights,
-          totalPrice: pricing.totalPrice,
-          isPeak: pricing.isPeakSeason,
-        });
+        if (roomType && checkOut > checkIn) {
+          const pricing = await getBookingPrice(roomType, checkIn, checkOut);
+          setPriceSummary({
+            pricePerNight: pricing.basePrice,
+            nights: pricing.nights,
+            totalPrice: pricing.totalPrice,
+            isPeak: pricing.isPeakSeason,
+          });
+        } else {
+          setPriceSummary(null);
+        }
       } else {
         setPriceSummary(null);
       }
-    } else {
-      setPriceSummary(null);
-    }
+    };
+
+    calculatePrice();
   }, [formData.checkIn, formData.checkOut, formData.roomType]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

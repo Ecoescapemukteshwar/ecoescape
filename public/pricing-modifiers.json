@@ -1,0 +1,58 @@
+{
+  "monthlyModifiers": {
+    "0": 0.10,
+    "1": -0.10,
+    "2": -0.10,
+    "3": 0.10,
+    "4": 0.20,
+    "5": 0.30,
+    "6": 0.10,
+    "7": -0.10,
+    "8": -0.10,
+    "9": -0.10,
+    "10": 0.10,
+    "11": 0.20
+  },
+  "metadata": {
+    "description": "Monthly pricing modifiers for Ecoescape Mukteshwar",
+    "lastUpdated": "2026-03-23",
+    "tiers": {
+      "peak": {
+        "months": [
+          "June"
+        ],
+        "modifier": 0.30,
+        "reason": "Highest demand every year"
+      },
+      "high": {
+        "months": [
+          "May",
+          "December"
+        ],
+        "modifier": 0.20,
+        "reason": "Pre-peak surge + holiday travel"
+      },
+      "standard": {
+        "months": [
+          "January",
+          "April",
+          "July",
+          "November"
+        ],
+        "modifier": 0.10,
+        "reason": "Moderate demand"
+      },
+      "offSeason": {
+        "months": [
+          "February",
+          "March",
+          "August",
+          "September",
+          "October"
+        ],
+        "modifier": -0.10,
+        "reason": "Lowest demand, incentivize occupancy"
+      }
+    }
+  }
+}

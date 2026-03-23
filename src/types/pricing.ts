@@ -1,5 +1,19 @@
 export type RoomType = 'suite' | 'apartment' | 'familyRoom' | 'familyRoom2';
 
+export interface PricingModifiersConfig {
+  monthlyModifiers: Record<string, number>; // Month index (0-11) -> modifier (-0.10 to 0.30)
+  metadata?: {
+    description: string;
+    lastUpdated: string;
+    tiers: {
+      peak: { months: string[]; modifier: number; reason: string };
+      high: { months: string[]; modifier: number; reason: string };
+      standard: { months: string[]; modifier: number; reason: string };
+      offSeason: { months: string[]; modifier: number; reason: string };
+    };
+  };
+}
+
 export interface DateRange {
   start: number;
   end: number;

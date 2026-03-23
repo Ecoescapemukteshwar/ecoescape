@@ -1,5 +1,5 @@
 import { OptimizedImage } from "@/components/OptimizedImage";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -42,12 +42,29 @@ const propertyHighlights = [
 ];
 
 export function RoomsSection() {
-  // Generate rooms array with dynamic pricing
-  const rooms = useMemo(() => {
+  const [rooms, setRooms] = useState(() => {
     return roomData.map((room) => ({
       ...room,
       price: formatPrice(getCurrentPrice(room.roomType)),
     }));
+  });
+
+  // Load prices asynchronously
+  useEffect(() => {
+    const loadPrices = async () => {
+      const roomsWithPrices = await Promise.all(
+        roomData.map(async (room) => {
+          const price = await getCurrentPrice(room.roomType);
+          return {
+            ...room,
+            price: formatPrice(price),
+          };
+        })
+      );
+      setRooms(roomsWithPrices);
+    };
+
+    loadPrices();
   }, []);
 
   // scrollToBooking removed — booking links handled by room detail pages

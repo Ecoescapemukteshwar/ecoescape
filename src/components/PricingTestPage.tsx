@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,13 +27,107 @@ export function PricingTestPage() {
   const [checkOutDate, setCheckOutDate] = useState('');
   const [selectedRoom, setSelectedRoom] = useState<RoomType>('suite');
 
-  const parsedTestDate = new Date(testDate);
-  const isTestDatePeak = isPeakSeason(parsedTestDate);
+  // Async state
+  const [isTodayPeak, setIsTodayPeak] = useState<boolean>(false);
+  const [isTestDatePeak, setIsTestDatePeak] = useState<boolean>(false);
+  const [roomPricings, setRoomPricings] = useState<Record<RoomType, {
+    basePrice: number;
+    currentPrice: number;
+    isPeakSeason: boolean;
+    peakSeasonPrice: number;
+  } | null>>({
+    suite: null,
+    apartment: null,
+    familyRoom: null,
+    familyRoom2: null,
+  });
+  const [datePrices, setDatePrices] = useState<Record<RoomType, number>>({
+    suite: 0,
+    apartment: 0,
+    familyRoom: 0,
+    familyRoom2: 0,
+  });
+  const [bookingCalc, setBookingCalc] = useState<any>(null);
 
-  // Calculate booking price if dates are selected
-  const bookingCalc = checkInDate && checkOutDate
-    ? getBookingPrice(selectedRoom, new Date(checkInDate), new Date(checkOutDate))
-    : null;
+  const parsedTestDate = new Date(testDate);
+
+  // Load today's peak status
+  useEffect(() => {
+    const loadTodayPeak = async () => {
+      const peak = await isPeakSeason(new Date());
+      setIsTodayPeak(peak);
+    };
+    loadTodayPeak();
+  }, []);
+
+  // Load test date peak status when test date changes
+  useEffect(() => {
+    const loadTestDatePeak = async () => {
+      const peak = await isPeakSeason(parsedTestDate);
+      setIsTestDatePeak(peak);
+    };
+    loadTestDatePeak();
+  }, [testDate]);
+
+  // Load all room pricings on mount
+  useEffect(() => {
+    const loadRoomPricings = async () => {
+      const pricings: typeof roomPricings = {
+        suite: null,
+        apartment: null,
+        familyRoom: null,
+        familyRoom2: null,
+      };
+
+      for (const roomType of ROOM_TYPES) {
+        pricings[roomType] = await getRoomPricing(roomType);
+      }
+
+      setRoomPricings(pricings);
+    };
+    loadRoomPricings();
+  }, []);
+
+  // Load prices for selected test date
+  useEffect(() => {
+    const loadDatePrices = async () => {
+      const prices: typeof datePrices = {
+        suite: 0,
+        apartment: 0,
+        familyRoom: 0,
+        familyRoom2: 0,
+      };
+
+      for (const roomType of ROOM_TYPES) {
+        prices[roomType] = await getPriceForDate(roomType, parsedTestDate);
+      }
+
+      setDatePrices(prices);
+    };
+    loadDatePrices();
+  }, [testDate]);
+
+  // Calculate booking price when dates or room changes
+  useEffect(() => {
+    const calculateBooking = async () => {
+      if (!checkInDate || !checkOutDate) {
+        setBookingCalc(null);
+        return;
+      }
+
+      const checkIn = new Date(checkInDate);
+      const checkOut = new Date(checkOutDate);
+
+      if (checkOut <= checkIn) {
+        setBookingCalc(null);
+        return;
+      }
+
+      const calc = await getBookingPrice(selectedRoom, checkIn, checkOut);
+      setBookingCalc(calc);
+    };
+    calculateBooking();
+  }, [checkInDate, checkOutDate, selectedRoom]);
 
   const resetToToday = () => {
     setTestDate(new Date().toISOString().split('T')[0]);
@@ -81,8 +175,8 @@ export function PricingTestPage() {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Current Season</p>
-              <p className={`text-lg font-medium ${isPeakSeason(new Date()) ? 'text-red-600' : 'text-green-600'}`}>
-                {isPeakSeason(new Date()) ? '🔥 PEAK SEASON (June)' : '✅ Standard Season'}
+              <p className={`text-lg font-medium ${isTodayPeak ? 'text-red-600' : 'text-green-600'}`}>
+                {isTodayPeak ? '🔥 PEAK SEASON' : '✅ Standard Season'}
               </p>
             </div>
           </div>
@@ -93,7 +187,9 @@ export function PricingTestPage() {
           <h2 className="text-xl font-semibold mb-4">All Room Prices (Current/Today)</h2>
           <div className="space-y-3">
             {ROOM_TYPES.map((roomType) => {
-              const pricing = getRoomPricing(roomType);
+              const pricing = roomPricings[roomType];
+              if (!pricing) return null;
+
               return (
                 <div key={roomType} className="flex justify-between items-center p-3 bg-secondary rounded">
                   <div>
@@ -139,14 +235,14 @@ export function PricingTestPage() {
               Selected Date: {parsedTestDate.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
             <p className={`text-lg font-medium ${isTestDatePeak ? 'text-red-600' : 'text-green-600'}`}>
-              {isTestDatePeak ? '🔥 PEAK SEASON (June)' : '✅ Standard Season'}
+              {isTestDatePeak ? '🔥 PEAK SEASON' : '✅ Standard Season'}
             </p>
           </div>
 
           <div className="mt-4 space-y-2">
             <p className="font-medium">Prices on Selected Date:</p>
             {ROOM_TYPES.map((roomType) => {
-              const price = getPriceForDate(roomType, parsedTestDate);
+              const price = datePrices[roomType];
               return (
                 <div key={roomType} className="flex justify-between text-sm p-2 bg-background rounded">
                   <span>{ROOM_NAMES[roomType]}</span>
@@ -237,16 +333,7 @@ export function PricingTestPage() {
                 <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
                   View nightly breakdown
                 </summary>
-                <div className="mt-2 space-y-1 text-sm max-h-40 overflow-y-auto">
-                  {bookingCalc.priceBreakdown.map((item, idx) => (
-                    <div key={idx} className="flex justify-between p-1 bg-background rounded">
-                      <span>{item.date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</span>
-                      <span className={isPeakSeason(item.date) ? 'text-red-600' : ''}>
-                        ₹{item.price.toLocaleString()} {isPeakSeason(item.date) ? '(Peak)' : ''}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                <PriceBreakdown priceBreakdown={bookingCalc.priceBreakdown} />
               </details>
             </div>
           ) : (
@@ -292,6 +379,35 @@ export function PricingTestPage() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+// Separate component for price breakdown to handle async isPeakSeason calls
+function PriceBreakdown({ priceBreakdown }: { priceBreakdown: Array<{ date: Date; price: number }> }) {
+  const [peakStatuses, setPeakStatuses] = useState<Record<number, boolean>>({});
+
+  useEffect(() => {
+    const loadPeakStatuses = async () => {
+      const statuses: Record<number, boolean> = {};
+      for (const item of priceBreakdown) {
+        statuses[item.date.getTime()] = await isPeakSeason(item.date);
+      }
+      setPeakStatuses(statuses);
+    };
+    loadPeakStatuses();
+  }, [priceBreakdown]);
+
+  return (
+    <div className="mt-2 space-y-1 text-sm max-h-40 overflow-y-auto">
+      {priceBreakdown.map((item, idx) => (
+        <div key={idx} className="flex justify-between p-1 bg-background rounded">
+          <span>{item.date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</span>
+          <span className={peakStatuses[item.date.getTime()] ? 'text-red-600' : ''}>
+            ₹{item.price.toLocaleString()} {peakStatuses[item.date.getTime()] ? '(Peak)' : ''}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }

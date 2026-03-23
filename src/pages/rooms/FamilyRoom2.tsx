@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
@@ -14,10 +15,19 @@ export default function FamilyRoom2() {
   const room = getRoomBySlug("family-room-2");
   const allRooms = getAllRooms();
   const relatedRooms = allRooms.filter((r) => r.slug !== "family-room-2").slice(0, 2);
+  const [currentPrice, setCurrentPrice] = useState<string>("₹4,000");
+
+  useEffect(() => {
+    const loadPrice = async () => {
+      if (!room) return;
+      const price = await getCurrentPrice(room.roomType);
+      setCurrentPrice(formatPrice(price));
+    };
+
+    loadPrice();
+  }, [room]);
 
   if (!room) return null;
-
-  const currentPrice = formatPrice(getCurrentPrice(room.roomType));
 
   // LodgingReservation Schema
   const lodgingSchema = generateLodgingReservationSchema({
