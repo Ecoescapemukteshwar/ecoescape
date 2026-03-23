@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
 import { roomsConfig } from "@/config/rooms";
-import { getCurrentPrice, formatPrice, type RoomType } from "@/services/pricing";
+import { getCurrentPrice, formatPrice, getBasePrice, type RoomType } from "@/services/pricing";
 
 // Room data without prices (prices added dynamically)
 const roomData = roomsConfig.map((room) => ({
@@ -45,26 +45,45 @@ export function RoomsSection() {
   const [rooms, setRooms] = useState(() => {
     return roomData.map((room) => ({
       ...room,
-      price: formatPrice(getCurrentPrice(room.roomType)),
+      price: formatPrice(getBasePrice(room.roomType)),
     }));
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   // Load prices asynchronously
   useEffect(() => {
+    let isMounted = true;
+
     const loadPrices = async () => {
-      const roomsWithPrices = await Promise.all(
-        roomData.map(async (room) => {
-          const price = await getCurrentPrice(room.roomType);
-          return {
-            ...room,
-            price: formatPrice(price),
-          };
-        })
-      );
-      setRooms(roomsWithPrices);
+      try {
+        const roomsWithPrices = await Promise.all(
+          roomData.map(async (room) => {
+            const price = await getCurrentPrice(room.roomType);
+            return {
+              ...room,
+              price: formatPrice(price),
+            };
+          })
+        );
+
+        if (isMounted) {
+          setRooms(roomsWithPrices);
+        }
+      } catch (error) {
+        console.error('Failed to load room prices:', error);
+        // Keep base prices on error
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
     };
 
     loadPrices();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // scrollToBooking removed — booking links handled by room detail pages

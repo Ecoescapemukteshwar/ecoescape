@@ -9,13 +9,15 @@ import { getRoomBySlug, getAllRooms } from "@/config/rooms";
 import { ArrowLeft, Users, Maximize, Eye, BedDouble, Coffee, Wifi, Droplets, Shield, Phone, MessageCircle, MapPin, Star, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { getCurrentPrice, formatPrice } from "@/services/pricing";
+import { getCurrentPrice, formatPrice, getBasePrice } from "@/services/pricing";
 
 export default function SuiteWithMountainView() {
   const room = getRoomBySlug("suite-with-mountain-view");
   const allRooms = getAllRooms();
   const relatedRooms = allRooms.filter((r) => r.slug !== "suite-with-mountain-view").slice(0, 2);
   const [currentPrice, setCurrentPrice] = useState<string>("₹3,500");
+  const [relatedRoomPrices, setRelatedRoomPrices] = useState<Record<string, string>>({});
+  const [relatedPricesLoading, setRelatedPricesLoading] = useState(true);
 
   useEffect(() => {
     const loadPrice = async () => {
@@ -26,6 +28,48 @@ export default function SuiteWithMountainView() {
 
     loadPrice();
   }, [room]);
+
+  // Load related room prices
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadRelatedPrices = async () => {
+      try {
+        const prices: Record<string, string> = {};
+
+        await Promise.all(
+          relatedRooms.map(async (relatedRoom) => {
+            const price = await getCurrentPrice(relatedRoom.roomType);
+            prices[relatedRoom.slug] = formatPrice(price);
+          })
+        );
+
+        if (isMounted) {
+          setRelatedRoomPrices(prices);
+        }
+      } catch (error) {
+        console.error('Failed to load related room prices:', error);
+        // Fallback to base prices
+        const fallbackPrices: Record<string, string> = {};
+        relatedRooms.forEach((room) => {
+          fallbackPrices[room.slug] = formatPrice(getBasePrice(room.roomType));
+        });
+        if (isMounted) {
+          setRelatedRoomPrices(fallbackPrices);
+        }
+      } finally {
+        if (isMounted) {
+          setRelatedPricesLoading(false);
+        }
+      }
+    };
+
+    loadRelatedPrices();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [relatedRooms]);
 
   if (!room) return null;
 
@@ -298,7 +342,7 @@ export default function SuiteWithMountainView() {
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {relatedRooms.map((relatedRoom) => {
-                  const relatedPrice = formatPrice(getCurrentPrice(relatedRoom.roomType));
+                  const relatedPrice = relatedRoomPrices[relatedRoom.slug] || formatPrice(getBasePrice(relatedRoom.roomType));
                   return (
                     <Link
                       key={relatedRoom.slug}
@@ -318,7 +362,9 @@ export default function SuiteWithMountainView() {
                           {relatedRoom.shortDescription}
                         </p>
                         <div className="flex items-center justify-between">
-                          <span className="text-primary font-semibold">{relatedPrice}</span>
+                          <span className="text-primary font-semibold">
+                            {relatedPricesLoading ? 'Loading...' : relatedPrice}
+                          </span>
                           <span className="text-xs text-muted-foreground">per night</span>
                         </div>
                       </div>
