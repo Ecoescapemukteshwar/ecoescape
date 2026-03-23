@@ -54,24 +54,42 @@ export function PricingTestPage() {
 
   // Load today's peak status
   useEffect(() => {
+    let isMounted = true;
+
     const loadTodayPeak = async () => {
       const peak = await isPeakSeason(new Date());
-      setIsTodayPeak(peak);
+      if (isMounted) {
+        setIsTodayPeak(peak);
+      }
     };
     loadTodayPeak();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Load test date peak status when test date changes
   useEffect(() => {
+    let isMounted = true;
+
     const loadTestDatePeak = async () => {
-      const peak = await isPeakSeason(parsedTestDate);
-      setIsTestDatePeak(peak);
+      const peak = await isPeakSeason(new Date(testDate));
+      if (isMounted) {
+        setIsTestDatePeak(peak);
+      }
     };
     loadTestDatePeak();
+
+    return () => {
+      isMounted = false;
+    };
   }, [testDate]);
 
   // Load all room pricings on mount
   useEffect(() => {
+    let isMounted = true;
+
     const loadRoomPricings = async () => {
       const pricings: typeof roomPricings = {
         suite: null,
@@ -84,13 +102,21 @@ export function PricingTestPage() {
         pricings[roomType] = await getRoomPricing(roomType);
       }
 
-      setRoomPricings(pricings);
+      if (isMounted) {
+        setRoomPricings(pricings);
+      }
     };
     loadRoomPricings();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Load prices for selected test date
   useEffect(() => {
+    let isMounted = true;
+
     const loadDatePrices = async () => {
       const prices: typeof datePrices = {
         suite: 0,
@@ -100,19 +126,29 @@ export function PricingTestPage() {
       };
 
       for (const roomType of ROOM_TYPES) {
-        prices[roomType] = await getPriceForDate(roomType, parsedTestDate);
+        prices[roomType] = await getPriceForDate(roomType, new Date(testDate));
       }
 
-      setDatePrices(prices);
+      if (isMounted) {
+        setDatePrices(prices);
+      }
     };
     loadDatePrices();
+
+    return () => {
+      isMounted = false;
+    };
   }, [testDate]);
 
   // Calculate booking price when dates or room changes
   useEffect(() => {
+    let isMounted = true;
+
     const calculateBooking = async () => {
       if (!checkInDate || !checkOutDate) {
-        setBookingCalc(null);
+        if (isMounted) {
+          setBookingCalc(null);
+        }
         return;
       }
 
@@ -120,14 +156,22 @@ export function PricingTestPage() {
       const checkOut = new Date(checkOutDate);
 
       if (checkOut <= checkIn) {
-        setBookingCalc(null);
+        if (isMounted) {
+          setBookingCalc(null);
+        }
         return;
       }
 
       const calc = await getBookingPrice(selectedRoom, checkIn, checkOut);
-      setBookingCalc(calc);
+      if (isMounted) {
+        setBookingCalc(calc);
+      }
     };
     calculateBooking();
+
+    return () => {
+      isMounted = false;
+    };
   }, [checkInDate, checkOutDate, selectedRoom]);
 
   const resetToToday = () => {
@@ -389,14 +433,22 @@ function PriceBreakdown({ priceBreakdown }: { priceBreakdown: Array<{ date: Date
   const [peakStatuses, setPeakStatuses] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
+    let isMounted = true;
+
     const loadPeakStatuses = async () => {
       const statuses: Record<number, boolean> = {};
       for (const item of priceBreakdown) {
         statuses[item.date.getTime()] = await isPeakSeason(item.date);
       }
-      setPeakStatuses(statuses);
+      if (isMounted) {
+        setPeakStatuses(statuses);
+      }
     };
     loadPeakStatuses();
+
+    return () => {
+      isMounted = false;
+    };
   }, [priceBreakdown]);
 
   return (

@@ -71,6 +71,8 @@ export function BookingSection() {
 
   // Calculate price summary when dates and room type change
   useEffect(() => {
+    let isMounted = true;
+
     const calculatePrice = async () => {
       if (formData.checkIn && formData.checkOut && formData.roomType) {
         const checkIn = new Date(formData.checkIn);
@@ -79,21 +81,31 @@ export function BookingSection() {
 
         if (roomType && checkOut > checkIn) {
           const pricing = await getBookingPrice(roomType, checkIn, checkOut);
-          setPriceSummary({
-            pricePerNight: pricing.basePrice,
-            nights: pricing.nights,
-            totalPrice: pricing.totalPrice,
-            isPeak: pricing.isPeakSeason,
-          });
+          if (isMounted) {
+            setPriceSummary({
+              pricePerNight: pricing.basePrice,
+              nights: pricing.nights,
+              totalPrice: pricing.totalPrice,
+              isPeak: pricing.isPeakSeason,
+            });
+          }
         } else {
-          setPriceSummary(null);
+          if (isMounted) {
+            setPriceSummary(null);
+          }
         }
       } else {
-        setPriceSummary(null);
+        if (isMounted) {
+          setPriceSummary(null);
+        }
       }
     };
 
     calculatePrice();
+
+    return () => {
+      isMounted = false;
+    };
   }, [formData.checkIn, formData.checkOut, formData.roomType]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
