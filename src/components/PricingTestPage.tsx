@@ -11,6 +11,7 @@ import {
   getRoomPricing,
   type RoomType
 } from "@/services/pricing";
+import type { BookingPricing } from "@/types/pricing";
 
 const ROOM_TYPES: RoomType[] = ['suite', 'apartment', 'familyRoom', 'familyRoom2'];
 
@@ -47,7 +48,7 @@ export function PricingTestPage() {
     familyRoom: 0,
     familyRoom2: 0,
   });
-  const [bookingCalc, setBookingCalc] = useState<any>(null);
+  const [bookingCalc, setBookingCalc] = useState<BookingPricing | null>(null);
 
   const parsedTestDate = new Date(testDate);
 

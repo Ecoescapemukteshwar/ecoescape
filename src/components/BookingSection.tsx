@@ -13,6 +13,7 @@ import { sanitizeName, sanitizePhone, sanitizeEmail } from "@/lib/sanitizer";
 import { createWhatsAppMessage, openWhatsAppWithMessage } from "@/services/whatsapp";
 import { trackBookingSubmit, trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/analytics";
 import { getCurrentPrice, formatPrice, getBookingPrice, mapRoomTypeToPricingType } from "@/services/pricing";
+import { useRoomPricing } from "@/hooks/useRoomPricing";
 
 const bookingSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -52,43 +53,13 @@ export function BookingSection() {
     isPeak: boolean;
   } | null>(null);
 
-  // Room prices state
-  const [roomPrices, setRoomPrices] = useState<Record<string, string>>({});
-  const [pricesLoading, setPricesLoading] = useState(true);
-
-  // Load current prices for all rooms on mount
-  useEffect(() => {
-    const loadPrices = async () => {
-      try {
-        const [suitePrice, aptPrice, familyPrice, family2Price] = await Promise.all([
-          getCurrentPrice('suite'),
-          getCurrentPrice('apartment'),
-          getCurrentPrice('familyRoom'),
-          getCurrentPrice('familyRoom2'),
-        ]);
-
-        setRoomPrices({
-          suite: formatPrice(suitePrice),
-          apartment: formatPrice(aptPrice),
-          familyRoom: formatPrice(familyPrice),
-          familyRoom2: formatPrice(family2Price),
-        });
-      } catch (error) {
-        console.error('Failed to load room prices:', error);
-        // Use base prices on error
-        setRoomPrices({
-          suite: formatPrice(3500),
-          apartment: formatPrice(5500),
-          familyRoom: formatPrice(4500),
-          familyRoom2: formatPrice(4000),
-        });
-      } finally {
-        setPricesLoading(false);
-      }
-    };
-
-    loadPrices();
-  }, []);
+  // Load current prices for all rooms using custom hook
+  const { prices: roomPrices, isLoading: pricesLoading } = useRoomPricing([
+    'suite',
+    'apartment',
+    'familyRoom',
+    'familyRoom2'
+  ]);
 
   // Dynamic room options with current pricing
   const roomOptions = useMemo(() => [

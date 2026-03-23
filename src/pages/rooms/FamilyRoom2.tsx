@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
@@ -10,66 +10,29 @@ import { ArrowLeft, Users, Maximize, Eye, BedDouble, Coffee, Wifi, Droplets, Shi
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { getCurrentPrice, formatPrice, getBasePrice } from "@/services/pricing";
+import { useRoomPricing } from "@/hooks/useRoomPricing";
 
 export default function FamilyRoom2() {
   const room = getRoomBySlug("family-room-2");
   const allRooms = getAllRooms();
   const relatedRooms = allRooms.filter((r) => r.slug !== "family-room-2").slice(0, 2);
-  const [currentPrice, setCurrentPrice] = useState<string>("₹4,000");
-  const [relatedRoomPrices, setRelatedRoomPrices] = useState<Record<string, string>>({});
-  const [relatedPricesLoading, setRelatedPricesLoading] = useState(true);
 
-  useEffect(() => {
-    const loadPrice = async () => {
-      if (!room) return;
-      const price = await getCurrentPrice(room.roomType);
-      setCurrentPrice(formatPrice(price));
-    };
+  // Get all room types to load (current + related)
+  const allRoomTypes = [room?.roomType, ...relatedRooms.map(r => r.roomType)].filter(Boolean);
 
-    loadPrice();
-  }, [room]);
+  const { prices: allPrices, isLoading: pricesLoading } = useRoomPricing(allRoomTypes);
 
-  // Load related room prices
-  useEffect(() => {
-    let isMounted = true;
+  // Extract current price
+  const currentPrice = room ? allPrices[room.roomType] : formatPrice(getBasePrice('familyRoom2'));
 
-    const loadRelatedPrices = async () => {
-      try {
-        const prices: Record<string, string> = {};
-
-        await Promise.all(
-          relatedRooms.map(async (relatedRoom) => {
-            const price = await getCurrentPrice(relatedRoom.roomType);
-            prices[relatedRoom.slug] = formatPrice(price);
-          })
-        );
-
-        if (isMounted) {
-          setRelatedRoomPrices(prices);
-        }
-      } catch (error) {
-        console.error('Failed to load related room prices:', error);
-        // Fallback to base prices
-        const fallbackPrices: Record<string, string> = {};
-        relatedRooms.forEach((room) => {
-          fallbackPrices[room.slug] = formatPrice(getBasePrice(room.roomType));
-        });
-        if (isMounted) {
-          setRelatedRoomPrices(fallbackPrices);
-        }
-      } finally {
-        if (isMounted) {
-          setRelatedPricesLoading(false);
-        }
-      }
-    };
-
-    loadRelatedPrices();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [relatedRooms]);
+  // Create related room prices object
+  const relatedRoomPrices = useMemo(() => {
+    const prices: Record<string, string> = {};
+    relatedRooms.forEach((relatedRoom) => {
+      prices[relatedRoom.slug] = allPrices[relatedRoom.roomType];
+    });
+    return prices;
+  }, [allPrices, relatedRooms]);
 
   if (!room) return null;
 
@@ -363,7 +326,7 @@ export default function FamilyRoom2() {
                         </p>
                         <div className="flex items-center justify-between">
                           <span className="text-primary font-semibold">
-                            {relatedPricesLoading ? 'Loading...' : relatedPrice}
+                            {pricesLoading ? 'Loading...' : relatedPrice}
                           </span>
                           <span className="text-xs text-muted-foreground">per night</span>
                         </div>

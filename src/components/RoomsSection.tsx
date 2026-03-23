@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
 import { roomsConfig } from "@/config/rooms";
 import { getCurrentPrice, formatPrice, getBasePrice, type RoomType } from "@/services/pricing";
+import { useRoomPricing } from "@/hooks/useRoomPricing";
 
 // Room data without prices (prices added dynamically)
 const roomData = roomsConfig.map((room) => ({
@@ -42,49 +43,19 @@ const propertyHighlights = [
 ];
 
 export function RoomsSection() {
-  const [rooms, setRooms] = useState(() => {
+  // Get room types from roomData
+  const roomTypes = roomData.map(room => room.roomType);
+
+  // Load prices using custom hook
+  const { prices: roomPrices, isLoading } = useRoomPricing(roomTypes);
+
+  // Derive rooms from prices using useMemo
+  const rooms = useMemo(() => {
     return roomData.map((room) => ({
       ...room,
-      price: formatPrice(getBasePrice(room.roomType)),
+      price: roomPrices[room.roomType] || formatPrice(getBasePrice(room.roomType)),
     }));
-  });
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Load prices asynchronously
-  useEffect(() => {
-    let isMounted = true;
-
-    const loadPrices = async () => {
-      try {
-        const roomsWithPrices = await Promise.all(
-          roomData.map(async (room) => {
-            const price = await getCurrentPrice(room.roomType);
-            return {
-              ...room,
-              price: formatPrice(price),
-            };
-          })
-        );
-
-        if (isMounted) {
-          setRooms(roomsWithPrices);
-        }
-      } catch (error) {
-        console.error('Failed to load room prices:', error);
-        // Keep base prices on error
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    loadPrices();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  }, [roomPrices]);
 
   // scrollToBooking removed — booking links handled by room detail pages
 
