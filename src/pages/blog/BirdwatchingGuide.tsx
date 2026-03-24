@@ -244,9 +244,7 @@ export default function BirdwatchingGuide() {
             <Button
               variant="hero"
               size="lg"
-              onClick={() => {
-                window.location.href = "/#booking";
-              }}
+              onClick={navigateToBooking}
             >
               Book Stay for Birdwatching
             </Button>

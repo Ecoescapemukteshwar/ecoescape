@@ -242,9 +242,7 @@ export default function WeekendItinerary() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Your Weekend Stay
                 </Button>

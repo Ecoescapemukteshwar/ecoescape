@@ -144,9 +144,7 @@ export default function MonsoonGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Your Rainy Retreat
                 </Button>

@@ -133,9 +133,7 @@ export default function FamilyVacationGuide() {
             <Button
               variant="hero"
               size="lg"
-              onClick={() => {
-                window.location.href = "/#booking";
-              }}
+              onClick={navigateToBooking}
             >
               Book Family Stay
             </Button>

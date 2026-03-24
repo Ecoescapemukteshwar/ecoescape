@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
@@ -112,7 +113,9 @@ export default function BestResortsInMukteshwar() {
 
         <div className="mt-8 flex gap-4">
           <Button size="lg" onClick={navigateToBooking}>Check Availability</Button>
-          <Button variant="outline" size="lg" onClick={() => window.location.href = "/blog/family-vacation-guide"}>Family Guide</Button>
+          <Button variant="outline" size="lg" asChild>
+            <Link to="/blog/family-vacation-guide">Family Guide</Link>
+          </Button>
         </div>
       </div>
     </BlogPostLayout>

@@ -208,9 +208,7 @@ export default function MukteshwarTempleGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Check Availability
                 </Button>

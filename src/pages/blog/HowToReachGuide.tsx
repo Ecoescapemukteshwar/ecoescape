@@ -177,9 +177,7 @@ export default function HowToReachGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Your Stay
                 </Button>

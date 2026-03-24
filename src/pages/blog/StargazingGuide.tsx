@@ -248,9 +248,7 @@ export default function StargazingGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Your Stay
                 </Button>

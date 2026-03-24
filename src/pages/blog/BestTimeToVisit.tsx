@@ -147,9 +147,7 @@ export default function BestTimeToVisit() {
             <Button
               variant="hero"
               size="lg"
-              onClick={() => {
-                window.location.href = "/#booking";
-              }}
+              onClick={navigateToBooking}
             >
               Check Seasonal Availability
             </Button>

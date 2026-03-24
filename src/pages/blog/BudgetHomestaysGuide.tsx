@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Banknote, MapPin, Coffee } from "lucide-react";
@@ -112,7 +113,9 @@ export default function BudgetHomestaysGuide() {
 
         <div className="mt-8 flex flex-wrap gap-4">
           <Button size="lg" onClick={navigateToBooking}>Check Availability</Button>
-          <Button variant="outline" size="lg" onClick={() => window.location.href = "/blog/mukteshwar-backpacker-guide"}>Read Backpacker Guide</Button>
+          <Button variant="outline" size="lg" asChild>
+            <Link to="/blog/mukteshwar-backpacker-guide">Read Backpacker Guide</Link>
+          </Button>
         </div>
       </div>
     </BlogPostLayout>

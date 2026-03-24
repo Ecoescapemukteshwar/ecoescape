@@ -122,7 +122,9 @@ export default function PetFriendlyStays() {
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Button size="lg" onClick={navigateToBooking}>Check Availability</Button>
-              <Button variant="outline" size="lg" onClick={() => window.location.href = "/blog/family-vacation-guide"}>Family Travel Guide</Button>
+              <Button variant="outline" size="lg" asChild>
+                <Link to="/blog/family-vacation-guide">Family Travel Guide</Link>
+              </Button>
             </div>
           </div>
     </BlogPostLayout>

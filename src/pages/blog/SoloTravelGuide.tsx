@@ -131,9 +131,7 @@ export default function SoloTravelGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Check Solo Rates
                 </Button>

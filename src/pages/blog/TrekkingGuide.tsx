@@ -176,9 +176,7 @@ export default function TrekkingGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Your Adventure
                 </Button>

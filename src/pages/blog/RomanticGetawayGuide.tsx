@@ -130,9 +130,7 @@ export default function RomanticGetawayGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Romantic Suite
                 </Button>

@@ -570,9 +570,7 @@ export default function KumaoniFoodGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Stay with Meals
                 </Button>

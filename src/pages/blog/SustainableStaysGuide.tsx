@@ -111,7 +111,9 @@ export default function SustainableStaysGuide() {
               </p>
               <div className="flex justify-center gap-4">
                 <Button size="lg" onClick={navigateToBooking}>Reserve Now</Button>
-                <Button variant="outline" size="lg" onClick={() => window.location.href = "/blog/fruit-orchards-of-mukteshwar-guide"}>Read Fruit Orchard Guide</Button>
+                <Button variant="outline" size="lg" asChild>
+                  <Link to="/blog/fruit-orchards-of-mukteshwar-guide">Read Fruit Orchard Guide</Link>
+                </Button>
               </div>
             </div>
           </div>

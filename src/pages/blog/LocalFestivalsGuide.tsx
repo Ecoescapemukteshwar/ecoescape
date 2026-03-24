@@ -128,9 +128,7 @@ export default function LocalFestivalsGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Your Cultural Stay
                 </Button>

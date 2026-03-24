@@ -140,9 +140,7 @@ export default function WorkcationGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Join Our Nomad Community
                 </Button>
