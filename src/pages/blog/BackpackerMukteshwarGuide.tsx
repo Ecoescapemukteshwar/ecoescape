@@ -1,10 +1,12 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Wallet, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/backpacker-guide/featured.webp";
 
 export default function BackpackerMukteshwarGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Backpacking Mukteshwar: Budget Stays & Solo Travel Guide (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -77,7 +79,7 @@ export default function BackpackerMukteshwarGuide() {
         <p className="text-muted-foreground">Check out the **Mukteshwar Market** for cozy cafes with stable Wi-Fi and great valley views. Perfect for digital nomads!</p>
 
         <div className="mt-8">
-          <Button size="lg" onClick={() => window.location.href = "/#booking"}>Join the Ecoescape Community</Button>
+          <Button size="lg" onClick={navigateToBooking}>Join the Ecoescape Community</Button>
         </div>
       </div>
     </BlogPostLayout>

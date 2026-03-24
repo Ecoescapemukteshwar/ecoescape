@@ -1,10 +1,12 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Car, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/kainchi-dham/featured.webp";
 
 export default function KainchiDhamToMukteshwar() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Kainchi Dham to Mukteshwar: Distance, Route & Travel Guide (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -100,7 +102,7 @@ export default function KainchiDhamToMukteshwar() {
               Continue your peaceful retreat at <strong>Ecoescape Mukteshwar</strong>. Located in Mukteshwar Village, we offer the perfect post-pilgrimage relaxation with Himalayan views and organic meals.
             </p>
             <div className="mt-8">
-              <Button size="lg" onClick={() => window.location.href = "/#booking"}>Check Availability</Button>
+              <Button size="lg" onClick={navigateToBooking}>Check Availability</Button>
             </div>
           </div>
     </BlogPostLayout>

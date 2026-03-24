@@ -1,10 +1,12 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Car, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/nainital-day-trip/featured.webp";
 
 export default function MukteshwarToNainitalDayTrip() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Mukteshwar to Nainital Day Trip: Distance, Places to Visit & Tips (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -86,7 +88,7 @@ export default function MukteshwarToNainitalDayTrip() {
               After the bustle of Nainital, return to the tranquility of **Ecoescape Mukteshwar**. Enjoy a warm dinner on our terrace as you watch the city lights of the valley below.
             </p>
             <div className="mt-8">
-              <Button size="lg" onClick={() => window.location.href = "/#booking"}>Plan Your Stay</Button>
+              <Button size="lg" onClick={navigateToBooking}>Plan Your Stay</Button>
             </div>
           </div>
     </BlogPostLayout>

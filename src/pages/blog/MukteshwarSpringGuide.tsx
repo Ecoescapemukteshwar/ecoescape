@@ -1,10 +1,12 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Smile, Sun, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/spring-guide/featured.webp";
 
 export default function MukteshwarSpringGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Spring in Mukteshwar: Flowers, Fruit Blossoms & Best Weather (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -76,7 +78,7 @@ export default function MukteshwarSpringGuide() {
             </p>
 
             <div className="mt-8">
-              <Button size="lg" onClick={() => window.location.href = "/#booking"}>Book Your Spring Escape</Button>
+              <Button size="lg" onClick={navigateToBooking}>Book Your Spring Escape</Button>
             </div>
           </div>
     </BlogPostLayout>

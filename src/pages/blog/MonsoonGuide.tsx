@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, CloudRain, Wind, Coffee, Info, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import monsoonFeaturedImg from "@/assets/blog/monsoon/featured.webp";
 
 export default function MonsoonGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Mukteshwar in Monsoon: A Comprehensive Guide to the Misty Mountains",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/monsoon/featured.webp",

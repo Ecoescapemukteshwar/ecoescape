@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Search, Binoculars, MessageCircle, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import birdwatchingFeaturedImg from "@/assets/blog/birdwatching/featured.webp";
 
 export default function BirdwatchingGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Birdwatching in Mukteshwar: A Complete Guide to Himalayan Avian Diversity",
     image: birdwatchingFeaturedImg,

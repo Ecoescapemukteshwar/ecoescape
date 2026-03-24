@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Backpack, ShoppingBag, Thermometer, Footprints, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import packingFeaturedImg from "@/assets/blog/packing-list/featured.webp";
 
 export default function PackingListGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Ultimate Packing List for Mukteshwar: Essentials for Every Season (2026)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/packing-list/featured.webp",

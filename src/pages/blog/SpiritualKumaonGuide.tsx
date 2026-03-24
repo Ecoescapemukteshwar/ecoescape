@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Sparkles, Send } from "lucide-react";
@@ -6,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/spiritual-kumaon/featured.webp";
 
 export default function SpiritualKumaonGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Spiritual Kumaon: Mukteshwar Dham & Jageshwar Dham Guide (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -85,7 +87,7 @@ export default function SpiritualKumaonGuide() {
               <p className="text-muted-foreground mb-6">
                 After your spiritual exploration, find sanctuary in our east-facing rooms. We can help arrange guides and taxis for your Jageshwar trip.
               </p>
-              <Button size="lg" onClick={() => window.location.href = "/#booking"}>Book Your Spiritual Retreat</Button>
+              <Button size="lg" onClick={navigateToBooking}>Book Your Spiritual Retreat</Button>
             </div>
           </div>
     </BlogPostLayout>

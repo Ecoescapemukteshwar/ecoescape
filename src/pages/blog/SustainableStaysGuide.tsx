@@ -1,11 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Leaf, Sun, Recycle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import featuredImg from "@/assets/blog/sustainable-stays/featured.webp";
 
+const SUSTAINABLE_FEATURES = [
+  { icon: <Sun className="h-6 w-6 text-primary" />, title: "Solar Powered", desc: "Ecoescape Mukteshwar utilizes solar energy for lighting and water heating." },
+  { icon: <Leaf className="h-6 w-6 text-primary" />, title: "Organic Farming", desc: "Enjoy fresh farm-to-table meals grown in our own kitchen garden." },
+  { icon: <Recycle className="h-6 w-6 text-primary" />, title: "Zero Plastic", desc: "Commitment to minimizing plastic waste through reusable options and local sourcing." },
+];
+
 export default function SustainableStaysGuide() {
+  const { navigateToBooking } = useBookingNavigation();
+
   const articleSchema = generateArticleSchema({
     headline: "Eco-Friendly & Sustainable Stays in Mukteshwar: A Conscious Traveler’s Guide",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -22,11 +32,7 @@ export default function SustainableStaysGuide() {
     { name: "Sustainable Stays in Mukteshwar" },
   ]);
 
-  const sustainableFeatures = [
-    { icon: <Sun className="h-6 w-6 text-primary" />, title: "Solar Powered", desc: "Ecoescape Mukteshwar utilizes solar energy for lighting and water heating." },
-    { icon: <Leaf className="h-6 w-6 text-primary" />, title: "Organic Farming", desc: "Enjoy fresh farm-to-table meals grown in our own kitchen garden." },
-    { icon: <Recycle className="h-6 w-6 text-primary" />, title: "Zero Plastic", desc: "Commitment to minimizing plastic waste through reusable options and local sourcing." },
-  ];
+  const sustainableFeatures = SUSTAINABLE_FEATURES;
 
   return (
     <BlogPostLayout
@@ -104,7 +110,7 @@ export default function SustainableStaysGuide() {
                 Ready to experience luxury that doesn't cost the earth? Reserve your room at Ecoescape Mukteshwar today.
               </p>
               <div className="flex justify-center gap-4">
-                <Button size="lg" onClick={() => window.location.href = "/#booking"}>Reserve Now</Button>
+                <Button size="lg" onClick={navigateToBooking}>Reserve Now</Button>
                 <Button variant="outline" size="lg" onClick={() => window.location.href = "/blog/fruit-orchards-of-mukteshwar-guide"}>Read Fruit Orchard Guide</Button>
               </div>
             </div>

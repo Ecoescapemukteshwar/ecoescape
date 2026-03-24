@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Phone, MessageCircle, Mountain, Trees, Sparkles, Zap } from "lucide-react";
@@ -13,6 +14,7 @@ import deodarForestImg from "@/assets/blog/things-to-do/deodar-forest.webp";
 import fruitOrchardImg from "@/assets/blog/things-to-do/fruit-orchard.webp";
 
 export default function ThingsToDoInMukteshwar() {
+  const { navigateToBooking } = useBookingNavigation();
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "15 Best Places to Visit in Mukteshwar: Tourism & Sightseeing Guide (2026)",

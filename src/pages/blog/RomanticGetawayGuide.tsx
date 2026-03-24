@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Heart, Flame, Star, Sparkles, Phone, MessageCircle } from "lucide-react";
@@ -7,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import romanticFeaturedImg from "@/assets/blog/romantic/featured.webp";
 
 export default function RomanticGetawayGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Romantic Getaway in Mukteshwar: Best Spots for Couples in 2026",

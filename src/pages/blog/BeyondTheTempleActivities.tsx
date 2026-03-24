@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Mountain, Sparkles, Map, Trees, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import beyondTempleFeaturedImg from "@/assets/blog/beyond-temple/featured.webp";
 
 export default function BeyondTheTempleActivities() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "10 Things to Do in Mukteshwar Beyond the Temple (2026 Guide)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/beyond-temple/featured.webp",

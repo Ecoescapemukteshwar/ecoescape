@@ -1,11 +1,22 @@
 import { Link } from "react-router-dom";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Dog, Trees, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/pet-friendly/featured.webp";
 
+const PET_FRIENDLY_PICKS = [
+  { name: "Ecoescape Mukteshwar", note: "Spacious lawns and pet-friendly rooms with sunrise views.", category: "Boutique" },
+  { name: "The Colonel's Cottage", note: "Fenced gardens where dogs can play safely.", category: "Cottage" },
+  { name: "The Birdcage", note: "Known for being extremely welcoming to pets of all sizes.", category: "Luxury" },
+  { name: "Sitla Estate", note: "Perfect for long walks through the forest trails.", category: "Heritage" },
+  { name: "GoStops Mukteshwar", note: "A budget-friendly choice that allows pets in private rooms.", category: "Budget" },
+];
+
 export default function PetFriendlyStays() {
+  const { navigateToBooking } = useBookingNavigation();
+
   const articleSchema = generateArticleSchema({
     headline: "Pet-Friendly Stays in Mukteshwar: Top Hotels & Cottages for Your Furry Friends",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -22,13 +33,7 @@ export default function PetFriendlyStays() {
     { name: "Pet Friendly Stays in Mukteshwar" },
   ]);
 
-  const petFriendlyPicks = [
-    { name: "Ecoescape Mukteshwar", note: "Spacious lawns and pet-friendly rooms with sunrise views.", category: "Boutique" },
-    { name: "The Colonel's Cottage", note: "Fenced gardens where dogs can play safely.", category: "Cottage" },
-    { name: "The Birdcage", note: "Known for being extremely welcoming to pets of all sizes.", category: "Luxury" },
-    { name: "Sitla Estate", note: "Perfect for long walks through the forest trails.", category: "Heritage" },
-    { name: "GoStops Mukteshwar", note: "A budget-friendly choice that allows pets in private rooms.", category: "Budget" },
-  ];
+  const petFriendlyPicks = PET_FRIENDLY_PICKS;
 
   return (
     <BlogPostLayout
@@ -116,7 +121,7 @@ export default function PetFriendlyStays() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <Button size="lg" onClick={() => window.location.href = "/#booking"}>Check Availability</Button>
+              <Button size="lg" onClick={navigateToBooking}>Check Availability</Button>
               <Button variant="outline" size="lg" onClick={() => window.location.href = "/blog/family-vacation-guide"}>Family Travel Guide</Button>
             </div>
           </div>

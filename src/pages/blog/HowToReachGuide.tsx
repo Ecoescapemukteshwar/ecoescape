@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Train, Car, Bus, Info, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import howToReachFeaturedImg from "@/assets/blog/how-to-reach/featured.webp";
 
 export default function HowToReachGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "How to Reach Mukteshwar: Delhi to Mukteshwar Distance & Travel Guide (2026)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/how-to-reach/featured.webp",

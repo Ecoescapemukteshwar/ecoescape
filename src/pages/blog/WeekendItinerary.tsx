@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Camera, Sunrise, Utensils, MessageCircle, Info, Tent } from "lucide-react";
@@ -7,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import itineraryFeaturedImg from "@/assets/blog/itinerary/featured.webp";
 
 export default function WeekendItinerary() {
+  const { navigateToBooking } = useBookingNavigation();
 
   // Article Schema
   const articleSchema = generateArticleSchema({

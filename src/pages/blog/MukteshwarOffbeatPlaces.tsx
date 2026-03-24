@@ -1,10 +1,12 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Compass, MapPin, Trees } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/offbeat-places/featured.webp";
 
 export default function MukteshwarOffbeatPlaces() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Offbeat Mukteshwar: 7 Hidden Gems Away from the Crowds (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -78,7 +80,7 @@ export default function MukteshwarOffbeatPlaces() {
               <p className="text-sm text-muted-foreground mb-4">
                 Stay at **Ecoescape Mukteshwar** and our local team will share the secret pins to the 4 other hidden spots only locals know about!
               </p>
-              <Button onClick={() => window.location.href = "/#booking"}>Plan Your Journey</Button>
+              <Button onClick={navigateToBooking}>Plan Your Journey</Button>
             </div>
           </div>
     </BlogPostLayout>

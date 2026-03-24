@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Sun, CloudRain, Snowflake, ThermometerSun, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import bestTimeFeaturedImg from "@/assets/blog/best-time-to-visit/featured.webp";
 
 export default function BestTimeToVisit() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Best Time to Visit Mukteshwar: A Month-by-Month Guide (2026)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/best-time-to-visit/featured.webp",

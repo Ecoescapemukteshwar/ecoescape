@@ -1,10 +1,12 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Mountain, Waves } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/bhalu-gaad/featured.webp";
 
 export default function BhaluGaadWaterfallTrek() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Bhalu Gaad Waterfall Trek: Mukteshwar's Hidden Gem (2026 Guide)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -83,7 +85,7 @@ export default function BhaluGaadWaterfallTrek() {
         </ul>
 
         <div className="mt-8">
-          <Button size="lg" onClick={() => window.location.href = "/#booking"}>Stay Nearby at Ecoescape</Button>
+          <Button size="lg" onClick={navigateToBooking}>Stay Nearby at Ecoescape</Button>
         </div>
       </div>
     </BlogPostLayout>

@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Star, Moon, Telescope, Camera, MessageCircle, Sparkles } from "lucide-react";
@@ -7,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import stargazingFeaturedImg from "@/assets/blog/stargazing/featured.webp";
 
 export default function StargazingGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Stargazing in Mukteshwar: A Complete Guide to the Night Sky at Ecoescape",

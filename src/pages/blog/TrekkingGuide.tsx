@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MessageCircle, Mountain, Timer, CheckCircle2 } from "lucide-react";
@@ -45,6 +46,7 @@ const trekkingTrails = [
 ];
 
 export default function TrekkingGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Mukteshwar Trekking Guide: 5 Best Trails for Adventure & Nature Lovers",
     image: "https://ecoescapemukteshwar.com/assets/blog/trekking/featured.png",

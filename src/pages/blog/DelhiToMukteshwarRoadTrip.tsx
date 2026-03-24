@@ -1,10 +1,12 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Car, MapPin, Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/delhi-road-trip/featured.webp";
 
 export default function DelhiToMukteshwarRoadTrip() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Delhi to Mukteshwar Road Trip Guide: Best Route, Stops & Tips (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -81,7 +83,7 @@ export default function DelhiToMukteshwarRoadTrip() {
         </ul>
 
         <div className="mt-8">
-          <Button size="lg" onClick={() => window.location.href = "/#booking"}>Book Your Safe Stay at Ecoescape</Button>
+          <Button size="lg" onClick={navigateToBooking}>Book Your Safe Stay at Ecoescape</Button>
         </div>
       </div>
     </BlogPostLayout>

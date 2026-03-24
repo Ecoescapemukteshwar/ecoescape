@@ -2,9 +2,20 @@ import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Home, Star, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import featuredImg from "@/assets/blog/best-homestays/featured.webp";
 
+const HOMESTAYS = [
+  { name: "Ecoescape Mukteshwar", location: "Mukteshwar Village", highlight: "180-degree Himalayan views & Organic meals", price: "Premium" },
+  { name: "The Birdcage", location: "Leti Bunga", highlight: "Boutique experience & Gourmet food", price: "High-end" },
+  { name: "Himnadi Homestay", location: "Sargakhet", highlight: "Budget-friendly & Local host", price: "Budget" },
+  { name: "Sitla Estate", location: "Sitla", highlight: "Heritage vibe & Fruit orchards", price: "Premium" },
+  { name: "The Colonel's Cottage", location: "Bhatelia", highlight: "Quiet location & Garden", price: "Mid-range" },
+];
+
 export default function BestHomestaysGuide() {
+  const { navigateToBooking } = useBookingNavigation();
+
   const articleSchema = generateArticleSchema({
     headline: "10 Best Homestays in Mukteshwar with Himalayan Views (2026 Guide)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -21,13 +32,7 @@ export default function BestHomestaysGuide() {
     { name: "Best Homestays in Mukteshwar" },
   ]);
 
-  const homestays = [
-    { name: "Ecoescape Mukteshwar", location: "Mukteshwar Village", highlight: "180-degree Himalayan views & Organic meals", price: "Premium" },
-    { name: "The Birdcage", location: "Leti Bunga", highlight: "Boutique experience & Gourmet food", price: "High-end" },
-    { name: "Himnadi Homestay", location: "Sargakhet", highlight: "Budget-friendly & Local host", price: "Budget" },
-    { name: "Sitla Estate", location: "Sitla", highlight: "Heritage vibe & Fruit orchards", price: "Premium" },
-    { name: "The Colonel's Cottage", location: "Bhatelia", highlight: "Quiet location & Garden", price: "Mid-range" },
-  ];
+  const homestays = HOMESTAYS;
 
   return (
     <BlogPostLayout
@@ -102,7 +107,7 @@ export default function BestHomestaysGuide() {
         </div>
 
         <div className="mt-8 flex flex-wrap gap-4">
-          <Button size="lg" onClick={() => window.location.href = "/#booking"}>Book Your Stay</Button>
+          <Button size="lg" onClick={navigateToBooking}>Book Your Stay</Button>
           <Button variant="outline" size="lg" onClick={() => window.location.href = "/blog"}>Explore More Guides</Button>
         </div>
       </div>

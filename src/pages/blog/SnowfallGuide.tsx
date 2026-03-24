@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Snowflake, Thermometer, Info, MessageCircle } from "lucide-react";
@@ -7,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import snowfallFeaturedImg from "@/assets/blog/snowfall/featured.webp";
 
 export default function SnowfallGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Snowfall in Mukteshwar: Your Ultimate Guide to a Winter Wonderland Experience",

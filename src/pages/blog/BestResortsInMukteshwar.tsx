@@ -1,10 +1,21 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/best-resorts/featured.webp";
 
+const RESORTS = [
+  { name: "Lemon Tree Mukteshwar", type: "Luxury", feature: "Modern amenities & Spa", dist: "10km from Temple" },
+  { name: "Justa Mukteshwar Retreat", type: "Premium", feature: "Himalayan views & Luxury", dist: "8km from Temple" },
+  { name: "Ecoescape Mukteshwar", type: "Boutique", feature: "Sustainable, Home-cooked meals, Sunrise views", dist: "7km from Temple" },
+  { name: "Digantaa Resort", type: "Deluxe", feature: "Spacious rooms & Garden", dist: "12km from Temple" },
+  { name: "GoStops Mukteshwar", type: "Budget", feature: "Social vibe, Dorms available", dist: "2km from Temple" },
+];
+
 export default function BestResortsInMukteshwar() {
+  const { navigateToBooking } = useBookingNavigation();
+
   const articleSchema = generateArticleSchema({
     headline: "10 Best Resorts in Mukteshwar: Luxury to Budget Stays (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -21,13 +32,7 @@ export default function BestResortsInMukteshwar() {
     { name: "Best Resorts in Mukteshwar" },
   ]);
 
-  const resorts = [
-    { name: "Lemon Tree Mukteshwar", type: "Luxury", feature: "Modern amenities & Spa", dist: "10km from Temple" },
-    { name: "Justa Mukteshwar Retreat", type: "Premium", feature: "Himalayan views & Luxury", dist: "8km from Temple" },
-    { name: "Ecoescape Mukteshwar", type: "Boutique", feature: "Sustainable, Home-cooked meals, Sunrise views", dist: "7km from Temple" },
-    { name: "Digantaa Resort", type: "Deluxe", feature: "Spacious rooms & Garden", dist: "12km from Temple" },
-    { name: "GoStops Mukteshwar", type: "Budget", feature: "Social vibe, Dorms available", dist: "2km from Temple" },
-  ];
+  const resorts = RESORTS;
 
   return (
     <BlogPostLayout
@@ -106,7 +111,7 @@ export default function BestResortsInMukteshwar() {
         </div>
 
         <div className="mt-8 flex gap-4">
-          <Button size="lg" onClick={() => window.location.href = "/#booking"}>Check Availability</Button>
+          <Button size="lg" onClick={navigateToBooking}>Check Availability</Button>
           <Button variant="outline" size="lg" onClick={() => window.location.href = "/blog/family-vacation-guide"}>Family Guide</Button>
         </div>
       </div>

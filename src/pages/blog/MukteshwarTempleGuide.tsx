@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { siteConfig } from "@/config/site";
 const heroSunriseImg = "/images/hero-sunrise.webp";
 
 export default function MukteshwarTempleGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Mukteshwar Dham Temple: A Guide to Mukteshwar Mahadev Mandir (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",

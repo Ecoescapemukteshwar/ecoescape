@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Phone, Sun, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -33,6 +34,7 @@ const harvestSeasons = [
 ];
 
 export default function FruitOrchardsGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Fruit Orchards of Mukteshwar: A Guide to Apple, Peach & Plum Seasons",
     image: "https://ecoescapemukteshwar.com/assets/blog/fruit-orchards/featured.png",

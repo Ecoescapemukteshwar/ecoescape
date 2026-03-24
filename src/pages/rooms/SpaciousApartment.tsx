@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
@@ -11,6 +12,7 @@ import { siteConfig } from "@/config/site";
 import { getCurrentPrice, formatPrice } from "@/services/pricing";
 
 export default function SpaciousApartment() {
+  const { navigateToBooking } = useBookingNavigation();
   const room = getRoomBySlug("spacious-apartment");
   const allRooms = getAllRooms();
   const relatedRooms = allRooms.filter((r) => r.slug !== "spacious-apartment").slice(0, 2);
@@ -142,9 +144,7 @@ export default function SpaciousApartment() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Check Availability
                 </Button>

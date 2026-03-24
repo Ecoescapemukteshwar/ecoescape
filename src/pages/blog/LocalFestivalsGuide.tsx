@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Music, Star, Landmark, Heart, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import festivalsFeaturedImg from "@/assets/blog/festivals/featured.webp";
 
 export default function LocalFestivalsGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Local Festivals & Culture in Mukteshwar: A Kumaoni Heritage Guide",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/festivals/featured.webp",

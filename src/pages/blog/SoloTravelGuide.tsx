@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Shield, Compass, Sunrise, Phone, MessageCircle } from "lucide-react";
@@ -7,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import soloFeaturedImg from "@/assets/blog/solo/featured.webp";
 
 export default function SoloTravelGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Solo Travel in Mukteshwar: A Safe and Serene Guide for Adventurers",

@@ -2,9 +2,20 @@ import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Banknote, MapPin, Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import featuredImg from "@/assets/blog/budget-stays/featured.webp";
 
+const BUDGET_PICKS = [
+  { name: "Himnadi Homestay", location: "Sargakhet", price: "Starting at ₹1,500/night", highlight: "Authentic local host and great views." },
+  { name: "GoStops Mukteshwar", location: "Near Temple", price: "Starting at ₹800/night (Dorms)", highlight: "Perfect for budget solo travelers." },
+  { name: "The Colonel's Cottage (Budget Rooms)", location: "Bhatelia", price: "Starting at ₹2,200/night", highlight: "Quiet location and great food." },
+  { name: "Zostel Mukteshwar", location: "Sitla", price: "Starting at ₹900/night (Dorms)", highlight: "Legendary backpacker vibe." },
+  { name: "Ecoescape Mukteshwar (Dormitory/Small Rooms)", location: "Mukteshwar Village", price: "Check for Seasonal Rates", highlight: "Sustainable living and sunrise views." },
+];
+
 export default function BudgetHomestaysGuide() {
+  const { navigateToBooking } = useBookingNavigation();
+
   const articleSchema = generateArticleSchema({
     headline: "Top 5 Budget-Friendly Homestays in Mukteshwar for Solo Travelers & Backpackers",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -21,13 +32,7 @@ export default function BudgetHomestaysGuide() {
     { name: "Budget Homestays in Mukteshwar" },
   ]);
 
-  const budgetPicks = [
-    { name: "Himnadi Homestay", location: "Sargakhet", price: "Starting at ₹1,500/night", highlight: "Authentic local host and great views." },
-    { name: "GoStops Mukteshwar", location: "Near Temple", price: "Starting at ₹800/night (Dorms)", highlight: "Perfect for budget solo travelers." },
-    { name: "The Colonel's Cottage (Budget Rooms)", location: "Bhatelia", price: "Starting at ₹2,200/night", highlight: "Quiet location and great food." },
-    { name: "Zostel Mukteshwar", location: "Sitla", price: "Starting at ₹900/night (Dorms)", highlight: "Legendary backpacker vibe." },
-    { name: "Ecoescape Mukteshwar (Dormitory/Small Rooms)", location: "Mukteshwar Village", price: "Check for Seasonal Rates", highlight: "Sustainable living and sunrise views." },
-  ];
+  const budgetPicks = BUDGET_PICKS;
 
   return (
     <BlogPostLayout
@@ -106,7 +111,7 @@ export default function BudgetHomestaysGuide() {
         </div>
 
         <div className="mt-8 flex flex-wrap gap-4">
-          <Button size="lg" onClick={() => window.location.href = "/#booking"}>Check Availability</Button>
+          <Button size="lg" onClick={navigateToBooking}>Check Availability</Button>
           <Button variant="outline" size="lg" onClick={() => window.location.href = "/blog/mukteshwar-backpacker-guide"}>Read Backpacker Guide</Button>
         </div>
       </div>

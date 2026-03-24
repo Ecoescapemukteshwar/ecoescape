@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, generateRestaurantSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Utensils, Coffee, Star, MapPin, Phone, MessageCircle, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { siteConfig } from "@/config/site";
 import cafesFeaturedImg from "@/assets/blog/cafes/featured.webp";
 
 export default function CafesAndRestaurantsGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Best Cafes in Mukteshwar: A Foodie's Guide to Mountain Dining",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/cafes/featured.webp",

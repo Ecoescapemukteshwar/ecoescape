@@ -1,10 +1,12 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, BookOpen, MapPin, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/temple-history/featured.webp";
 
 export default function MukteshwarMahadevHistory() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "History & Myth: The Legend of Mukteshwar Mahadev Mandir (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -83,7 +85,7 @@ export default function MukteshwarMahadevHistory() {
             <h2 className="text-2xl font-serif font-semibold text-foreground mt-10 mb-4">Plan Your Visit</h2>
             <p className="text-muted-foreground">Stay at <strong>Ecoescape Mukteshwar</strong>, just 7 km from the temple, and experience the same spiritual peace from our sunrise terrace.</p>
             <div className="mt-8">
-              <Button size="lg" onClick={() => window.location.href = "/#booking"}>Experience Divine Peace</Button>
+              <Button size="lg" onClick={navigateToBooking}>Experience Divine Peace</Button>
             </div>
           </div>
     </BlogPostLayout>

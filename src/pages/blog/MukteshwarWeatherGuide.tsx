@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MessageCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ const weatherData = [
 ];
 
 export default function MukteshwarWeatherGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Mukteshwar Weather Today & Month-by-Month Temperature Guide (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",

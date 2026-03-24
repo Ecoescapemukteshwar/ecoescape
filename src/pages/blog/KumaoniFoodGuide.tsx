@@ -1,4 +1,5 @@
 import { Calendar, Clock, Phone, MessageCircle, Utensils, ChefHat, Leaf, Star, Flame } from "lucide-react";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
@@ -9,6 +10,7 @@ import bonfireDiningImg from "@/assets/blog/kumaoni-food-guide/bonfire-dining.we
 import traditionalFoodImg from "@/assets/blog/kumaoni-food-guide/traditional-food.webp";
 
 export default function KumaoniFoodGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Kumaoni Food Guide: Traditional Cuisine & Dining in Mukteshwar",
