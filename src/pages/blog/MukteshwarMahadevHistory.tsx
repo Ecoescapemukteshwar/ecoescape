@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, BookOpen, MapPin, Sparkles } from "lucide-react";
+import { Calendar, Clock, BookOpen, MapPin, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/temple-history/featured.png";
+import featuredImg from "@/assets/blog/temple-history/featured.webp";
 
 export default function MukteshwarMahadevHistory() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "History & Myth: The Legend of Mukteshwar Mahadev Mandir (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -26,21 +24,19 @@ export default function MukteshwarMahadevHistory() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="History of Mukteshwar Mahadev Mandir | Legends & Stories (2026)"
-        description="Discover the sacred history of Mukteshwar Dham. Read the legend of the Mukti-Ishwar, the story of Chauli Ki Jali, and the 350-year heritage of the Kumaon hills."
-        canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-mahadev-temple-history"
-        keywords="mukteshwar mahadev history, mukteshwar temple legends, mukteshwar dham temple, chauli ki jali myth, Uttarakhand temple history"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="h-4 w-4" /> Back to Blog
-          </Link>
-          <header className="mb-10">
+    <BlogPostLayout
+      meta={{
+        title: "History of Mukteshwar Mahadev Mandir | Legends & Stories (2026)",
+        description: "Discover the sacred history of Mukteshwar Dham. Read the legend of the Mukti-Ishwar, the story of Chauli Ki Jali, and the 350-year heritage of the Kumaon hills.",
+        canonical: "https://ecoescapemukteshwar.com/blog/mukteshwar-mahadev-temple-history",
+        keywords: "mukteshwar mahadev history, mukteshwar temple legends, mukteshwar dham temple, chauli ki jali myth, Uttarakhand temple history",
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema,
+      }}
+    >
+      <header className="mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">History & Heritage</span>
             <h1 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mt-3 mb-4 leading-tight">
               History & Myth: The Legend of Mukteshwar Mahadev Mandir (2026)
@@ -89,13 +85,9 @@ export default function MukteshwarMahadevHistory() {
             <h2 className="text-2xl font-serif font-semibold text-foreground mt-10 mb-4">Plan Your Visit</h2>
             <p className="text-muted-foreground">Stay at <strong>Ecoescape Mukteshwar</strong>, just 7 km from the temple, and experience the same spiritual peace from our sunrise terrace.</p>
             <div className="mt-8">
-              <Button size="lg" onClick={() => window.location.href = "/#booking"}>Experience Divine Peace</Button>
+              <Button size="lg" onClick={navigateToBooking}>Experience Divine Peace</Button>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

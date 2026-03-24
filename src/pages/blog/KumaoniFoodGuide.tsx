@@ -1,18 +1,16 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
-import { generateArticleSchema, generateBreadcrumbSchema, generateRestaurantSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, Phone, MessageCircle, Utensils, ChefHat, Leaf, Star, Flame } from "lucide-react";
+import { Calendar, Clock, Phone, MessageCircle, Utensils, ChefHat, Leaf, Star, Flame } from "lucide-react";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { generateArticleSchema, generateBreadcrumbSchema, generateRestaurantSchema, formatDateForSchema } from "@/lib/schema";
 import kumaoniThaliImg from "@/assets/blog/kumaoni-food-guide/kumaoni-thali.webp";
 import terraceDiningImg from "@/assets/blog/kumaoni-food-guide/terrace-dining.webp";
 import bonfireDiningImg from "@/assets/blog/kumaoni-food-guide/bonfire-dining.webp";
 import traditionalFoodImg from "@/assets/blog/kumaoni-food-guide/traditional-food.webp";
 
 export default function KumaoniFoodGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Kumaoni Food Guide: Traditional Cuisine & Dining in Mukteshwar",
@@ -42,25 +40,19 @@ export default function KumaoniFoodGuide() {
   const restaurantSchema = generateRestaurantSchema();
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Kumaoni Food Guide | Authentic Traditional Cuisine & Dining Mukteshwar"
-        description="Savor the taste of the Himalayas. Discover 12 must-try Kumaoni dishes, from Bhat ki Churkani to Bal Mithai, and experience authentic terrace dining at Ecoescape."
-        canonical="https://ecoescapemukteshwar.com/blog/kumaoni-food-guide"
-        keywords="Kumaoni food, Mukteshwar restaurants, Uttarakhand cuisine, traditional Kumaoni dishes, Kumaoni thali, bhat ki churkani, bal mithai, kafuli, baadi, Kumaon food culture, authentic Kumaoni food, where to eat in Mukteshwar, Himalayan cuisine"
-        jsonLd={[articleSchema, breadcrumbSchema, restaurantSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          {/* Breadcrumb */}
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
+    <BlogPostLayout
+      meta={{
+        title: "Kumaoni Food Guide | Authentic Traditional Cuisine & Dining Mukteshwar",
+        description: "Savor the taste of the Himalayas. Discover 12 must-try Kumaoni dishes, from Bhat ki Churkani to Bal Mithai, and experience authentic terrace dining at Ecoescape.",
+        canonical: "https://ecoescapemukteshwar.com/blog/kumaoni-food-guide",
+        keywords: "Kumaoni food, Mukteshwar restaurants, Uttarakhand cuisine, traditional Kumaoni dishes, Kumaoni thali, bhat ki churkani, bal mithai, kafuli, baadi, Kumaon food culture, authentic Kumaoni food, where to eat in Mukteshwar, Himalayan cuisine",
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema,
+        additional: [restaurantSchema],
+      }}
+    >
 
           {/* Header */}
           <header className="mb-10">
@@ -578,9 +570,7 @@ export default function KumaoniFoodGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Stay with Meals
                 </Button>
@@ -717,10 +707,6 @@ export default function KumaoniFoodGuide() {
               </p>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
-  );
-}
+      </BlogPostLayout>
+    );
+  }
