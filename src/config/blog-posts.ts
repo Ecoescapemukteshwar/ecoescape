@@ -7,6 +7,10 @@ export interface BlogPost {
   image: string;
   imageAlt: string;
   category: string;
+  // SEO-specific fields (optional - defaults will be generated if not provided)
+  metaTitle?: string;
+  metaDescription?: string;
+  keywords?: string;
 }
 
 const heroSunriseImg = "/images/hero-sunrise.webp";

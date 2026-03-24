@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, MapPin, Snowflake, Thermometer, Info, MessageCircle } from "lucide-react";
+import { Calendar, Clock, MapPin, Snowflake, Thermometer, Info, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import snowfallFeaturedImg from "@/assets/blog/snowfall/featured.webp";
@@ -36,25 +33,18 @@ export default function SnowfallGuide() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Snowfall in Mukteshwar | Best Time for Snow & 2026 Winter Guide"
-        description="Plan your winter wonderland escape. Discover the best months for snowfall in Mukteshwar, top viewing spots, and essential winter travel tips for Uttarakhand."
-        canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-snowfall-guide"
-        keywords="Mukteshwar snowfall, snow in Mukteshwar, winter in Mukteshwar, best time for snow in Uttarakhand, Mukteshwar winter guide, snow near Nainital"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          {/* Breadcrumb */}
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
+    <BlogPostLayout
+      meta={{
+        title: "Snowfall in Mukteshwar | Best Time for Snow & 2026 Winter Guide",
+        description: "Plan your winter wonderland escape. Discover the best months for snowfall in Mukteshwar, top viewing spots, and essential winter travel tips for Uttarakhand.",
+        canonical: "https://ecoescapemukteshwar.com/blog/mukteshwar-snowfall-guide",
+        keywords: "Mukteshwar snowfall, snow in Mukteshwar, winter in Mukteshwar, best time for snow in Uttarakhand, Mukteshwar winter guide, snow near Nainital"
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema
+      }}
+    >
 
           {/* Header */}
           <header className="mb-10">
@@ -297,10 +287,6 @@ export default function SnowfallGuide() {
               </details>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

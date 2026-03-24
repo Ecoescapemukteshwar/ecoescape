@@ -1,16 +1,11 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, MapPin, Phone, MessageCircle } from "lucide-react";
+import { Calendar, Clock, MapPin, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 const heroSunriseImg = "/images/hero-sunrise.webp";
 
 export default function MukteshwarTempleGuide() {
-  // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Mukteshwar Dham Temple: A Guide to Mukteshwar Mahadev Mandir (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -28,7 +23,6 @@ export default function MukteshwarTempleGuide() {
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-mahadev-temple-guide",
   });
 
-  // Breadcrumb Schema
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
@@ -36,28 +30,19 @@ export default function MukteshwarTempleGuide() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Mukteshwar Dham Temple | Mukteshwar Mahadev Mandir Guide (2026)"
-        description="Plan your pilgrimage to Mukteshwar Dham. Explore the 350-year-old Mukteshwar Mahadev Mandir, get temple timings, and discover the legend of Chauli Ki Jali."
-        canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-mahadev-temple-guide"
-        keywords="Mukteshwar Dham, Mukteshwar Mahadev Mandir, Mukteshwar temple, Mukteshwar dham temple, Mukteshwar mandir, Uttarakhand spiritual tourism"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          {/* Breadcrumb */}
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
-
-          {/* Header */}
-          <header className="mb-10">
+    <BlogPostLayout
+      meta={{
+        title: "Mukteshwar Dham Temple | Mukteshwar Mahadev Mandir Guide (2026)",
+        description: "Plan your pilgrimage to Mukteshwar Dham. Explore the 350-year-old Mukteshwar Mahadev Mandir, get temple timings, and discover the legend of Chauli Ki Jali.",
+        canonical: "https://ecoescapemukteshwar.com/blog/mukteshwar-mahadev-temple-guide",
+        keywords: "Mukteshwar Dham, Mukteshwar Mahadev Mandir, Mukteshwar temple, Mukteshwar dham temple, Mukteshwar mandir, Uttarakhand spiritual tourism",
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema,
+      }}
+    >
+      <header className="mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">
               Spiritual Tourism
             </span>
@@ -265,10 +250,6 @@ export default function MukteshwarTempleGuide() {
               <li>🙏 The temple is an active place of worship — dress modestly</li>
             </ul>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

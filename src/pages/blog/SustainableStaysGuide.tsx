@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, Leaf, Sun, Recycle } from "lucide-react";
+import { Calendar, Clock, Leaf, Sun, Recycle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/sustainable-stays/featured.webp";
 
@@ -32,20 +29,18 @@ export default function SustainableStaysGuide() {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <PageMeta
-        title="Sustainable & Eco-Friendly Stays in Mukteshwar | 2026 Guide"
-        description="Choose a greener way to travel! Our guide to sustainable stays in Mukteshwar highlights eco-friendly resorts, boutique homestays, and zero-waste travel tips."
-        canonical="https://ecoescapemukteshwar.com/blog/sustainable-stays-in-mukteshwar-guide"
-        keywords="eco friendly stays mukteshwar, sustainable tourism uttarakhand, green resorts mukteshwar, ecoescape mukteshwar, organic stays india"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="h-4 w-4" /> Back to Blog
-          </Link>
+    <BlogPostLayout
+      meta={{
+        title: "Sustainable & Eco-Friendly Stays in Mukteshwar | 2026 Guide",
+        description: "Choose a greener way to travel! Our guide to sustainable stays in Mukteshwar highlights eco-friendly resorts, boutique homestays, and zero-waste travel tips.",
+        canonical: "https://ecoescapemukteshwar.com/blog/sustainable-stays-in-mukteshwar-guide",
+        keywords: "eco friendly stays mukteshwar, sustainable tourism uttarakhand, green resorts mukteshwar, ecoescape mukteshwar, organic stays india"
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema
+      }}
+    >
           <header className="mb-10 text-center">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">Conscious Travel</span>
             <h1 className="text-3xl md:text-5xl font-serif font-semibold text-foreground mt-3 mb-4 leading-tight">
@@ -114,10 +109,6 @@ export default function SustainableStaysGuide() {
               </div>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

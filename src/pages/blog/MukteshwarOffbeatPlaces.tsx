@@ -1,10 +1,6 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, Compass, MapPin, Trees } from "lucide-react";
+import { Calendar, Clock, Compass, MapPin, Trees } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/offbeat-places/featured.webp";
 
@@ -26,21 +22,19 @@ export default function MukteshwarOffbeatPlaces() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Offbeat Places in Mukteshwar | 7 Hidden Gems to Explore (2026)"
-        description="Escape the tourist crowds! Our 2026 guide to offbeat Mukteshwar features secret trails, hidden waterfalls, and quiet Kumaoni villages."
-        canonical="https://ecoescapemukteshwar.com/blog/offbeat-places-in-mukteshwar"
-        keywords="offbeat mukteshwar, hidden places in mukteshwar, offbeat places in Uttarakhand, secret spots mukteshwar, mukteshwar hidden gems"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="h-4 w-4" /> Back to Blog
-          </Link>
-          <header className="mb-10">
+    <BlogPostLayout
+      meta={{
+        title: "Offbeat Places in Mukteshwar | 7 Hidden Gems to Explore (2026)",
+        description: "Escape the tourist crowds! Our 2026 guide to offbeat Mukteshwar features secret trails, hidden waterfalls, and quiet Kumaoni villages.",
+        canonical: "https://ecoescapemukteshwar.com/blog/offbeat-places-in-mukteshwar",
+        keywords: "offbeat mukteshwar, hidden places in mukteshwar, offbeat places in Uttarakhand, secret spots mukteshwar, mukteshwar hidden gems",
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema,
+      }}
+    >
+      <header className="mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">Hidden Gems</span>
             <h1 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mt-3 mb-4 leading-tight">
               Offbeat Mukteshwar: 7 Hidden Gems Away from the Crowds (2026)
@@ -87,10 +81,6 @@ export default function MukteshwarOffbeatPlaces() {
               <Button onClick={() => window.location.href = "/#booking"}>Plan Your Journey</Button>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

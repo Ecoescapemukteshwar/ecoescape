@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, Dog, Trees, Heart } from "lucide-react";
+import { Calendar, Clock, Dog, Trees, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/pet-friendly/featured.webp";
 
@@ -34,20 +31,18 @@ export default function PetFriendlyStays() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Pet-Friendly Stays in Mukteshwar | Best Hotels & Cottages (2026)"
-        description="Traveling with pets? Read our guide to the top pet-friendly stays in Mukteshwar, from cozy cottages with gardens to luxury resorts that welcome furry friends."
-        canonical="https://ecoescapemukteshwar.com/blog/pet-friendly-stays-in-mukteshwar"
-        keywords="pet friendly hotels mukteshwar, dog friendly stays mukteshwar, traveling with pets mukteshwar, pet friendly cottages uttarakhand"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="h-4 w-4" /> Back to Blog
-          </Link>
+    <BlogPostLayout
+      meta={{
+        title: "Pet-Friendly Stays in Mukteshwar | Best Hotels & Cottages (2026)",
+        description: "Traveling with pets? Read our guide to the top pet-friendly stays in Mukteshwar, from cozy cottages with gardens to luxury resorts that welcome furry friends.",
+        canonical: "https://ecoescapemukteshwar.com/blog/pet-friendly-stays-in-mukteshwar",
+        keywords: "pet friendly hotels mukteshwar, dog friendly stays mukteshwar, traveling with pets mukteshwar, pet friendly cottages uttarakhand"
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema
+      }}
+    >
           <header className="mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">Pet Travel</span>
             <h1 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mt-3 mb-4 leading-tight">
@@ -125,10 +120,6 @@ export default function PetFriendlyStays() {
               <Button variant="outline" size="lg" onClick={() => window.location.href = "/blog/family-vacation-guide"}>Family Travel Guide</Button>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

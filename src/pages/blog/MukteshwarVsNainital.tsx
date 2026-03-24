@@ -1,10 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { useNavigate } from "react-router-dom";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, Scale, Users, Wallet, Trees, MessageCircle } from "lucide-react";
+import { Calendar, Clock, Scale, Users, Wallet, Trees, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import vsFeaturedImg from "@/assets/blog/vs-nainital/featured.webp";
@@ -12,7 +9,6 @@ import vsFeaturedImg from "@/assets/blog/vs-nainital/featured.webp";
 export default function MukteshwarVsNainital() {
   const navigate = useNavigate();
 
-  // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Mukteshwar vs Nainital: Which Hill Station Should You Choose? (2026)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/vs-nainital/featured.webp",
@@ -30,7 +26,6 @@ export default function MukteshwarVsNainital() {
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-vs-nainital",
   });
 
-  // Breadcrumb Schema
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
@@ -38,26 +33,19 @@ export default function MukteshwarVsNainital() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Mukteshwar vs Nainital | Comparison Guide 2026"
-        description="Mukteshwar or Nainital? Compare the crowd, prices, and atmosphere of these two hill stations. Find out why Mukteshwar is the preferred choice for a quiet escape."
-        canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-vs-nainital"
-        keywords="Mukteshwar vs Nainital, Mukteshwar or Nainital, best hill stations Uttarakhand, Nainital alternative, quiet hill station near Delhi"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
-
-          <header className="mb-10">
+    <BlogPostLayout
+      meta={{
+        title: "Mukteshwar vs Nainital | Comparison Guide 2026",
+        description: "Mukteshwar or Nainital? Compare the crowd, prices, and atmosphere of these two hill stations. Find out why Mukteshwar is the preferred choice for a quiet escape.",
+        canonical: "https://ecoescapemukteshwar.com/blog/mukteshwar-vs-nainital",
+        keywords: "Mukteshwar vs Nainital, Mukteshwar or Nainital, best hill stations Uttarakhand, Nainital alternative, quiet hill station near Delhi",
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema,
+      }}
+    >
+      <header className="mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">
               Comparison Guide
             </span>
@@ -188,10 +176,6 @@ export default function MukteshwarVsNainital() {
               </div>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

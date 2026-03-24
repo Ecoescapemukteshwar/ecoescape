@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, MapPin, Phone, MessageCircle, Mountain, Trees, Sparkles, Zap } from "lucide-react";
+import { Calendar, Clock, MapPin, Phone, MessageCircle, Mountain, Trees, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import mukteshwarOverviewImg from "@/assets/blog/things-to-do/mukteshwar-overview.webp";
@@ -42,25 +39,18 @@ export default function ThingsToDoInMukteshwar() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="15 Best Places to Visit in Mukteshwar | 2026 Sightseeing Guide"
-        description="Discover the top places to visit in Mukteshwar - from the ancient Mukteshwar Dham to the hidden Bhalu Gaad Waterfall. Your complete 2026 tourist guide."
-        canonical="https://ecoescapemukteshwar.com/blog/things-to-do-in-mukteshwar"
-        keywords="places to visit in mukteshwar, mukteshwar waterfall, bhalu gaad waterfall, things to do in mukteshwar, mukteshwar sightseeing, mukteshwar attractions"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          {/* Breadcrumb */}
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
+    <BlogPostLayout
+      meta={{
+        title: "15 Best Places to Visit in Mukteshwar | 2026 Sightseeing Guide",
+        description: "Discover the top places to visit in Mukteshwar - from the ancient Mukteshwar Dham to the hidden Bhalu Gaad Waterfall. Your complete 2026 tourist guide.",
+        canonical: "https://ecoescapemukteshwar.com/blog/things-to-do-in-mukteshwar",
+        keywords: "places to visit in mukteshwar, mukteshwar waterfall, bhalu gaad waterfall, things to do in mukteshwar, mukteshwar sightseeing, mukteshwar attractions"
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema
+      }}
+    >
 
           {/* Header */}
           <header className="mb-10">
@@ -678,10 +668,6 @@ export default function ThingsToDoInMukteshwar() {
               </p>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

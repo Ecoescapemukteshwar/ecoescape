@@ -1,16 +1,11 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, Music, Star, Landmark, Heart, Phone, MessageCircle } from "lucide-react";
+import { Calendar, Clock, Music, Star, Landmark, Heart, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import festivalsFeaturedImg from "@/assets/blog/festivals/featured.webp";
 
 export default function LocalFestivalsGuide() {
-  // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Local Festivals & Culture in Mukteshwar: A Kumaoni Heritage Guide",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/festivals/featured.webp",
@@ -28,7 +23,6 @@ export default function LocalFestivalsGuide() {
     url: "https://ecoescapemukteshwar.com/blog/local-festivals-and-culture-guide",
   });
 
-  // Breadcrumb Schema
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
@@ -36,26 +30,19 @@ export default function LocalFestivalsGuide() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Local Festivals & Culture in Mukteshwar | Kumaoni Heritage Guide"
-        description="Experience the vibrant soul of the Kumaon hills. Discover Phool Dei, Harela, and the mesmerizing Choliya dance. Your guide to authentic cultural travel in Mukteshwar."
-        canonical="https://ecoescapemukteshwar.com/blog/local-festivals-and-culture-guide"
-        keywords="festivals in Mukteshwar, Kumaoni culture, Phool Dei festival, Harela festival Uttarakhand, Choliya dance, local traditions Mukteshwar"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
-
-          <header className="mb-10">
+    <BlogPostLayout
+      meta={{
+        title: "Local Festivals & Culture in Mukteshwar | Kumaoni Heritage Guide",
+        description: "Experience the vibrant soul of the Kumaon hills. Discover Phool Dei, Harela, and the mesmerizing Choliya dance. Your guide to authentic cultural travel in Mukteshwar.",
+        canonical: "https://ecoescapemukteshwar.com/blog/local-festivals-and-culture-guide",
+        keywords: "festivals in Mukteshwar, Kumaoni culture, Phool Dei festival, Harela festival Uttarakhand, Choliya dance, local traditions Mukteshwar",
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema,
+      }}
+    >
+      <header className="mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">
               Cultural Guide
             </span>
@@ -169,10 +156,6 @@ export default function LocalFestivalsGuide() {
               </div>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

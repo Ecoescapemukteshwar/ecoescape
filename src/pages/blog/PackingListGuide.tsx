@@ -1,16 +1,11 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, Backpack, ShoppingBag, Thermometer, Footprints, Phone, MessageCircle } from "lucide-react";
+import { Calendar, Clock, Backpack, ShoppingBag, Thermometer, Footprints, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import packingFeaturedImg from "@/assets/blog/packing-list/featured.webp";
 
 export default function PackingListGuide() {
-  // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Ultimate Packing List for Mukteshwar: Essentials for Every Season (2026)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/packing-list/featured.webp",
@@ -28,7 +23,6 @@ export default function PackingListGuide() {
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-ultimate-packing-list",
   });
 
-  // Breadcrumb Schema
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
@@ -36,26 +30,19 @@ export default function PackingListGuide() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Ultimate Mukteshwar Packing List | 2026 Seasonal Travel Essentials"
-        description="Don't leave without the essentials. Discover what to pack for Mukteshwar, including layer-by-layer clothing advice and trekking gear for the Kumaon hills."
-        canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-ultimate-packing-list"
-        keywords="packing list for Mukteshwar, travel essentials Uttarakhand, what to wear in Mukteshwar, trekking gear for Himalayas, packing for mountain trip India"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
-
-          <header className="mb-10">
+    <BlogPostLayout
+      meta={{
+        title: "Ultimate Mukteshwar Packing List | 2026 Seasonal Travel Essentials",
+        description: "Don't leave without the essentials. Discover what to pack for Mukteshwar, including layer-by-layer clothing advice and trekking gear for the Kumaon hills.",
+        canonical: "https://ecoescapemukteshwar.com/blog/mukteshwar-ultimate-packing-list",
+        keywords: "packing list for Mukteshwar, travel essentials Uttarakhand, what to wear in Mukteshwar, trekking gear for Himalayas, packing for mountain trip India",
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema,
+      }}
+    >
+      <header className="mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">
               Travel Checklist
             </span>
@@ -183,10 +170,6 @@ export default function PackingListGuide() {
               </div>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }
