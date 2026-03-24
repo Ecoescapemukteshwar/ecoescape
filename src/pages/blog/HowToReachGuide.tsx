@@ -1,19 +1,16 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, MapPin, Train, Car, Bus, Info, Phone, MessageCircle } from "lucide-react";
+import { Calendar, Clock, MapPin, Train, Car, Bus, Info, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import howToReachFeaturedImg from "@/assets/blog/how-to-reach/featured.png";
+import howToReachFeaturedImg from "@/assets/blog/how-to-reach/featured.webp";
 
 export default function HowToReachGuide() {
-  // Article Schema
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "How to Reach Mukteshwar: Delhi to Mukteshwar Distance & Travel Guide (2026)",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/how-to-reach/featured.png",
+    image: "https://ecoescapemukteshwar.com/src/assets/blog/how-to-reach/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
       "@type": "Organization",
@@ -28,7 +25,6 @@ export default function HowToReachGuide() {
     url: "https://ecoescapemukteshwar.com/blog/how-to-reach-mukteshwar-guide",
   });
 
-  // Breadcrumb Schema
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
@@ -36,26 +32,19 @@ export default function HowToReachGuide() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Delhi to Mukteshwar Distance | How to Reach Mukteshwar (2026 Guide)"
-        description="Complete 2026 guide on reaching Mukteshwar. Includes Delhi to Mukteshwar distance, Kathgodam train schedules, taxi fares, and routes from Kainchi Dham."
-        canonical="https://ecoescapemukteshwar.com/blog/how-to-reach-mukteshwar-guide"
-        keywords="delhi to mukteshwar distance, mukteshwar distance, how to reach mukteshwar, kainchi dham to mukteshwar distance, delhi to kathgodam train, kathgodam to mukteshwar taxi"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
-
-          <header className="mb-10">
+    <BlogPostLayout
+      meta={{
+        title: "Delhi to Mukteshwar Distance | How to Reach Mukteshwar (2026 Guide)",
+        description: "Complete 2026 guide on reaching Mukteshwar. Includes Delhi to Mukteshwar distance, Kathgodam train schedules, taxi fares, and routes from Kainchi Dham.",
+        canonical: "https://ecoescapemukteshwar.com/blog/how-to-reach-mukteshwar-guide",
+        keywords: "delhi to mukteshwar distance, mukteshwar distance, how to reach mukteshwar, kainchi dham to mukteshwar distance, delhi to kathgodam train, kathgodam to mukteshwar taxi",
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema,
+      }}
+    >
+      <header className="mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">
               Travel & Logistics
             </span>
@@ -188,9 +177,7 @@ export default function HowToReachGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Your Stay
                 </Button>
@@ -251,10 +238,6 @@ export default function HowToReachGuide() {
               </details>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

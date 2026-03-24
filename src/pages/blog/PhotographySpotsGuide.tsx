@@ -1,19 +1,18 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, Camera, CameraIcon, Sun, MapPin, Phone, MessageCircle } from "lucide-react";
+import { Calendar, Clock, Camera, CameraIcon, Sun, MapPin, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import photographyFeaturedImg from "@/assets/blog/photography/featured.png";
+import photographyFeaturedImg from "@/assets/blog/photography/featured.webp";
 
 export default function PhotographySpotsGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "10 Best Photography Spots in Mukteshwar: Capturing the Himalayan Soul",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/photography/featured.png",
+    image: "https://ecoescapemukteshwar.com/src/assets/blog/photography/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
       "@type": "Organization",
@@ -36,24 +35,18 @@ export default function PhotographySpotsGuide() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="10 Best Photography Spots in Mukteshwar | 2026 Himalayan Landscape Guide"
-        description="Capture the soul of the Himalayas. Discover the top 10 photography spots in Mukteshwar, from the dramatic cliffs of Chauli Ki Jali to golden hour at Ecoescape."
-        canonical="https://ecoescapemukteshwar.com/blog/best-photography-spots-in-mukteshwar"
-        keywords="photography spots in Mukteshwar, best views in Mukteshwar, Himalayan landscape photography, Chauli Ki Jali photography, sunset spots Mukteshwar"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
+    <BlogPostLayout
+      meta={{
+        title: "10 Best Photography Spots in Mukteshwar | 2026 Himalayan Landscape Guide",
+        description: "Capture the soul of the Himalayas. Discover the top 10 photography spots in Mukteshwar, from the dramatic cliffs of Chauli Ki Jali to golden hour at Ecoescape.",
+        canonical: "https://ecoescapemukteshwar.com/blog/best-photography-spots-in-mukteshwar",
+        keywords: "photography spots in Mukteshwar, best views in Mukteshwar, Himalayan landscape photography, Chauli Ki Jali photography, sunset spots Mukteshwar"
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema
+      }}
+    >
 
           <header className="mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">
@@ -157,9 +150,7 @@ export default function PhotographySpotsGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Your Stay
                 </Button>
@@ -187,10 +178,6 @@ export default function PhotographySpotsGuide() {
               </div>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

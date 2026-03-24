@@ -1,15 +1,14 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, MapPin, Camera, Sunrise, Utensils, MessageCircle, Info, Tent } from "lucide-react";
+import { Calendar, Clock, MapPin, Camera, Sunrise, Utensils, MessageCircle, Info, Tent } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import itineraryFeaturedImg from "@/assets/blog/itinerary/featured.png";
+import itineraryFeaturedImg from "@/assets/blog/itinerary/featured.webp";
 
 export default function WeekendItinerary() {
+  const { navigateToBooking } = useBookingNavigation();
 
   // Article Schema
   const articleSchema = generateArticleSchema({
@@ -37,25 +36,18 @@ export default function WeekendItinerary() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Mukteshwar 2-Day Itinerary | Ultimate 2026 Weekend Getaway Guide"
-        description="Maximize your 48 hours in the hills. Plan the perfect 2-day trip to Mukteshwar with our detailed itinerary covering adventure, temples, and the best Himalayan views."
-        canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-weekend-itinerary"
-        keywords="Mukteshwar itinerary, 2 days in Mukteshwar, Mukteshwar weekend trip, Delhi to Mukteshwar getaway, things to do in Mukteshwar, Mukteshwar travel guide"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          {/* Breadcrumb */}
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
+    <BlogPostLayout
+      meta={{
+        title: "Mukteshwar 2-Day Itinerary | Ultimate 2026 Weekend Getaway Guide",
+        description: "Maximize your 48 hours in the hills. Plan the perfect 2-day trip to Mukteshwar with our detailed itinerary covering adventure, temples, and the best Himalayan views.",
+        canonical: "https://ecoescapemukteshwar.com/blog/mukteshwar-weekend-itinerary",
+        keywords: "Mukteshwar itinerary, 2 days in Mukteshwar, Mukteshwar weekend trip, Delhi to Mukteshwar getaway, things to do in Mukteshwar, Mukteshwar travel guide"
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema
+      }}
+    >
 
           {/* Header */}
           <header className="mb-10">
@@ -250,9 +242,7 @@ export default function WeekendItinerary() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Your Weekend Stay
                 </Button>
@@ -272,10 +262,6 @@ export default function WeekendItinerary() {
               </div>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }
