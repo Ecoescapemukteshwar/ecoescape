@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, Leaf, Sun, Recycle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/sustainable-stays/featured.png";
+import featuredImg from "@/assets/blog/sustainable-stays/featured.webp";
 
 export default function SustainableStaysGuide() {
   const articleSchema = generateArticleSchema({

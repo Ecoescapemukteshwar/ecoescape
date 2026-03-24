@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, Dog, Trees, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/pet-friendly/featured.png";
+import featuredImg from "@/assets/blog/pet-friendly/featured.webp";
 
 export default function PetFriendlyStays() {
   const articleSchema = generateArticleSchema({

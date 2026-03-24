@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, MapPin, Car, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/kainchi-dham/featured.png";
+import featuredImg from "@/assets/blog/kainchi-dham/featured.webp";
 
 export default function KainchiDhamToMukteshwar() {
   const articleSchema = generateArticleSchema({

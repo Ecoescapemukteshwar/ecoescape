@@ -7,7 +7,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, MessageCircle, Mountain, Timer, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import trekkingFeaturedImg from "@/assets/blog/trekking/featured.png";
+import trekkingFeaturedImg from "@/assets/blog/trekking/featured.webp";
 
 const trekkingTrails = [
   {

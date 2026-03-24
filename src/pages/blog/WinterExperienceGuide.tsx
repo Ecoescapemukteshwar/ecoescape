@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
@@ -7,13 +7,15 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, Snowflake, Thermometer, Coffee, Home, MessageCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import winterFeaturedImg from "@/assets/blog/winter-experience/featured.png";
+import winterFeaturedImg from "@/assets/blog/winter-experience/featured.webp";
 
 export default function WinterExperienceGuide() {
+  const navigate = useNavigate();
+
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Mukteshwar in Winter: Snowfall, Cozy Stays & What to Expect (2026)",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/winter-experience/featured.png",
+    image: "https://ecoescapemukteshwar.com/src/assets/blog/winter-experience/featured.webp",
     datePublished: formatDateForSchema("March 24, 2026"),
     author: {
       "@type": "Organization",
@@ -77,7 +79,7 @@ export default function WinterExperienceGuide() {
               src={winterFeaturedImg}
               alt="Cozy homestay in Mukteshwar covered in snow with Himalayan views"
               className="w-full h-auto"
-              loading="eager"
+              loading="lazy"
               width="1200"
               height="675"
             />
@@ -144,7 +146,7 @@ export default function WinterExperienceGuide() {
                   variant="hero"
                   size="lg"
                   onClick={() => {
-                    window.location.href = "/#booking";
+                    navigate('/#booking');
                   }}
                 >
                   Book Your Winter Stay
@@ -164,7 +166,7 @@ export default function WinterExperienceGuide() {
                   variant="outline"
                   size="lg"
                   onClick={() => {
-                    window.location.href = `tel:${siteConfig.phone}`;
+                    window.open(`tel:${siteConfig.phone}`, "_self");
                   }}
                 >
                   <Phone className="h-5 w-5" />

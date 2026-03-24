@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, Home, Star, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/best-homestays/featured.png";
+import featuredImg from "@/assets/blog/best-homestays/featured.webp";
 
 export default function BestHomestaysGuide() {
   const articleSchema = generateArticleSchema({

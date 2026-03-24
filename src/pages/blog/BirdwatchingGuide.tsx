@@ -7,7 +7,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, MapPin, Search, Binoculars, MessageCircle, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import birdwatchingFeaturedImg from "@/assets/blog/birdwatching/featured.png";
+import birdwatchingFeaturedImg from "@/assets/blog/birdwatching/featured.webp";
 
 export default function BirdwatchingGuide() {
   // Article Schema

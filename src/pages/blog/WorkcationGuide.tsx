@@ -7,13 +7,13 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, Wifi, Zap, Coffee, Shield, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import workcationFeaturedImg from "@/assets/blog/workcation/featured.png";
+import workcationFeaturedImg from "@/assets/blog/workcation/featured.webp";
 
 export default function WorkcationGuide() {
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Workcation in Mukteshwar: A Digital Nomad's Guide to Working from the Hills",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/workcation/featured.png",
+    image: "https://ecoescapemukteshwar.com/src/assets/blog/workcation/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
       "@type": "Organization",

@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, Smile, Sun, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/spring-guide/featured.png";
+import featuredImg from "@/assets/blog/spring-guide/featured.webp";
 
 export default function MukteshwarSpringGuide() {
   const articleSchema = generateArticleSchema({

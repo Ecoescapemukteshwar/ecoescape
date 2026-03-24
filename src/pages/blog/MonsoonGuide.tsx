@@ -7,13 +7,13 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, CloudRain, Wind, Coffee, Info, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import monsoonFeaturedImg from "@/assets/blog/monsoon/featured.png";
+import monsoonFeaturedImg from "@/assets/blog/monsoon/featured.webp";
 
 export default function MonsoonGuide() {
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Mukteshwar in Monsoon: A Comprehensive Guide to the Misty Mountains",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/monsoon/featured.png",
+    image: "https://ecoescapemukteshwar.com/src/assets/blog/monsoon/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
       "@type": "Organization",

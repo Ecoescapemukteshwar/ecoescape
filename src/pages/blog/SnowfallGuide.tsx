@@ -7,7 +7,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, MapPin, Snowflake, Thermometer, Info, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import snowfallFeaturedImg from "@/assets/blog/snowfall/featured.png";
+import snowfallFeaturedImg from "@/assets/blog/snowfall/featured.webp";
 
 export default function SnowfallGuide() {
   // Article Schema

@@ -7,13 +7,13 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, Heart, Flame, Star, Sparkles, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import romanticFeaturedImg from "@/assets/blog/romantic/featured.png";
+import romanticFeaturedImg from "@/assets/blog/romantic/featured.webp";
 
 export default function RomanticGetawayGuide() {
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Romantic Getaway in Mukteshwar: Best Spots for Couples in 2026",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/romantic/featured.png",
+    image: "https://ecoescapemukteshwar.com/src/assets/blog/romantic/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
       "@type": "Organization",

@@ -7,13 +7,13 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, Shield, Compass, Sunrise, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import soloFeaturedImg from "@/assets/blog/solo/featured.png";
+import soloFeaturedImg from "@/assets/blog/solo/featured.webp";
 
 export default function SoloTravelGuide() {
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Solo Travel in Mukteshwar: A Safe and Serene Guide for Adventurers",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/solo/featured.png",
+    image: "https://ecoescapemukteshwar.com/src/assets/blog/solo/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
       "@type": "Organization",

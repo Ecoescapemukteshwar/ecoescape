@@ -7,7 +7,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, Phone, Sun, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import orchardsFeaturedImg from "@/assets/blog/fruit-orchards/featured.png";
+import orchardsFeaturedImg from "@/assets/blog/fruit-orchards/featured.webp";
 
 const harvestSeasons = [
   {

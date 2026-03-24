@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, BookOpen, MapPin, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/temple-history/featured.png";
+import featuredImg from "@/assets/blog/temple-history/featured.webp";
 
 export default function MukteshwarMahadevHistory() {
   const articleSchema = generateArticleSchema({

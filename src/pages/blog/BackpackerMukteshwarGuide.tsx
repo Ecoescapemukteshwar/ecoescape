@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, Wallet, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/backpacker-guide/featured.png";
+import featuredImg from "@/assets/blog/backpacker-guide/featured.webp";
 
 export default function BackpackerMukteshwarGuide() {
   const articleSchema = generateArticleSchema({

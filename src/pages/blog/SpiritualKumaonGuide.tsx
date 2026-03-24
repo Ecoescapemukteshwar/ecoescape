@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, Sparkles, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/spiritual-kumaon/featured.png";
+import featuredImg from "@/assets/blog/spiritual-kumaon/featured.webp";
 
 export default function SpiritualKumaonGuide() {
   const articleSchema = generateArticleSchema({

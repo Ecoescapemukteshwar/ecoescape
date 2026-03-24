@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, Banknote, MapPin, Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/budget-stays/featured.png";
+import featuredImg from "@/assets/blog/budget-stays/featured.webp";
 
 export default function BudgetHomestaysGuide() {
   const articleSchema = generateArticleSchema({

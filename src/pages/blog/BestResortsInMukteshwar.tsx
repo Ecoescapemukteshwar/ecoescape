@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/best-resorts/featured.png";
+import featuredImg from "@/assets/blog/best-resorts/featured.webp";
 
 export default function BestResortsInMukteshwar() {
   const articleSchema = generateArticleSchema({

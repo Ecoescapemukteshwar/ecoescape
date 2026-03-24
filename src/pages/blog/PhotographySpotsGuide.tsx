@@ -7,13 +7,13 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, Camera, CameraIcon, Sun, MapPin, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import photographyFeaturedImg from "@/assets/blog/photography/featured.png";
+import photographyFeaturedImg from "@/assets/blog/photography/featured.webp";
 
 export default function PhotographySpotsGuide() {
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "10 Best Photography Spots in Mukteshwar: Capturing the Himalayan Soul",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/photography/featured.png",
+    image: "https://ecoescapemukteshwar.com/src/assets/blog/photography/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
       "@type": "Organization",

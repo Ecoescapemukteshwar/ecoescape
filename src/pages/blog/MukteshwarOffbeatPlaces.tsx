@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, Compass, MapPin, Trees } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/offbeat-places/featured.png";
+import featuredImg from "@/assets/blog/offbeat-places/featured.webp";
 
 export default function MukteshwarOffbeatPlaces() {
   const articleSchema = generateArticleSchema({

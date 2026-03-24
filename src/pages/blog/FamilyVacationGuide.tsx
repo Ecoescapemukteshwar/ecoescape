@@ -7,13 +7,13 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, Gift, Smile, Trees, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import familyFeaturedImg from "@/assets/blog/family/featured.png";
+import familyFeaturedImg from "@/assets/blog/family/featured.webp";
 
 export default function FamilyVacationGuide() {
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Mukteshwar Family Vacation: Best Activities for Kids and Seniors",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/family/featured.png",
+    image: "https://ecoescapemukteshwar.com/src/assets/blog/family/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
       "@type": "Organization",

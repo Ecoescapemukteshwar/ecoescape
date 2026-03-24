@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
@@ -7,13 +7,15 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, Mountain, Sparkles, Map, Trees, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import beyondTempleFeaturedImg from "@/assets/blog/beyond-temple/featured.png";
+import beyondTempleFeaturedImg from "@/assets/blog/beyond-temple/featured.webp";
 
 export default function BeyondTheTempleActivities() {
+  const navigate = useNavigate();
+
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "10 Things to Do in Mukteshwar Beyond the Temple (2026 Guide)",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/beyond-temple/featured.png",
+    image: "https://ecoescapemukteshwar.com/src/assets/blog/beyond-temple/featured.webp",
     datePublished: formatDateForSchema("March 24, 2026"),
     author: {
       "@type": "Organization",
@@ -77,7 +79,7 @@ export default function BeyondTheTempleActivities() {
               src={beyondTempleFeaturedImg}
               alt="Group of trekkers walking through a pine forest with Himalayan views"
               className="w-full h-auto"
-              loading="eager"
+              loading="lazy"
               width="1200"
               height="675"
             />
@@ -169,7 +171,7 @@ export default function BeyondTheTempleActivities() {
                   variant="hero"
                   size="lg"
                   onClick={() => {
-                    window.location.href = "/#booking";
+                    navigate('/#booking');
                   }}
                 >
                   Book Your Experience

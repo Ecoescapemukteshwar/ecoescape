@@ -6,7 +6,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { ArrowLeft, Calendar, Clock, MapPin, Car, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/nainital-day-trip/featured.png";
+import featuredImg from "@/assets/blog/nainital-day-trip/featured.webp";
 
 export default function MukteshwarToNainitalDayTrip() {
   const articleSchema = generateArticleSchema({

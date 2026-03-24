@@ -7,7 +7,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, Star, Moon, Telescope, Camera, MessageCircle, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import stargazingFeaturedImg from "@/assets/blog/stargazing/featured.png";
+import stargazingFeaturedImg from "@/assets/blog/stargazing/featured.webp";
 
 export default function StargazingGuide() {
   // Article Schema

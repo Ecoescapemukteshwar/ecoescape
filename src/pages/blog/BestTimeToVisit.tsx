@@ -7,13 +7,13 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { ArrowLeft, Calendar, Clock, Sun, CloudRain, Snowflake, ThermometerSun, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import bestTimeFeaturedImg from "@/assets/blog/best-time-to-visit/featured.png";
+import bestTimeFeaturedImg from "@/assets/blog/best-time-to-visit/featured.webp";
 
 export default function BestTimeToVisit() {
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Best Time to Visit Mukteshwar: A Month-by-Month Guide (2026)",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/best-time-to-visit/featured.png",
+    image: "https://ecoescapemukteshwar.com/src/assets/blog/best-time-to-visit/featured.webp",
     datePublished: formatDateForSchema("March 24, 2026"),
     author: {
       "@type": "Organization",
