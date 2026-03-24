@@ -46,6 +46,14 @@ const SuiteWithMountainView = lazy(() => import("./pages/rooms/SuiteWithMountain
 const SpaciousApartment = lazy(() => import("./pages/rooms/SpaciousApartment"));
 const FamilyRoom = lazy(() => import("./pages/rooms/FamilyRoom"));
 const FamilyRoom2 = lazy(() => import("./pages/rooms/FamilyRoom2"));
+const BestHomestaysGuide = lazy(() => import("./pages/blog/BestHomestaysGuide"));
+const PetFriendlyStays = lazy(() => import("./pages/blog/PetFriendlyStays"));
+const SustainableStaysGuide = lazy(() => import("./pages/blog/SustainableStaysGuide"));
+const BudgetHomestaysGuide = lazy(() => import("./pages/blog/BudgetHomestaysGuide"));
+const WinterExperienceGuide = lazy(() => import("./pages/blog/WinterExperienceGuide"));
+const MukteshwarVsNainital = lazy(() => import("./pages/blog/MukteshwarVsNainital"));
+const BestTimeToVisit = lazy(() => import("./pages/blog/BestTimeToVisit"));
+const BeyondTheTempleActivities = lazy(() => import("./pages/blog/BeyondTheTempleActivities"));
 
 const queryClient = new QueryClient();
 
@@ -95,6 +103,14 @@ const App = () => (
             <Route path="/rooms/spacious-apartment" element={<Suspense fallback={<div className="min-h-screen" />}><SpaciousApartment /></Suspense>} />
             <Route path="/rooms/family-room" element={<Suspense fallback={<div className="min-h-screen" />}><FamilyRoom /></Suspense>} />
             <Route path="/rooms/family-room-2" element={<Suspense fallback={<div className="min-h-screen" />}><FamilyRoom2 /></Suspense>} />
+            <Route path="/blog/best-homestays-in-mukteshwar-with-himalayan-views" element={<Suspense fallback={<div className="min-h-screen" />}><BestHomestaysGuide /></Suspense>} />
+            <Route path="/blog/pet-friendly-stays-in-mukteshwar" element={<Suspense fallback={<div className="min-h-screen" />}><PetFriendlyStays /></Suspense>} />
+            <Route path="/blog/sustainable-stays-in-mukteshwar-guide" element={<Suspense fallback={<div className="min-h-screen" />}><SustainableStaysGuide /></Suspense>} />
+            <Route path="/blog/budget-friendly-homestays-mukteshwar-solo-travel" element={<Suspense fallback={<div className="min-h-screen" />}><BudgetHomestaysGuide /></Suspense>} />
+            <Route path="/blog/mukteshwar-in-winter" element={<Suspense fallback={<div className="min-h-screen" />}><WinterExperienceGuide /></Suspense>} />
+            <Route path="/blog/mukteshwar-vs-nainital" element={<Suspense fallback={<div className="min-h-screen" />}><MukteshwarVsNainital /></Suspense>} />
+            <Route path="/blog/best-time-to-visit-mukteshwar-guide" element={<Suspense fallback={<div className="min-h-screen" />}><BestTimeToVisit /></Suspense>} />
+            <Route path="/blog/things-to-do-in-mukteshwar-beyond-temple" element={<Suspense fallback={<div className="min-h-screen" />}><BeyondTheTempleActivities /></Suspense>} />
             <Route path="/test-pricing" element={<PricingTestPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

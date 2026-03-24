@@ -34,8 +34,96 @@ import templeHistoryImg from "@/assets/blog/temple-history/featured.png";
 import delhiRoadTripImg from "@/assets/blog/delhi-road-trip/featured.png";
 import offbeatPlacesImg from "@/assets/blog/offbeat-places/featured.png";
 import springGuideImg from "@/assets/blog/spring-guide/featured.png";
+import bestHomestaysImg from "@/assets/blog/best-homestays/featured.png";
+import petFriendlyImg from "@/assets/blog/pet-friendly/featured.png";
+import sustainableStaysImg from "@/assets/blog/sustainable-stays/featured.png";
+import budgetStaysImg from "@/assets/blog/budget-stays/featured.png";
+import winterExperienceImg from "@/assets/blog/winter-experience/featured.png";
+import vsNainitalImg from "@/assets/blog/vs-nainital/featured.png";
+import bestTimeImg from "@/assets/blog/best-time-to-visit/featured.png";
+import beyondTempleImg from "@/assets/blog/beyond-temple/featured.png";
 
 const blogPosts = [
+  {
+    slug: "mukteshwar-in-winter",
+    title: "Mukteshwar in Winter — Snowfall, Cozy Stays & What to Expect",
+    excerpt: "A guide to visiting Mukteshwar during December–February, covering snowfall, temperatures, packing tips, and why cozy boutique homestays are the best choice.",
+    date: "March 24, 2026",
+    readTime: "8 min read",
+    image: winterExperienceImg,
+    imageAlt: "Cozy homestay in Mukteshwar covered in snow with Himalayan views",
+    category: "Seasonal Guide",
+  },
+  {
+    slug: "mukteshwar-vs-nainital",
+    title: "Mukteshwar vs Nainital — Which Hill Station Should You Choose?",
+    excerpt: "An honest side-by-side comparison covering crowd levels, prices, vibe, and activities to help you find your perfect Himalayan getaway.",
+    date: "March 24, 2026",
+    readTime: "9 min read",
+    image: vsNainitalImg,
+    imageAlt: "Comparison of peaceful Mukteshwar trail and busy Nainital lake",
+    category: "Comparison Guide",
+  },
+  {
+    slug: "best-time-to-visit-mukteshwar-guide",
+    title: "Best Time to Visit Mukteshwar — A Month-by-Month Guide",
+    excerpt: "A seasonal breakdown of Mukteshwar throughout the year — spring orchards, monsoon waterfalls, autumn Himalayan views, and winter snow — with honest pros and cons.",
+    date: "March 24, 2026",
+    readTime: "10 min read",
+    image: bestTimeImg,
+    imageAlt: "Seasonal montage of Mukteshwar from blossoms to snow",
+    category: "Planning Guide",
+  },
+  {
+    slug: "things-to-do-in-mukteshwar-beyond-temple",
+    title: "10 Things to Do in Mukteshwar Beyond the Temple",
+    excerpt: "A practical activity guide covering trekking trails, rock climbing, stargazing, fruit picking, and village walks for travelers wanting more than the standard checklist.",
+    date: "March 24, 2026",
+    readTime: "11 min read",
+    image: beyondTempleImg,
+    imageAlt: "Trekkers on a scenic trail in Mukteshwar forests",
+    category: "Activity Guide",
+  },
+  {
+    slug: "best-homestays-in-mukteshwar-with-himalayan-views",
+    title: "10 Best Homestays in Mukteshwar with Himalayan Views (2026 Guide)",
+    excerpt: "Looking for the best homestays in Mukteshwar? Discover 10 top-rated stays offering stunning Himalayan views, home-cooked Kumaoni food, and authentic mountain hospitality.",
+    date: "March 23, 2026",
+    readTime: "7 min read",
+    image: bestHomestaysImg,
+    imageAlt: "Homestay in Mukteshwar with clear view of the Himalayas",
+    category: "Stay Guide",
+  },
+  {
+    slug: "pet-friendly-stays-in-mukteshwar",
+    title: "Pet-Friendly Stays in Mukteshwar: Top Hotels & Cottages (2026)",
+    excerpt: "Planning a trip to Mukteshwar with your pet? Discover the best pet-friendly hotels, cottages, and homestays in Mukteshwar for a comfortable stay with your furry best friend.",
+    date: "March 23, 2026",
+    readTime: "6 min read",
+    image: petFriendlyImg,
+    imageAlt: "Happy dog playing in the mountains of Mukteshwar",
+    category: "Pet Travel",
+  },
+  {
+    slug: "sustainable-stays-in-mukteshwar-guide",
+    title: "Eco-Friendly & Sustainable Stays in Mukteshwar: A 2026 Guide",
+    excerpt: "Looking for eco-friendly stays in Mukteshwar? Discover how sustainable tourism is shaping the Kumaon hills and explore the best green resorts and boutique stays for a conscious escape.",
+    date: "March 23, 2026",
+    readTime: "7 min read",
+    image: sustainableStaysImg,
+    imageAlt: "Sustainable boutique stay in Mukteshwar using natural materials",
+    category: "Conscious Travel",
+  },
+  {
+    slug: "budget-friendly-homestays-mukteshwar-solo-travel",
+    title: "Top 5 Budget-Friendly Homestays in Mukteshwar (2026)",
+    excerpt: "Discover the best budget-friendly homestays and hostels in Mukteshwar. Perfect for solo travelers and backpackers looking for affordable stays with great views.",
+    date: "March 23, 2026",
+    readTime: "5 min read",
+    image: budgetStaysImg,
+    imageAlt: "Cozy budget homestay in Mukteshwar with mountain view",
+    category: "Budget Travel",
+  },
   {
     slug: "kainchi-dham-to-mukteshwar-distance",
     title: "Kainchi Dham to Mukteshwar: Distance, Route & Travel Guide (2026)",
