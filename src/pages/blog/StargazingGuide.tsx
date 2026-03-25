@@ -1,15 +1,14 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { Link } from "react-router-dom"
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
+import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, Star, Moon, Telescope, Camera, MessageCircle, Sparkles } from "lucide-react";
+import { Calendar, Clock, Star, Moon, Telescope, Camera, MessageCircle, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import stargazingFeaturedImg from "@/assets/blog/stargazing/featured.png";
+import stargazingFeaturedImg from "@/assets/blog/stargazing/featured.webp";
 
 export default function StargazingGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   // Article Schema
   const articleSchema = generateArticleSchema({
     headline: "Stargazing in Mukteshwar: A Complete Guide to the Night Sky at Ecoescape",
@@ -36,25 +35,18 @@ export default function StargazingGuide() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Stargazing in Mukteshwar | 2026 Guide to Night Sky & Astro-Tourism"
-        description="Witness the magic of the Milky Way. Your complete guide to stargazing in Mukteshwar, best viewing months, and dark-sky experiences at Ecoescape Mukteshwar."
-        canonical="https://ecoescapemukteshwar.com/blog/stargazing-in-mukteshwar"
-        keywords="stargazing in Mukteshwar, astro-tourism India, night sky Mukteshwar, Milky Way photography Uttarakhand, dark sky retreat, Himalayan astronomy, things to do in Mukteshwar at night"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          {/* Breadcrumb */}
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
+    <BlogPostLayout
+      meta={{
+        title: "Stargazing in Mukteshwar | 2026 Guide to Night Sky & Astro-Tourism",
+        description: "Witness the magic of the Milky Way. Your complete guide to stargazing in Mukteshwar, best viewing months, and dark-sky experiences at Ecoescape Mukteshwar.",
+        canonical: "https://ecoescapemukteshwar.com/blog/stargazing-in-mukteshwar",
+        keywords: "stargazing in Mukteshwar, astro-tourism India, night sky Mukteshwar, Milky Way photography Uttarakhand, dark sky retreat, Himalayan astronomy, things to do in Mukteshwar at night"
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema
+      }}
+    >
 
           {/* Header */}
           <header className="mb-10">
@@ -256,9 +248,7 @@ export default function StargazingGuide() {
                 <Button
                   variant="hero"
                   size="lg"
-                  onClick={() => {
-                    window.location.href = "/#booking";
-                  }}
+                  onClick={navigateToBooking}
                 >
                   Book Your Stay
                 </Button>
@@ -331,10 +321,6 @@ export default function StargazingGuide() {
               </p>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

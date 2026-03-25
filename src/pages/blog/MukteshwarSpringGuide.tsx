@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, Smile, Sun, Sparkles } from "lucide-react";
+import { Calendar, Clock, Smile, Sun, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/spring-guide/featured.png";
+import featuredImg from "@/assets/blog/spring-guide/featured.webp";
 
 export default function MukteshwarSpringGuide() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Spring in Mukteshwar: Flowers, Fruit Blossoms & Best Weather (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -26,21 +24,19 @@ export default function MukteshwarSpringGuide() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Spring in Mukteshwar | 2026 Fruit Blossom & Flower Guide"
-        description="Escape to a floral paradise. Guide to spring in Mukteshwar (March-June). See apple blossoms, apricot flowers, and the botanical garden at Ecoescape."
-        canonical="https://ecoescapemukteshwar.com/blog/spring-in-mukteshwar-guide"
-        keywords="spring in mukteshwar, mukteshwar fruit blossoms, best time to visit mukteshwar, mukteshwar weather april, flower guide mukteshwar"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="h-4 w-4" /> Back to Blog
-          </Link>
-          <header className="mb-10">
+    <BlogPostLayout
+      meta={{
+        title: "Spring in Mukteshwar | 2026 Fruit Blossom & Flower Guide",
+        description: "Escape to a floral paradise. Guide to spring in Mukteshwar (March-June). See apple blossoms, apricot flowers, and the botanical garden at Ecoescape.",
+        canonical: "https://ecoescapemukteshwar.com/blog/spring-in-mukteshwar-guide",
+        keywords: "spring in mukteshwar, mukteshwar fruit blossoms, best time to visit mukteshwar, mukteshwar weather april, flower guide mukteshwar",
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema,
+      }}
+    >
+      <header className="mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">Seasonal Guide</span>
             <h1 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mt-3 mb-4 leading-tight">
               Spring in Mukteshwar: Flowers, Fruit Blossoms & Best Weather (2026)
@@ -82,13 +78,9 @@ export default function MukteshwarSpringGuide() {
             </p>
 
             <div className="mt-8">
-              <Button size="lg" onClick={() => window.location.href = "/#booking"}>Book Your Spring Escape</Button>
+              <Button size="lg" onClick={navigateToBooking}>Book Your Spring Escape</Button>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }

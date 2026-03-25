@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { FloatingCTA } from "@/components/FloatingCTA";
-import { PageMeta } from "@/seo/PageMeta";
+import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
-import { ArrowLeft, Calendar, Clock, MapPin, Car, Camera } from "lucide-react";
+import { Calendar, Clock, MapPin, Car, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import featuredImg from "@/assets/blog/nainital-day-trip/featured.png";
+import featuredImg from "@/assets/blog/nainital-day-trip/featured.webp";
 
 export default function MukteshwarToNainitalDayTrip() {
+  const { navigateToBooking } = useBookingNavigation();
   const articleSchema = generateArticleSchema({
     headline: "Mukteshwar to Nainital Day Trip: Distance, Places to Visit & Tips (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
@@ -26,21 +24,19 @@ export default function MukteshwarToNainitalDayTrip() {
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <PageMeta
-        title="Mukteshwar to Nainital Day Trip Guide | 2026 Sightseeing"
-        description="Everything you need for a Mukteshwar to Nainital day trip. Distance, time, transport rates, and top attractions like Naini Lake and Tiffin Top."
-        canonical="https://ecoescapemukteshwar.com/blog/mukteshwar-to-nainital-day-trip"
-        keywords="mukteshwar to nainital distance, mukteshwar to nainital travel, nainital day trip from mukteshwar, mukteshwar nainital tourism, nainital sightseeing"
-        jsonLd={[articleSchema, breadcrumbSchema]}
-      />
-      <Header />
-      <main className="pt-28 pb-20">
-        <article className="container max-w-3xl">
-          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="h-4 w-4" /> Back to Blog
-          </Link>
-          <header className="mb-10">
+    <BlogPostLayout
+      meta={{
+        title: "Mukteshwar to Nainital Day Trip Guide | 2026 Sightseeing",
+        description: "Everything you need for a Mukteshwar to Nainital day trip. Distance, time, transport rates, and top attractions like Naini Lake and Tiffin Top.",
+        canonical: "https://ecoescapemukteshwar.com/blog/mukteshwar-to-nainital-day-trip",
+        keywords: "mukteshwar to nainital distance, mukteshwar to nainital travel, nainital day trip from mukteshwar, mukteshwar nainital tourism, nainital sightseeing",
+      }}
+      schema={{
+        article: articleSchema,
+        breadcrumb: breadcrumbSchema,
+      }}
+    >
+      <header className="mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">Travel Guide</span>
             <h1 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mt-3 mb-4 leading-tight">
               Mukteshwar to Nainital Day Trip: The Ultimate 2026 Guide
@@ -92,13 +88,9 @@ export default function MukteshwarToNainitalDayTrip() {
               After the bustle of Nainital, return to the tranquility of **Ecoescape Mukteshwar**. Enjoy a warm dinner on our terrace as you watch the city lights of the valley below.
             </p>
             <div className="mt-8">
-              <Button size="lg" onClick={() => window.location.href = "/#booking"}>Plan Your Stay</Button>
+              <Button size="lg" onClick={navigateToBooking}>Plan Your Stay</Button>
             </div>
           </div>
-        </article>
-      </main>
-      <Footer />
-      <FloatingCTA />
-    </div>
+    </BlogPostLayout>
   );
 }
