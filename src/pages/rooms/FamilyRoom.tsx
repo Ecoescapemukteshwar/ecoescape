@@ -9,7 +9,8 @@ import { getRoomBySlug, getAllRooms } from "@/config/rooms";
 import { ArrowLeft, Users, Maximize, Eye, BedDouble, Coffee, Wifi, Droplets, Shield, Phone, MessageCircle, MapPin, Star, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { getCurrentPrice, formatPrice } from "@/services/pricing";
+import { formatPrice, getBasePrice } from "@/services/pricing";
+import { useRoomPricing } from "@/hooks/useRoomPricing";
 
 export default function FamilyRoom() {
   const { navigateToBooking } = useBookingNavigation();
@@ -17,9 +18,24 @@ export default function FamilyRoom() {
   const allRooms = getAllRooms();
   const relatedRooms = allRooms.filter((r) => r.slug !== "family-room").slice(0, 2);
 
-  if (!room) return null;
+  // Get all room types to load (current + related)
+  const allRoomTypes = [room?.roomType, ...relatedRooms.map(r => r.roomType)].filter(Boolean);
 
-  const currentPrice = formatPrice(getCurrentPrice(room.roomType));
+  const { prices: allPrices, isLoading: pricesLoading } = useRoomPricing(allRoomTypes);
+
+  // Extract current price
+  const currentPrice = room ? allPrices[room.roomType] : formatPrice(getBasePrice('familyRoom'));
+
+  // Create related room prices object
+  const relatedRoomPrices = useMemo(() => {
+    const prices: Record<string, string> = {};
+    relatedRooms.forEach((relatedRoom) => {
+      prices[relatedRoom.slug] = allPrices[relatedRoom.roomType];
+    });
+    return prices;
+  }, [allPrices, relatedRooms]);
+
+  if (!room) return null;
 
   // LodgingReservation Schema
   const lodgingSchema = generateLodgingReservationSchema({
@@ -289,7 +305,7 @@ export default function FamilyRoom() {
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {relatedRooms.map((relatedRoom) => {
-                  const relatedPrice = formatPrice(getCurrentPrice(relatedRoom.roomType));
+                  const relatedPrice = relatedRoomPrices[relatedRoom.slug] || formatPrice(getBasePrice(relatedRoom.roomType));
                   return (
                     <Link
                       key={relatedRoom.slug}
@@ -309,7 +325,9 @@ export default function FamilyRoom() {
                           {relatedRoom.shortDescription}
                         </p>
                         <div className="flex items-center justify-between">
-                          <span className="text-primary font-semibold">{relatedPrice}</span>
+                          <span className="text-primary font-semibold">
+                            {pricesLoading ? 'Loading...' : relatedPrice}
+                          </span>
                           <span className="text-xs text-muted-foreground">per night</span>
                         </div>
                       </div>

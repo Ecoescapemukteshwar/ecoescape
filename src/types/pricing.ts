@@ -1,5 +1,24 @@
 export type RoomType = 'suite' | 'apartment' | 'familyRoom' | 'familyRoom2';
 
+export interface MonthlyModifier {
+  weekday: number;
+  weekend: number;
+}
+
+export interface PricingModifiersConfig {
+  monthlyModifiers: Record<string, MonthlyModifier>;
+  weights: {
+    monthly: number;
+    weekend: number;
+    demand: number;
+  };
+  metadata?: {
+    description: string;
+    lastUpdated: string;
+    note?: string;
+  };
+}
+
 export interface DateRange {
   start: number;
   end: number;
@@ -35,5 +54,15 @@ export interface BookingPricing {
   priceBreakdown: Array<{
     date: Date;
     price: number;
+  }>;
+}
+
+export interface BookingPricingWithDemand extends BookingPricing {
+  demandMultiplier: number;
+  priceBreakdown: Array<{
+    date: Date;
+    price: number;
+    markup: number;
+    demandMult: number;
   }>;
 }

@@ -20,6 +20,14 @@ vi.mock("react-router-dom", async () => {
         {children}
       </a>
     ),
+    useLocation: () => ({
+      pathname: "/",
+      search: "",
+      hash: "",
+      state: null,
+      key: "default",
+    }),
+    useNavigate: () => vi.fn(),
   };
 });
 
@@ -36,7 +44,7 @@ describe("Header", () => {
 
   it("renders phone number", () => {
     render(<Header />);
-    expect(screen.getByText("+91 96678 46787")).toBeInTheDocument();
+    expect(screen.getAllByText("+91 96678 46787")).toHaveLength(2);
   });
 
   it("renders WhatsApp button", () => {
