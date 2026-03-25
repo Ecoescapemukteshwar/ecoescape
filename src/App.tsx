@@ -36,19 +36,17 @@ const queryClient = new QueryClient();
 const App = () => {
   // Initialize demand multiplier on app startup
   useEffect(() => {
-    initializeDemandMultiplier().then(multiplier => {
-      if (multiplier !== 1.0) {
-        console.log('✅ Demand multiplier initialized:', multiplier);
-      }
-    });
+    initializeDemandMultiplier();
   }, []);
+
+  const isDev = import.meta.env.DEV;
 
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <Analytics />
-          <SpeedInsights />
+          {!isDev && <Analytics />}
+          {!isDev && <SpeedInsights />}
           <Toaster />
           <Sonner />
           <BrowserRouter>

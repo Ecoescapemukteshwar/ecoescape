@@ -29,12 +29,6 @@ export function HeroSection() {
           fetchPriority="high"
           width={1920}
           height={1080}
-          sizes="100vw"
-          srcSet={`
-            /images/hero-sunrise.webp 1920w,
-            /images/hero-sunrise.webp 1280w,
-            /images/hero-sunrise.webp 640w
-          `}
         />
         <div className="absolute inset-0 bg-hero-overlay" />
       </div>

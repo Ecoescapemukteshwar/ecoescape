@@ -208,14 +208,11 @@ export function BookingSection() {
       })
         .then((response) => {
           if (response.ok) {
-            console.log("Formspree submission successful");
-          } else {
-            console.error("Formspree submission failed:", response.status, response.statusText);
+            // Success
           }
         })
-        .catch((error) => {
-          // Silent error logging for debugging - doesn't affect user
-          console.error("Formspree background submission failed:", error);
+        .catch(() => {
+          // Silent failure
         });
 
     } catch (error) {

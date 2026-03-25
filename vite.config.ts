@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
-export default defineConfig(async ({ mode }) => {
+export default defineConfig(({ mode }) => {
   const prerenderPlugin = null; // Temporarily disabled due to ESM/require issue in the plugin
 
   return {
@@ -77,69 +77,61 @@ export default defineConfig(async ({ mode }) => {
         injectRegister: false,
         selfDestroying: false
       }),
-      prerenderPlugin && (prerenderPlugin as unknown)({
+      prerenderPlugin && (prerenderPlugin as any)({
         staticDir: path.join(__dirname, "dist"),
         routes: [
           "/",
           "/blog",
-          "/blog/kumaoni-food-guide",
-          "/blog/things-to-do-in-mukteshwar",
-          "/blog/mukteshwar-mahadev-temple-guide",
-          "/blog/mukteshwar-weather-guide",
-          "/blog/stargazing-in-mukteshwar",
-          "/blog/birdwatching-in-mukteshwar-guide",
-          "/blog/mukteshwar-trekking-guide",
-          "/blog/fruit-orchards-of-mukteshwar-guide",
-          "/blog/mukteshwar-snowfall-guide",
-          "/blog/mukteshwar-weekend-itinerary",
-          "/blog/how-to-reach-mukteshwar-guide",
-          "/blog/best-cafes-and-restaurants-in-mukteshwar",
-          "/blog/workcation-guide",
-          "/blog/romantic-getaway-guide",
-          "/blog/solo-travel-guide",
-          "/blog/family-vacation-guide",
-          "/blog/monsoon-in-mukteshwar-guide",
-          "/blog/best-photography-spots-in-mukteshwar",
-          "/blog/local-festivals-and-culture-guide",
-          "/blog/mukteshwar-ultimate-packing-list",
-          "/rooms/suite-with-mountain-view",
-          "/rooms/spacious-apartment",
-          "/rooms/family-room",
-          "/rooms/family-room-2",
         ],
-        renderer: new (prerenderPlugin as Record<string, unknown>).PuppeteerRenderer({
+        renderer: new (prerenderPlugin as any).PuppeteerRenderer({
           maxConcurrentRoutes: 1,
           renderAfterTime: 500,
         }),
       }),
     ].filter(Boolean),
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: (id: string) => {
-          // Keep room and blog pages separate
-          if (id.includes("src/pages/rooms")) {
-            return "room-pages";
-          }
-          if (id.includes("src/pages/blog")) {
-            return "blog-pages";
-          }
-          // Don't split vendor chunks to avoid loading order issues
-          return undefined;
-        },
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
       },
     },
-    chunkSizeWarningLimit: 1000,
-    cssCodeSplit: true,
-  },
-  optimizeDeps: {
-    include: ["react", "react-dom", "react-router-dom"],
-    exclude: [],
-  },
-};
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: (id: string) => {
+            // Group heavy vendor libraries into their own chunks
+            if (id.includes("node_modules/lucide-react")) {
+              return "vendor-lucide";
+            }
+            if (id.includes("node_modules/framer-motion")) {
+              return "vendor-framer";
+            }
+            if (id.includes("node_modules/recharts")) {
+              return "vendor-recharts";
+            }
+            if (id.includes("node_modules/@tanstack/react-query")) {
+              return "vendor-query";
+            }
+            if (id.includes("node_modules/react") || id.includes("node_modules/react-dom") || id.includes("node_modules/react-router-dom")) {
+              return "vendor-core";
+            }
+            
+            // Keep room and blog pages separate
+            if (id.includes("src/pages/rooms")) {
+              return "room-pages";
+            }
+            if (id.includes("src/pages/blog")) {
+              return "blog-pages";
+            }
+          },
+        },
+      },
+      chunkSizeWarningLimit: 800,
+      cssCodeSplit: true,
+      minify: 'esbuild',
+    },
+    optimizeDeps: {
+      include: ["react", "react-dom", "react-router-dom"],
+      exclude: [],
+    },
+  };
 });

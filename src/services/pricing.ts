@@ -1,4 +1,4 @@
-import type { RoomType, RoomPricing, BookingPricing, PricingModifiersConfig } from "@/types/pricing";
+import type { RoomType, RoomPricing, BookingPricing, PricingModifiersConfig, BookingPricingWithDemand } from "@/types/pricing";
 export type { RoomType };
 
 // Base prices for each room type (standard season)
@@ -38,7 +38,6 @@ async function loadPricingModifiers(): Promise<PricingModifiersConfig | null> {
       if (!response.ok) {
         throw new Error(`Failed to load pricing modifiers: ${response.statusText}`);
       }
-
       const data = await response.json();
       pricingModifiers = data;
       modifiersLoaded = true;
@@ -101,10 +100,6 @@ export async function getMarkupForDate(date: Date): Promise<number> {
 
   // Sum weighted contributions
   const totalMarkup = weightedMonthly + weightedWeekend + weightedDemand;
-
-  console.log(`📊 Markup breakdown: monthly=${(baseMarkup*100).toFixed(1)}%, weekend=${(weekendPremium*100).toFixed(1)}%, demand=${(demandMarkup*100).toFixed(1)}%`);
-  console.log(`⚖️  Weighted: monthly=${(weightedMonthly*100).toFixed(1)}%, weekend=${(weightedWeekend*100).toFixed(1)}%, demand=${(weightedDemand*100).toFixed(1)}%`);
-  console.log(`✅ Total markup: ${(totalMarkup*100).toFixed(1)}%`);
 
   return totalMarkup;
 }
@@ -269,8 +264,6 @@ async function fetchDemandMultiplier(): Promise<number> {
 
     // Validate the value is within expected range
     if (typeof value === 'number' && value >= 0.98 && value <= 1.06) {
-      const percent = Math.round((value - 1) * 100);
-      console.log(`📊 Demand multiplier loaded: ${value} (${percent > 0 ? '+' : ''}${percent}%)`);
       return value;
     }
 
@@ -300,7 +293,7 @@ function getDemandMultiplier(): number {
       isLoading = false;
       // Force re-render by updating window location
       if (typeof window !== 'undefined' && value !== 1.0) {
-        console.log('✅ Demand multiplier updated, refresh to see changes');
+        // Updated
       }
     });
   }
@@ -329,7 +322,6 @@ export async function reloadDemandMultiplier() {
   demandMultiplierCache = null;
   isLoading = false;
   demandMultiplierCache = await fetchDemandMultiplier();
-  console.log('🔄 Demand multiplier reloaded');
   return demandMultiplierCache;
 }
 
