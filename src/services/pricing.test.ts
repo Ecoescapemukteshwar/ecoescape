@@ -13,8 +13,8 @@ import {
   getBookingPrice,
 } from './pricing';
 import type { RoomType } from '@/types/pricing';
-import { mockPricingModifiers, mockPricingFetch, mockPricingFetchError, mockPricingFetchHttpError, resetPricingCache } from '@/test/mocks/pricingMock';
-import { testDates, expectedPrices, expectedMonthlyModifiers, formRoomOptions, invalidFormValues } from '@/test/mocks/testData';
+import { mockPricingFetch, mockPricingFetchError, mockPricingFetchHttpError, resetPricingCache } from '@/test/mocks/pricingMock';
+import { testDates, expectedPrices } from '@/test/mocks/testData';
 
 describe('Pricing Service', () => {
   // Reset modules and setup mocks before each test suite
@@ -422,7 +422,7 @@ describe('Pricing Service', () => {
   describe('getBookingPrice', () => {
     describe('single night booking', () => {
       it('calculates single night price in peak season', async () => {
-        const { checkIn, checkOut } = testDates.threeNights;
+        const { checkIn } = testDates.threeNights;
         const singleNightCheckOut = new Date(checkIn);
         singleNightCheckOut.setDate(singleNightCheckOut.getDate() + 1);
 

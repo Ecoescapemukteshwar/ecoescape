@@ -9,7 +9,7 @@ import { getRoomBySlug, getAllRooms } from "@/config/rooms";
 import { ArrowLeft, Users, Maximize, Eye, BedDouble, Coffee, Wifi, Droplets, Shield, Phone, MessageCircle, MapPin, Star, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { getCurrentPrice, formatPrice, getBasePrice } from "@/services/pricing";
+import { formatPrice, getBasePrice } from "@/services/pricing";
 import { useRoomPricing } from "@/hooks/useRoomPricing";
 
 export default function FamilyRoom() {

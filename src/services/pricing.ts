@@ -58,9 +58,17 @@ async function loadPricingModifiers(): Promise<PricingModifiersConfig | null> {
 }
 
 /**
+ * Check if a given date is a weekend (Saturday or Sunday)
+ */
+function isWeekend(date: Date): boolean {
+  const day = date.getDay();
+  return day === 0 || day === 6; // 0=Sunday, 6=Saturday
+}
+
+/**
  * Get markup percentage for a specific date
- * Returns the modifier for the month from JSON configuration
- * Returns 0 if JSON loading fails (base price only)
+ * Returns weighted sum of monthly + weekend + demand
+ * NO CLAMPING - weights ensure total stays within ±30%
  */
 export async function getMarkupForDate(date: Date): Promise<number> {
   const modifiers = await loadPricingModifiers();
@@ -70,10 +78,35 @@ export async function getMarkupForDate(date: Date): Promise<number> {
   }
 
   const month = date.getMonth().toString();
-  const modifier = modifiers.monthlyModifiers[month];
+  const monthlyMod = modifiers.monthlyModifiers[month];
 
-  // Return modifier if found, otherwise 0
-  return modifier !== undefined ? modifier : 0;
+  if (!monthlyMod) {
+    return 0;
+  }
+
+  // Get weekday or weekend markup
+  const baseMarkup = isWeekend(date) ? monthlyMod.weekend : monthlyMod.weekday;
+
+  // Calculate weekend premium (extra on weekends)
+  const weekendPremium = isWeekend(date) ? (monthlyMod.weekend - monthlyMod.weekday) : 0;
+
+  // Get demand multiplier (no clamping!)
+  const demandMult = getDemandMultiplier();
+  const demandMarkup = demandMult - 1; // Convert to markup (e.g., 1.06 → 0.06)
+
+  // Apply weights to each layer
+  const weightedMonthly = baseMarkup * modifiers.weights.monthly;
+  const weightedWeekend = weekendPremium * modifiers.weights.weekend;
+  const weightedDemand = demandMarkup * modifiers.weights.demand;
+
+  // Sum weighted contributions
+  const totalMarkup = weightedMonthly + weightedWeekend + weightedDemand;
+
+  console.log(`📊 Markup breakdown: monthly=${(baseMarkup*100).toFixed(1)}%, weekend=${(weekendPremium*100).toFixed(1)}%, demand=${(demandMarkup*100).toFixed(1)}%`);
+  console.log(`⚖️  Weighted: monthly=${(weightedMonthly*100).toFixed(1)}%, weekend=${(weightedWeekend*100).toFixed(1)}%, demand=${(weightedDemand*100).toFixed(1)}%`);
+  console.log(`✅ Total markup: ${(totalMarkup*100).toFixed(1)}%`);
+
+  return totalMarkup;
 }
 
 /**
@@ -214,4 +247,168 @@ export function mapRoomTypeToPricingType(roomOptionValue: string): RoomType | nu
     "family-room-2": "familyRoom2",
   };
   return roomTypeMap[roomOptionValue] || null;
+}
+
+// Cache for demand multiplier
+let demandMultiplierCache: number | null = null;
+let isLoading = false;
+
+/**
+ * Fetch demand multiplier from public directory
+ * Returns the multiplier value or 1.0 on error
+ */
+async function fetchDemandMultiplier(): Promise<number> {
+  try {
+    const response = await fetch('/demand-multiplier.json');
+    if (!response.ok) {
+      throw new Error('Failed to load demand multiplier');
+    }
+
+    const demandData = await response.json();
+    const value = demandData?.value;
+
+    // Validate the value is within expected range
+    if (typeof value === 'number' && value >= 0.98 && value <= 1.06) {
+      const percent = Math.round((value - 1) * 100);
+      console.log(`📊 Demand multiplier loaded: ${value} (${percent > 0 ? '+' : ''}${percent}%)`);
+      return value;
+    }
+
+    console.warn('Invalid demand multiplier value, using fallback 1.0');
+    return 1.0;
+  } catch (error) {
+    console.warn('Could not load demand multiplier, using fallback 1.0:', error);
+    return 1.0;
+  }
+}
+
+/**
+ * Get demand multiplier from JSON file
+ * Returns cached value or triggers async load
+ */
+function getDemandMultiplier(): number {
+  // Return cached value immediately
+  if (demandMultiplierCache !== null) {
+    return demandMultiplierCache;
+  }
+
+  // Start loading in background if not already loading
+  if (!isLoading) {
+    isLoading = true;
+    fetchDemandMultiplier().then(value => {
+      demandMultiplierCache = value;
+      isLoading = false;
+      // Force re-render by updating window location
+      if (typeof window !== 'undefined' && value !== 1.0) {
+        console.log('✅ Demand multiplier updated, refresh to see changes');
+      }
+    });
+  }
+
+  // Return 1.0 on first call (will be cached after async load)
+  return 1.0;
+}
+
+/**
+ * Initialize demand multiplier (call this on app startup)
+ */
+export async function initializeDemandMultiplier() {
+  if (demandMultiplierCache === null && !isLoading) {
+    isLoading = true;
+    demandMultiplierCache = await fetchDemandMultiplier();
+    isLoading = false;
+    return demandMultiplierCache;
+  }
+  return demandMultiplierCache ?? 1.0;
+}
+
+/**
+ * Force reload the demand multiplier
+ */
+export async function reloadDemandMultiplier() {
+  demandMultiplierCache = null;
+  isLoading = false;
+  demandMultiplierCache = await fetchDemandMultiplier();
+  console.log('🔄 Demand multiplier reloaded');
+  return demandMultiplierCache;
+}
+
+/**
+ * Get price for a specific date with demand multiplier applied
+ * Enhanced version of getPriceForDate() with weighted adjustments
+ * NO CLAMPING - weights ensure we stay within ±30% naturally
+ */
+export async function getPriceForDateWithDemand(roomType: RoomType, date: Date): Promise<number> {
+  const basePrice = getBasePrice(roomType);
+  const markup = await getMarkupForDate(date);
+
+  // Apply weighted markup directly (no clamping!)
+  const price = basePrice * (1 + markup);
+
+  // Round to nearest ₹100
+  return Math.round(price / 100) * 100;
+}
+
+/**
+ * Calculate booking price with demand multiplier
+ * Enhanced version with detailed breakdown
+ * NO CLAMPING - weights ensure we stay within ±30% naturally
+ */
+export async function getBookingPriceWithDemand(
+  roomType: RoomType,
+  checkIn: Date,
+  checkOut: Date
+): Promise<BookingPricingWithDemand> {
+  const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
+
+  if (nights <= 0) {
+    return {
+      basePrice: getBasePrice(roomType),
+      totalPrice: 0,
+      nights: 0,
+      isPeakSeason: false,
+      demandMultiplier: 1.0,
+      priceBreakdown: [],
+    };
+  }
+
+  const demandMultiplier = getDemandMultiplier();
+  const priceBreakdown: Array<{ date: Date; price: number; markup: number; demandMult: number }> = [];
+  let totalPrice = 0;
+
+  // Calculate price for each night
+  for (let i = 0; i < nights; i++) {
+    const nightDate = new Date(checkIn);
+    nightDate.setDate(nightDate.getDate() + i);
+
+    const basePrice = getBasePrice(roomType);
+    const markup = await getMarkupForDate(nightDate);
+
+    // Apply weighted markup directly (no clamping!)
+    let price = basePrice * (1 + markup);
+    price = Math.round(price / 100) * 100;
+
+    priceBreakdown.push({ date: nightDate, price, markup, demandMult: demandMultiplier });
+    totalPrice += price;
+  }
+
+  const hasPeakSeasonNight = priceBreakdown.some(({ markup }) => markup > 0);
+  const basePrice = priceBreakdown[0]?.price || getBasePrice(roomType);
+
+  return {
+    basePrice,
+    totalPrice,
+    nights,
+    isPeakSeason: hasPeakSeasonNight,
+    demandMultiplier,
+    priceBreakdown,
+  };
+}
+
+/**
+ * Get current price with demand multiplier applied
+ * Convenience wrapper for getPriceForDateWithDemand with today's date
+ */
+export async function getCurrentPriceWithDemand(roomType: RoomType): Promise<number> {
+  return getPriceForDateWithDemand(roomType, new Date());
 }

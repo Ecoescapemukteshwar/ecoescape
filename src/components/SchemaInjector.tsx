@@ -12,7 +12,7 @@ import { useEffect } from "react";
  * ```
  */
 interface SchemaInjectorProps {
-  schemas: Array<{ "@type": string; [key: string]: any }>;
+  schemas: Array<{ "@type": string; [key: string]: unknown }>;
 }
 
 export function SchemaInjector({ schemas }: SchemaInjectorProps) {
@@ -54,7 +54,7 @@ export function SchemaInjector({ schemas }: SchemaInjectorProps) {
  * Helper component to inject a single schema
  */
 interface SingleSchemaInjectorProps {
-  schema: { "@type": string; [key: string]: any };
+  schema: { "@type": string; [key: string]: unknown };
 }
 
 export function SingleSchemaInjector({ schema }: SingleSchemaInjectorProps) {

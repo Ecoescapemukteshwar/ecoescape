@@ -1,11 +1,11 @@
 import { OptimizedImage } from "@/components/OptimizedImage";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
 import { roomsConfig } from "@/config/rooms";
-import { getCurrentPrice, formatPrice, getBasePrice, type RoomType } from "@/services/pricing";
+import { formatPrice, getBasePrice, type RoomType } from "@/services/pricing";
 import { useRoomPricing } from "@/hooks/useRoomPricing";
 
 // Room data without prices (prices added dynamically)
@@ -47,7 +47,7 @@ export function RoomsSection() {
   const roomTypes = roomData.map(room => room.roomType);
 
   // Load prices using custom hook
-  const { prices: roomPrices, isLoading } = useRoomPricing(roomTypes);
+  const { prices: roomPrices } = useRoomPricing(roomTypes);
 
   // Derive rooms from prices using useMemo
   const rooms = useMemo(() => {

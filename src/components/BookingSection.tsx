@@ -12,7 +12,7 @@ import { siteConfig } from "@/config/site";
 import { sanitizeName, sanitizePhone, sanitizeEmail } from "@/lib/sanitizer";
 import { createWhatsAppMessage, openWhatsAppWithMessage } from "@/services/whatsapp";
 import { trackBookingSubmit, trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/analytics";
-import { getCurrentPrice, formatPrice, getBookingPrice, mapRoomTypeToPricingType } from "@/services/pricing";
+import { getBookingPrice, mapRoomTypeToPricingType } from "@/services/pricing";
 import { useRoomPricing } from "@/hooks/useRoomPricing";
 
 const bookingSchema = z.object({
@@ -54,7 +54,7 @@ export function BookingSection() {
   } | null>(null);
 
   // Load current prices for all rooms using custom hook
-  const { prices: roomPrices, isLoading: pricesLoading } = useRoomPricing([
+  const { prices: roomPrices } = useRoomPricing([
     'suite',
     'apartment',
     'familyRoom',

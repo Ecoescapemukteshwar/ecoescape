@@ -285,7 +285,7 @@ export function PricingTestPage() {
           </div>
 
           <div className="mt-4 space-y-2">
-            <p className="font-medium">Prices on Selected Date:</p>
+            <p className="font-medium">Prices on Selected Date (with Demand):</p>
             {ROOM_TYPES.map((roomType) => {
               const price = datePrices[roomType];
               return (

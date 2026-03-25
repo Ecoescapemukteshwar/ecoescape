@@ -30,7 +30,7 @@ interface PageMetaProps {
   noindex?: boolean;
   ogTitle?: string;
   ogDescription?: string;
-  jsonLd?: Record<string, any> | Array<Record<string, any>>;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 export function PageMeta({

@@ -19,6 +19,11 @@ const actionTypes = {
   REMOVE_TOAST: "REMOVE_TOAST",
 } as const;
 
+type ActionTypes = typeof actionTypes;
+
+// Export actionTypes for use in other parts of the reducer
+export { actionTypes };
+
 let count = 0;
 
 function genId() {
@@ -26,7 +31,7 @@ function genId() {
   return count.toString();
 }
 
-type ActionType = typeof actionTypes;
+type ActionType = ActionTypes;
 
 type Action =
   | {

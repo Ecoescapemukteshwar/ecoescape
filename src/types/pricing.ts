@@ -1,16 +1,21 @@
 export type RoomType = 'suite' | 'apartment' | 'familyRoom' | 'familyRoom2';
 
+export interface MonthlyModifier {
+  weekday: number;
+  weekend: number;
+}
+
 export interface PricingModifiersConfig {
-  monthlyModifiers: Record<string, number>; // Month index (0-11) -> modifier (-0.10 to 0.30)
+  monthlyModifiers: Record<string, MonthlyModifier>;
+  weights: {
+    monthly: number;
+    weekend: number;
+    demand: number;
+  };
   metadata?: {
     description: string;
     lastUpdated: string;
-    tiers: {
-      peak: { months: string[]; modifier: number; reason: string };
-      high: { months: string[]; modifier: number; reason: string };
-      standard: { months: string[]; modifier: number; reason: string };
-      offSeason: { months: string[]; modifier: number; reason: string };
-    };
+    note?: string;
   };
 }
 
@@ -49,5 +54,15 @@ export interface BookingPricing {
   priceBreakdown: Array<{
     date: Date;
     price: number;
+  }>;
+}
+
+export interface BookingPricingWithDemand extends BookingPricing {
+  demandMultiplier: number;
+  priceBreakdown: Array<{
+    date: Date;
+    price: number;
+    markup: number;
+    demandMult: number;
   }>;
 }

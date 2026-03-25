@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { getCurrentPrice, formatPrice, getBasePrice, type RoomType } from '@/services/pricing';
 
 interface UseRoomPricingResult {
@@ -33,8 +33,11 @@ interface UseRoomPricingResult {
  * console.log(prices.apartment); // "₹5,500"
  */
 export function useRoomPricing(roomTypes: RoomType | RoomType[]): UseRoomPricingResult {
-  // Normalize to array
-  const roomTypesArray = Array.isArray(roomTypes) ? roomTypes : [roomTypes];
+  // Normalize to array and memoize to prevent useEffect dependency warnings
+  const roomTypesArray = useMemo(() =>
+    Array.isArray(roomTypes) ? roomTypes : [roomTypes],
+    [roomTypes]
+  );
 
   // Initialize with base prices to prevent NaN display
   const [prices, setPrices] = useState<Record<RoomType, string>>(() => {
