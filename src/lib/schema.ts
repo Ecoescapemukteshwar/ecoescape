@@ -52,6 +52,7 @@ export interface ArticleData {
 export interface ArticleSchema {
   "@context": string;
   "@type": "Article" | "BlogPosting";
+  [key: string]: unknown; // Index signature for Record compatibility
   headline: string;
   image: string;
   datePublished: string;
@@ -77,6 +78,7 @@ export interface ReviewData {
 export interface ReviewSchema {
   "@context": string;
   "@type": "Review";
+  [key: string]: unknown; // Index signature for Record compatibility
   itemReviewed: LodgingBusinessSchema;
   reviewRating: RatingSchema;
   author: PersonSchema;
@@ -92,6 +94,7 @@ export interface BreadcrumbItem {
 export interface BreadcrumbSchema {
   "@context": string;
   "@type": "BreadcrumbList";
+  [key: string]: unknown; // Index signature for Record compatibility
   itemListElement: Array<{
     "@type": "ListItem";
     position: number;
@@ -198,6 +201,7 @@ export function generateBreadcrumbSchema(items: BreadcrumbItem[]): BreadcrumbSch
 export interface RestaurantSchema {
   "@context": string;
   "@type": "Restaurant";
+  [key: string]: unknown; // Index signature for Record compatibility
   name: string;
   servesCuisine: string;
   parentOrganization: {
@@ -291,6 +295,7 @@ export interface LodgingReservationData {
 export interface LodgingReservationSchema {
   "@context": string;
   "@type": "LodgingReservation";
+  [key: string]: unknown; // Index signature for Record compatibility
   reservationFor: {
     "@type": "LodgingBusiness";
     name: string;

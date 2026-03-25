@@ -7,6 +7,8 @@ interface OptimizedImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElem
   height?: number;
   priority?: boolean;
   className?: string;
+  srcset?: string;
+  sizes?: string;
 }
 
 export function OptimizedImage({
@@ -16,6 +18,8 @@ export function OptimizedImage({
   height,
   priority = false,
   className = "",
+  srcset,
+  sizes,
   ...props
 }: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +44,8 @@ export function OptimizedImage({
       )}
       <img
         src={src}
+        srcSet={srcset}
+        sizes={sizes}
         alt={alt}
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : "auto"}

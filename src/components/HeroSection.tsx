@@ -22,7 +22,9 @@ export function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="/images/hero-sunrise.webp"
+          src="/images/hero-sunrise-opt.webp"
+          srcSet="/images/hero-640.webp 640w, /images/hero-1080.webp 1080w, /images/hero-sunrise-opt.webp 1920w"
+          sizes="100vw"
           alt="Sunrise view over the Himalayan mountains from the terrace of Ecoescape Mukteshwar boutique homestay"
           className="w-full h-full object-cover"
           loading="eager"

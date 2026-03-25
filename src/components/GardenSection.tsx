@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
 import { Flower2, Camera, Bird, BookOpen, Sparkles } from "lucide-react";
 import gardenTerrace from "@/assets/garden-terrace.webp";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 
 const activities = [
   { icon: Flower2, text: "Morning garden walks" },
@@ -11,16 +12,19 @@ const activities = [
 ];
 
 export function GardenSection() {
+  const { ref, isInView } = useInView({ threshold: 0.1, rootMargin: "50px" });
+
   return (
-    <section id="garden" className="py-20 bg-background overflow-hidden">
+    <section id="garden" ref={ref} className="py-20 bg-background overflow-hidden">
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <div
+            className={cn(
+              "opacity-0",
+              isInView && "animate-fade-in-up opacity-100"
+            )}
+            style={isInView ? { animationDuration: "0.6s" } : {}}
           >
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-2 mb-4">
               <Flower2 className="h-4 w-4" />
@@ -38,29 +42,29 @@ export function GardenSection() {
             {/* Activities Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
               {activities.map((activity, index) => (
-                <motion.div
+                <div
                   key={activity.text}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-center gap-2 text-foreground"
+                  className={cn(
+                    "flex items-center gap-2 text-foreground opacity-0",
+                    isInView && "animate-fade-in-up opacity-100"
+                  )}
+                  style={isInView ? { animationDelay: `${index * 0.1}s`, animationDuration: "0.4s" } : {}}
                 >
                   <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                     <activity.icon className="h-4 w-4 text-primary" />
                   </div>
                   <span className="text-sm">{activity.text}</span>
-                </motion.div>
+                </div>
               ))}
             </div>
 
             {/* Seasonal Highlight */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-accent/10 border border-accent/20 rounded-xl p-4"
+            <div
+              className={cn(
+                "bg-accent/10 border border-accent/20 rounded-xl p-4 opacity-0",
+                isInView && "animate-fade-in-up opacity-100"
+              )}
+              style={isInView ? { animationDelay: "0.3s", animationDuration: "0.5s" } : {}}
             >
               <p className="text-foreground flex items-center gap-2">
                 <span className="text-2xl">🌹</span>
@@ -69,16 +73,16 @@ export function GardenSection() {
                   Perfect time to visit our garden.
                 </span>
               </p>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
+          <div
+            className={cn(
+              "relative opacity-0",
+              isInView && "animate-fade-in-up opacity-100"
+            )}
+            style={isInView ? { animationDelay: "0.2s", animationDuration: "0.6s" } : {}}
           >
             <div className="relative rounded-2xl overflow-hidden shadow-elevated">
               <img
@@ -113,7 +117,7 @@ export function GardenSection() {
             {/* Decorative Elements */}
             <div className="absolute -top-4 -right-4 w-24 h-24 bg-accent/10 rounded-full blur-2xl" />
             <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

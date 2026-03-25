@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { memo } from "react";
 import { 
   Sunrise, 
   Flower2, 
@@ -13,10 +13,13 @@ import {
   TreePine,
   Sparkles
 } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 
 const benefitGroups = [
   {
-    title: "🌅 Natural Beauty & Location",
+    title: "natural-beauty",
+    displayTitle: "🌅 Natural Beauty & Location",
     items: [
       {
         icon: Sunrise,
@@ -41,7 +44,8 @@ const benefitGroups = [
     ],
   },
   {
-    title: "🍽️ Dining Experience",
+    title: "dining",
+    displayTitle: "🍽️ Dining Experience",
     items: [
       {
         icon: UtensilsCrossed,
@@ -61,7 +65,8 @@ const benefitGroups = [
     ],
   },
   {
-    title: "🏠 Comfort & Amenities",
+    title: "comfort",
+    displayTitle: "🏠 Comfort & Amenities",
     items: [
       {
         icon: Droplets,
@@ -91,7 +96,8 @@ const benefitGroups = [
     ],
   },
   {
-    title: "🎥 Safety & Wellness",
+    title: "safety",
+    displayTitle: "🎥 Safety & Wellness",
     items: [
       {
         icon: Video,
@@ -108,15 +114,16 @@ const benefitGroups = [
 ];
 
 export function BenefitsSection() {
+  const { ref, isInView } = useInView({ threshold: 0.1, rootMargin: "50px" });
+
   return (
-    <section className="py-24 bg-secondary">
+    <section id="benefits" ref={ref} className="py-24 bg-secondary overflow-hidden">
       <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+        <div
+          className={cn(
+            "text-center mb-12 opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
             🌿 Why Guests Love Ecoescape Mukteshwar 🌿
@@ -125,19 +132,20 @@ export function BenefitsSection() {
             Whether you're looking to relax, work remotely, or just reconnect with nature, 
             our home offers the perfect blend of comfort and calm.
           </p>
-        </motion.div>
+        </div>
 
         <div className="space-y-12">
           {benefitGroups.map((group, groupIndex) => (
-            <motion.div
+            <div
               key={group.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: groupIndex * 0.1 }}
+              className={cn(
+                "opacity-0",
+                isInView && "animate-fade-in-up opacity-100"
+              )}
+              style={isInView ? { animationDelay: `${groupIndex * 0.1}s` } : {}}
             >
               <h3 className="text-xl font-serif font-semibold text-foreground mb-6">
-                {group.title}
+                {group.displayTitle}
               </h3>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {group.items.map((item) => (
@@ -157,10 +165,12 @@ export function BenefitsSection() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
     </section>
   );
 }
+
+export default memo(BenefitsSection);

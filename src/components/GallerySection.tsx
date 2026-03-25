@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, memo } from "react";
 import { X } from "lucide-react";
 import { OptimizedImage } from "@/components/OptimizedImage";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 
 // Suite
-import suite1 from "@/assets/suite/IMG_4065.webp";
+import suite1 from "@/assets/suite/IMG_4065-opt.webp";
 import suite2 from "@/assets/suite/IMG_2630.webp";
 import suite3 from "@/assets/suite/IMG_3599.webp";
 import suite4 from "@/assets/suite/img4.webp";
@@ -22,7 +23,7 @@ import terrace3 from "@/assets/terrace/IMG_2495.webp";
 import terrace4 from "@/assets/terrace/IMG_2926.webp";
 
 // Views
-import view1 from "@/assets/view/F4E15BBC-891E-40CB-84F4-77E47B25C194_1_105_c.webp";
+import view1 from "@/assets/view/F4E15BBC-891E-40CB-84F4-77E47B25C194_1_105_c-opt.webp";
 import view2 from "@/assets/view/IMG_0754.webp";
 import view3 from "@/assets/view/IMG_0774.webp";
 import view4 from "@/assets/view/image00004.webp";
@@ -116,17 +117,17 @@ const gallerySections = [
 
 export function GallerySection() {
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
+  const { ref, isInView } = useInView({ threshold: 0.05, rootMargin: "100px" });
 
   return (
-    <section id="gallery" className="py-20 bg-background">
+    <section id="gallery" ref={ref} className="py-20 bg-background overflow-hidden">
       <div className="container">
         {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+        <div
+          className={cn(
+            "text-center mb-16 opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
             Glimpse Into Your Ecoescape
@@ -135,7 +136,7 @@ export function GallerySection() {
             A visual journey through our spaces, surroundings, and the
             experiences that await you in Mukteshwar.
           </p>
-        </motion.div>
+        </div>
 
         {/* Category rows */}
         <div className="flex flex-col gap-20">
@@ -143,13 +144,12 @@ export function GallerySection() {
             const isEven = sectionIndex % 2 === 0;
 
             const textBlock = (
-              <motion.div
-                key="text"
-                initial={{ opacity: 0, x: isEven ? -30 : 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="flex flex-col justify-center"
+              <div
+                className={cn(
+                  "flex flex-col justify-center opacity-0",
+                  isInView && (isEven ? "animate-fade-in-left opacity-100" : "animate-fade-in-right opacity-100")
+                )}
+                style={isInView ? { animationDelay: `${sectionIndex * 0.1}s` } : {}}
               >
                 <span className="text-accent text-sm font-medium uppercase tracking-widest mb-3">
                   {String(sectionIndex + 1).padStart(2, "0")}
@@ -161,23 +161,20 @@ export function GallerySection() {
                 <p className="text-muted-foreground leading-relaxed">
                   {section.description}
                 </p>
-              </motion.div>
+              </div>
             );
 
             const imageGrid = (
-              <motion.div
-                key="images"
-                initial={{ opacity: 0, x: isEven ? 30 : -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="grid grid-cols-2 gap-3"
+              <div
+                className={cn(
+                  "grid grid-cols-2 gap-3 opacity-0",
+                  isInView && (isEven ? "animate-fade-in-right opacity-100" : "animate-fade-in-left opacity-100")
+                )}
+                style={isInView ? { animationDelay: `${sectionIndex * 0.15}s` } : {}}
               >
                 {section.images.map((src, imgIndex) => (
-                  <motion.div
+                  <div
                     key={imgIndex}
-                    whileHover={{ scale: 1.03 }}
-                    transition={{ duration: 0.3 }}
                     className="relative overflow-hidden rounded-xl cursor-pointer group aspect-square"
                     onClick={() => setSelectedImage({
                       src,
@@ -192,9 +189,9 @@ export function GallerySection() {
                       height={400}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </motion.div>
+                  </div>
                 ))}
-              </motion.div>
+              </div>
             );
 
             return (
@@ -246,3 +243,5 @@ export function GallerySection() {
     </section>
   );
 }
+
+export default memo(GallerySection);

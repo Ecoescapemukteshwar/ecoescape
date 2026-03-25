@@ -13,7 +13,7 @@ export interface BlogPost {
   keywords?: string;
 }
 
-const heroSunriseImg = "/images/hero-sunrise.webp";
+const heroSunriseImg = "/images/hero-sunrise-opt.webp";
 
 // Image imports for blog posts
 import winterExperienceImg from "@/assets/blog/winter-experience/featured.webp";

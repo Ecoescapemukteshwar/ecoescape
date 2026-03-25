@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 
 function LazyTripAdvisor() {
   const ref = useRef<HTMLDivElement>(null);
@@ -232,3 +232,5 @@ export function Footer() {
     </footer>
   );
 }
+
+export default memo(Footer);

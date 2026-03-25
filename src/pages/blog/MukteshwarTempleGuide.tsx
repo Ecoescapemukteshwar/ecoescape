@@ -4,7 +4,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { Calendar, Clock, MapPin, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-const heroSunriseImg = "/images/hero-sunrise.webp";
+const heroSunriseImg = "/images/hero-sunrise-opt.webp";
 
 export default function MukteshwarTempleGuide() {
   const { navigateToBooking } = useBookingNavigation();

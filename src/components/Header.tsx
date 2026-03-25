@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Phone, MessageCircle, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -148,7 +148,15 @@ export function Header() {
               "flex flex-col p-2 rounded-lg transition-all duration-300",
               !showScrolledStyle && "bg-white/10 backdrop-blur-sm"
             )}>
-              <img src={showScrolledStyle ? "/LOGO2.webp" : "/LOGO.webp"} alt="Ecoescape Mukteshwar Logo" width={175} height={136} className="w-[100px] h-auto" />
+              <img
+                src={showScrolledStyle ? "/LOGO2.webp" : "/LOGO-opt.webp"}
+                alt="Ecoescape Mukteshwar Logo"
+                width={175}
+                height={136}
+                className="w-[100px] h-auto"
+                fetchPriority="high"
+                loading="eager"
+              />
             </div>
           </Link>
 
@@ -296,3 +304,5 @@ export function Header() {
     </header>
   );
 }
+
+export default memo(Header);

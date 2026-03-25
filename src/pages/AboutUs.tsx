@@ -2,13 +2,19 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
 import { PageMeta } from "@/seo/PageMeta";
-import { motion } from "framer-motion";
 import { TreePine, Flower2, Sunrise, Heart, ShieldCheck, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useHashScroll } from "@/hooks/useHashScroll";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 
 const AboutUs = () => {
   useHashScroll();
+  const { ref: introRef, isInView: introInView } = useInView({ threshold: 0.1 });
+  const { ref: valuesRef, isInView: valuesInView } = useInView({ threshold: 0.1 });
+  const { ref: philosophyRef, isInView: philosophyInView } = useInView({ threshold: 0.1 });
+  const { ref: locationRef, isInView: locationInView } = useInView({ threshold: 0.1 });
+
   const scrollToBooking = () => {
     const booking = document.getElementById("booking");
     if (booking) {
@@ -37,33 +43,29 @@ const AboutUs = () => {
             <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
           </div>
           <div className="relative z-10 container text-center">
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-4xl md:text-6xl font-serif font-bold text-white mb-4"
+            <h1 
+              className="text-4xl md:text-6xl font-serif font-bold text-white mb-4 animate-fade-in-up"
+              style={{ animationDuration: "0.6s" }}
             >
               Our Story
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl text-white/90 max-w-2xl mx-auto font-medium"
+            </h1>
+            <p 
+              className="text-xl text-white/90 max-w-2xl mx-auto font-medium animate-fade-in-up"
+              style={{ animationDelay: "0.2s", animationDuration: "0.6s" }}
             >
               A Green Paradise in the Kumaon Himalayas
-            </motion.p>
+            </p>
           </div>
         </section>
 
         {/* Introduction Section */}
-        <section className="py-20 bg-background">
+        <section ref={introRef} className="py-20 bg-background overflow-hidden">
           <div className="container max-w-4xl">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="prose prose-lg dark:prose-invert mx-auto text-center"
+            <div 
+              className={cn(
+                "prose prose-lg dark:prose-invert mx-auto text-center opacity-0",
+                introInView && "animate-fade-in-up opacity-100"
+              )}
             >
               <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-8">
                 Welcome to Ecoescape Mukteshwar
@@ -74,19 +76,19 @@ const AboutUs = () => {
               <p className="text-muted-foreground leading-relaxed mt-6">
                 Located in the heart of Mukteshwar, Uttarakhand, our <strong>sustainable homestay</strong> is a labor of love. Every corner of Ecoescape reflects our commitment to preserving the beauty of the Kumaon region while providing modern comforts for families, couples, and those on a <strong>workation</strong>.
               </p>
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* Core Values / Features */}
-        <section className="py-20 bg-secondary/30">
+        <section ref={valuesRef} className="py-20 bg-secondary/30 overflow-hidden">
           <div className="container">
             <div className="grid md:grid-cols-3 gap-8 text-center">
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="p-8 bg-background rounded-2xl shadow-soft"
+              <div 
+                className={cn(
+                  "p-8 bg-background rounded-2xl shadow-soft opacity-0",
+                  valuesInView && "animate-fade-in-up opacity-100"
+                )}
               >
                 <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Sunrise className="h-7 w-7 text-primary" />
@@ -95,14 +97,14 @@ const AboutUs = () => {
                 <p className="text-muted-foreground text-sm">
                   Experience the magic of the mountains with our <strong>Himalayan View Homestay</strong>. Our east-facing property ensures you never miss a sunrise.
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="p-8 bg-background rounded-2xl shadow-soft"
+              <div 
+                className={cn(
+                  "p-8 bg-background rounded-2xl shadow-soft opacity-0",
+                  valuesInView && "animate-fade-in-up opacity-100"
+                )}
+                style={valuesInView ? { animationDelay: "0.1s" } : {}}
               >
                 <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Flower2 className="h-7 w-7 text-primary" />
@@ -111,14 +113,14 @@ const AboutUs = () => {
                 <p className="text-muted-foreground text-sm">
                   Known as a premier <strong>Orchard Homestay in Mukteshwar</strong>, we house over 100+ varieties of plants and seasonal fruits in our lush garden.
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="p-8 bg-background rounded-2xl shadow-soft"
+              <div 
+                className={cn(
+                  "p-8 bg-background rounded-2xl shadow-soft opacity-0",
+                  valuesInView && "animate-fade-in-up opacity-100"
+                )}
+                style={valuesInView ? { animationDelay: "0.2s" } : {}}
               >
                 <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Heart className="h-7 w-7 text-primary" />
@@ -127,20 +129,21 @@ const AboutUs = () => {
                 <p className="text-muted-foreground text-sm">
                   At our <strong>Eco-friendly Homestay</strong>, we treat every guest like family, serving fresh, home-cooked Kumaoni meals and personal attention.
                 </p>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Philosophy Section */}
-        <section className="py-24 bg-background overflow-hidden">
+        <section ref={philosophyRef} className="py-24 bg-background overflow-hidden">
           <div className="container">
             <div className="flex flex-col md:flex-row items-center gap-12">
               <div className="flex-1">
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
+                <div
+                  className={cn(
+                    "opacity-0",
+                    philosophyInView && "animate-fade-in-left opacity-100"
+                  )}
                 >
                   <span className="text-primary font-semibold uppercase tracking-wider text-sm">Our Philosophy</span>
                   <h2 className="text-3xl md:text-4xl font-serif font-semibold mt-4 mb-6">
@@ -172,34 +175,34 @@ const AboutUs = () => {
                       </div>
                     </li>
                   </ul>
-                </motion.div>
+                </div>
               </div>
               <div className="flex-1 relative">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  className="rounded-3xl overflow-hidden shadow-card"
+                <div
+                  className={cn(
+                    "rounded-3xl overflow-hidden shadow-card opacity-0",
+                    philosophyInView && "animate-fade-in-right opacity-100"
+                  )}
                 >
                   <img 
                     src="/images/hero-sunrise.webp" 
                     alt="Ecoescape garden and views" 
                     className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700" 
                   />
-                </motion.div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Location Section */}
-        <section id="location" className="py-20 bg-secondary/30">
+        <section id="location" ref={locationRef} className="py-20 bg-secondary/30 overflow-hidden">
           <div className="container max-w-6xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
+            <div
+              className={cn(
+                "text-center mb-12 opacity-0",
+                locationInView && "animate-fade-in-up opacity-100"
+              )}
             >
               <span className="text-primary font-semibold uppercase tracking-wider text-sm">Find Us</span>
               <h2 className="text-3xl md:text-4xl font-serif font-semibold mt-4 mb-4">
@@ -208,15 +211,15 @@ const AboutUs = () => {
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 Located in the serene hills of Mukteshwar, easily accessible from major cities
               </p>
-            </motion.div>
+            </div>
 
             <div className="grid lg:grid-cols-2 gap-8 items-start">
               {/* Map */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="rounded-2xl overflow-hidden shadow-card h-[400px]"
+              <div
+                className={cn(
+                  "rounded-2xl overflow-hidden shadow-card h-[400px] opacity-0",
+                  locationInView && "animate-fade-in-left opacity-100"
+                )}
               >
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27656.736897024344!2d79.62!3d29.47!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a0b7f0b94a0a0b%3A0x0!2sMukteshwar%2C%20Uttarakhand!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
@@ -228,14 +231,14 @@ const AboutUs = () => {
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Ecoescape Mukteshwar Location"
                 />
-              </motion.div>
+              </div>
 
               {/* Address & Directions */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="space-y-6"
+              <div
+                className={cn(
+                  "space-y-6 opacity-0",
+                  locationInView && "animate-fade-in-right opacity-100"
+                )}
               >
                 {/* Address Card */}
                 <div className="bg-background rounded-2xl p-8 shadow-soft">
@@ -329,7 +332,7 @@ const AboutUs = () => {
                     </Button>
                   </p>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>

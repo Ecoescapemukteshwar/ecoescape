@@ -1,13 +1,10 @@
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import ContactUs from "./pages/ContactUs";
+const ContactUs = lazy(() => import("./pages/ContactUs"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 import {
   RoomsRedirect,
   DiningRedirect,
@@ -30,8 +27,17 @@ const SpaciousApartment = lazy(() => import("./pages/rooms/SpaciousApartment"));
 const FamilyRoom = lazy(() => import("./pages/rooms/FamilyRoom"));
 const FamilyRoom2 = lazy(() => import("./pages/rooms/FamilyRoom2"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
+const Index = lazy(() => import("./pages/Index"));
 
-const queryClient = new QueryClient();
+// Index page fallback component
+const IndexFallback = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto mb-4"></div>
+      <p className="text-muted-foreground text-sm">Loading Ecoescape...</p>
+    </div>
+  </div>
+);
 
 const App = () => {
   // Initialize demand multiplier on app startup
@@ -43,15 +49,13 @@ const App = () => {
 
   return (
     <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          {!isDev && <Analytics />}
-          {!isDev && <SpeedInsights />}
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+      <TooltipProvider>
+        {!isDev && <Analytics />}
+        {!isDev && <SpeedInsights />}
+        <Toaster />
+        <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={<Suspense fallback={<IndexFallback />}><Index /></Suspense>} />
               <Route path="/blog" element={<Suspense fallback={<div className="min-h-screen" />}><Blog /></Suspense>} />
               {/* Dynamic blog routing - handles all blog posts automatically */}
               <Route path="/blog/:slug" element={<Suspense fallback={<div className="min-h-screen" />}><BlogPostPage /></Suspense>} />
@@ -69,15 +73,14 @@ const App = () => {
               <Route path="/location" element={<LocationRedirect />} />
               <Route path="/reviews" element={<ReviewsRedirect />} />
               <Route path="/booking" element={<BookingRedirect />} />
-              <Route path="/contactus" element={<ContactUs />} />
+              <Route path="/contactus" element={<Suspense fallback={<div className="min-h-screen" />}><ContactUs /></Suspense>} />
               <Route path="/aboutus" element={<Suspense fallback={<div className="min-h-screen" />}><AboutUs /></Suspense>} />
               <Route path="/test-pricing" element={<PricingTestPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<Suspense fallback={<div className="min-h-screen" />}><NotFound /></Suspense>} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
-      </QueryClientProvider>
     </ErrorBoundary>
   );
 };

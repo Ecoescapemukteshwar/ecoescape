@@ -1,12 +1,13 @@
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
 import { roomsConfig } from "@/config/rooms";
 import { formatPrice, getBasePrice, type RoomType } from "@/services/pricing";
 import { useRoomPricing } from "@/hooks/useRoomPricing";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 
 // Room data without prices (prices added dynamically)
 const roomData = roomsConfig.map((room) => ({
@@ -43,6 +44,8 @@ const propertyHighlights = [
 ];
 
 export function RoomsSection() {
+  const { ref, isInView } = useInView({ threshold: 0.1, rootMargin: "50px" });
+  
   // Get room types from roomData
   const roomTypes = roomData.map(room => room.roomType);
 
@@ -57,17 +60,14 @@ export function RoomsSection() {
     }));
   }, [roomPrices]);
 
-  // scrollToBooking removed — booking links handled by room detail pages
-
   return (
-    <section id="rooms" className="py-24 bg-background">
+    <section id="rooms" ref={ref} className="py-24 bg-background overflow-hidden">
       <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+        <div
+          className={cn(
+            "text-center mb-12 opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
             Your Mountain Home Away From Home
@@ -76,17 +76,17 @@ export function RoomsSection() {
             Four unique accommodation options designed for families, groups, and couples.
             Each unit offers privacy, comfort, and stunning Himalayan views.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-8 mb-12">
           {rooms.map((room, index) => (
-            <motion.div
+            <div
               key={room.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300"
+              className={cn(
+                "group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 opacity-0",
+                isInView && "animate-fade-in-up opacity-100"
+              )}
+              style={isInView ? { animationDelay: `${index * 0.15}s` } : {}}
             >
               {/* Image */}
               <div className="relative h-64 overflow-hidden">
@@ -154,17 +154,17 @@ export function RoomsSection() {
                   </Button>
                 </Link>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* All Rooms Include */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="bg-secondary rounded-2xl p-6 md:p-8 mb-8"
+        <div
+          className={cn(
+            "bg-secondary rounded-2xl p-6 md:p-8 mb-8 opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
+          style={isInView ? { animationDelay: "0.3s" } : {}}
         >
           <h4 className="font-semibold text-foreground text-center mb-6">
             All Rooms Include
@@ -179,15 +179,15 @@ export function RoomsSection() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Property Highlights */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-6 md:p-8 border border-primary/20"
+        <div
+          className={cn(
+            "bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-6 md:p-8 border border-primary/20 opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
+          style={isInView ? { animationDelay: "0.4s" } : {}}
         >
           <h4 className="font-semibold text-foreground text-center mb-6">
             Perfect for Groups & Families
@@ -200,7 +200,7 @@ export function RoomsSection() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

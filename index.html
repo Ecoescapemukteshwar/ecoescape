@@ -12,7 +12,41 @@
     <link rel="dns-prefetch" href="https://www.google-analytics.com">
 
     <!-- Hero image preload -->
-    <link rel="preload" as="image" href="/images/hero-sunrise.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/images/hero-sunrise-opt.webp" imagesrcset="/images/hero-640.webp 640w, /images/hero-1080.webp 1080w, /images/hero-sunrise-opt.webp 1920w" imagesizes="100vw" fetchpriority="high">
+
+    <!-- Preload critical above-the-fold images -->
+    <link rel="preload" as="image" href="/LOGO-opt.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/LOGO2.webp" fetchpriority="high">
+    
+    <style>
+      :root {
+        --background: 40 30% 98%;
+        --foreground: 30 20% 15%;
+        --primary: 150 35% 28%;
+        --accent: 35 80% 55%;
+      }
+      body {
+        margin: 0;
+        background-color: hsl(40, 30%, 98%);
+        color: hsl(30, 20%, 15%);
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 80px;
+        z-index: 40;
+      }
+      .hero-placeholder {
+        background-color: #3d5a4c;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
 
     <!-- Primary SEO -->
     <title>Ecoescape Mukteshwar | Boutique Homestay with Sunrise Views & Garden</title>
@@ -29,7 +63,7 @@
     <meta property="og:description" content="A Green Paradise in the Mountains. Boutique homestay with 100+ plant varieties, stunning sunrise views, in-house restaurant & terrace dining. Book direct for best rates." />
     <meta property="og:url" content="https://ecoescapemukteshwar.com" />
     <meta property="og:locale" content="en_IN" />
-    <meta property="og:image" content="https://ecoescapemukteshwar.com/LOGO.webp" />
+    <meta property="og:image" content="https://ecoescapemukteshwar.com/LOGO-opt.webp" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Ecoescape Mukteshwar - A boutique homestay with sunrise views and lush gardens in Uttarakhand" />
@@ -39,7 +73,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Ecoescape Mukteshwar | Boutique Homestay with Sunrise Views" />
     <meta name="twitter:description" content="A Green Paradise in the Mountains. Boutique homestay with 100+ plant varieties, stunning sunrise views & in-house restaurant." />
-    <meta name="twitter:image" content="https://ecoescapemukteshwar.com/LOGO.webp" />
+    <meta name="twitter:image" content="https://ecoescapemukteshwar.com/LOGO-opt.webp" />
     
     <!-- Mobile -->
     <meta name="theme-color" content="#3d5a4c" />

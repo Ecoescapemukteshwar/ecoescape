@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
+import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -18,6 +19,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
+      cssInjectedByJsPlugin(),
       mode === "development" && componentTagger(),
       VitePWA({
         registerType: "autoUpdate",
@@ -44,7 +46,7 @@ export default defineConfig(({ mode }) => {
         },
         workbox: {
           globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,jpg,jpeg}"],
-          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MB
+          maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // 3 MB - TODO: Compress F4E15BBC-891E-40CB-84F4-77E47B25C194_1_105_c.webp (2.48 MB)
           runtimeCaching: [
             {
               urlPattern: /^https?:\/\/.*/i,
@@ -77,13 +79,13 @@ export default defineConfig(({ mode }) => {
         injectRegister: false,
         selfDestroying: false
       }),
-      prerenderPlugin && (prerenderPlugin as any)({
+      prerenderPlugin && (prerenderPlugin as Function)({
         staticDir: path.join(__dirname, "dist"),
         routes: [
           "/",
           "/blog",
         ],
-        renderer: new (prerenderPlugin as any).PuppeteerRenderer({
+        renderer: new (prerenderPlugin as unknown as { PuppeteerRenderer: any }).PuppeteerRenderer({ // eslint-disable-line @typescript-eslint/no-explicit-any
           maxConcurrentRoutes: 1,
           renderAfterTime: 500,
         }),
@@ -105,29 +107,36 @@ export default defineConfig(({ mode }) => {
             if (id.includes("node_modules/framer-motion")) {
               return "vendor-framer";
             }
-            if (id.includes("node_modules/recharts")) {
-              return "vendor-recharts";
-            }
-            if (id.includes("node_modules/@tanstack/react-query")) {
-              return "vendor-query";
-            }
             if (id.includes("node_modules/react") || id.includes("node_modules/react-dom") || id.includes("node_modules/react-router-dom")) {
               return "vendor-core";
             }
-            
-            // Keep room and blog pages separate
+
+            // Split blog posts into individual chunks
+            if (id.includes("src/pages/blog/") && !id.includes("node_modules")) {
+              const match = id.match(/src\/pages\/blog\/([A-Z][a-zA-Z0-9]+)\.tsx/);
+              if (match) {
+                return `blog-${match[1].toLowerCase()}`;
+              }
+            }
+            // Keep blog index separate
+            if (id.includes("src/pages/blog/index")) {
+              return "blog-index";
+            }
+            // Keep room pages separate
             if (id.includes("src/pages/rooms")) {
               return "room-pages";
-            }
-            if (id.includes("src/pages/blog")) {
-              return "blog-pages";
             }
           },
         },
       },
-      chunkSizeWarningLimit: 800,
-      cssCodeSplit: true,
-      minify: 'esbuild',
+      chunkSizeWarningLimit: 400,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+      },
     },
     optimizeDeps: {
       include: ["react", "react-dom", "react-router-dom"],

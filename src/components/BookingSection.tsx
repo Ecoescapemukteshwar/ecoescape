@@ -1,5 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useMemo, memo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,6 +13,8 @@ import { createWhatsAppMessage, openWhatsAppWithMessage } from "@/services/whats
 import { trackBookingSubmit, trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/analytics";
 import { getBookingPrice, mapRoomTypeToPricingType } from "@/services/pricing";
 import { useRoomPricing } from "@/hooks/useRoomPricing";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 
 const bookingSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -44,6 +45,7 @@ export function BookingSection() {
     specialOccasion: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { ref, isInView } = useInView({ threshold: 0.1, rootMargin: "50px" });
 
   // Price summary state for live calculator
   const [priceSummary, setPriceSummary] = useState<{
@@ -284,11 +286,8 @@ export function BookingSection() {
     return (
       <section id="booking" className="py-20 bg-gradient-forest text-primary-foreground">
         <div className="container max-w-2xl text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="bg-primary-foreground/10 backdrop-blur-sm rounded-2xl p-12"
+          <div
+            className="bg-primary-foreground/10 backdrop-blur-sm rounded-2xl p-12 animate-fade-in-up"
           >
             <CheckCircle className="h-16 w-16 mx-auto mb-6 text-accent" />
             <h2 className="text-3xl font-serif font-semibold mb-4">
@@ -310,21 +309,20 @@ export function BookingSection() {
                 Call Us
               </Button>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="booking" className="py-20 bg-gradient-forest text-primary-foreground">
+    <section id="booking" ref={ref} className="py-20 bg-gradient-forest text-primary-foreground overflow-hidden">
       <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+        <div
+          className={cn(
+            "text-center mb-12 opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4">
             Ready for Your Mountain Escape?
@@ -333,16 +331,15 @@ export function BookingSection() {
             Book your stay at Ecoescape Mukteshwar and experience the perfect blend of
             nature, comfort, and hospitality.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid lg:grid-cols-5 gap-8">
           {/* Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-3"
+          <div
+            className={cn(
+              "lg:col-span-3 opacity-0",
+              isInView && "animate-fade-in-left opacity-100"
+            )}
           >
             <form
               onSubmit={handleSubmit}
@@ -596,15 +593,15 @@ export function BookingSection() {
                 )}
               </Button>
             </form>
-          </motion.div>
+          </div>
 
           {/* Contact Options */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-2 space-y-6"
+          <div
+            className={cn(
+              "lg:col-span-2 space-y-6 opacity-0",
+              isInView && "animate-fade-in-right opacity-100"
+            )}
+            style={isInView ? { animationDelay: "0.2s" } : {}}
           >
             <div className="bg-primary-foreground/10 backdrop-blur-sm rounded-2xl p-6">
               <h3 className="font-serif text-xl font-semibold mb-4">
@@ -662,9 +659,11 @@ export function BookingSection() {
               <p className="mb-2">✅ Secure Booking</p>
               <p>🔒 Your Privacy Protected</p>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
+export default memo(BookingSection);
