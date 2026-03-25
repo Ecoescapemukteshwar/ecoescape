@@ -7,6 +7,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { ContactUs } from "./pages/ContactUs";
+import {
+  RoomsRedirect,
+  DiningRedirect,
+  GardenRedirect,
+  GalleryRedirect,
+  ActivitiesRedirect,
+  ReviewsRedirect,
+} from "./pages/sectionRedirects";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { PricingTestPage } from "@/components/PricingTestPage";
 import { lazy, Suspense, useEffect } from "react";
@@ -50,6 +59,14 @@ const App = () => {
               <Route path="/rooms/spacious-apartment" element={<Suspense fallback={<div className="min-h-screen" />}><SpaciousApartment /></Suspense>} />
               <Route path="/rooms/family-room" element={<Suspense fallback={<div className="min-h-screen" />}><FamilyRoom /></Suspense>} />
               <Route path="/rooms/family-room-2" element={<Suspense fallback={<div className="min-h-screen" />}><FamilyRoom2 /></Suspense>} />
+              {/* Section redirect routes - clean URLs that redirect to hash sections */}
+              <Route path="/rooms" element={<RoomsRedirect />} />
+              <Route path="/dining" element={<DiningRedirect />} />
+              <Route path="/garden" element={<GardenRedirect />} />
+              <Route path="/gallery" element={<GalleryRedirect />} />
+              <Route path="/activities" element={<ActivitiesRedirect />} />
+              <Route path="/reviews" element={<ReviewsRedirect />} />
+              <Route path="/contactus" element={<ContactUs />} />
               <Route path="/test-pricing" element={<PricingTestPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
