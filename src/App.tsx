@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import { ContactUs } from "./pages/ContactUs";
+import ContactUs from "./pages/ContactUs";
 import {
   RoomsRedirect,
   DiningRedirect,
@@ -15,6 +15,8 @@ import {
   GalleryRedirect,
   ActivitiesRedirect,
   ReviewsRedirect,
+  BookingRedirect,
+  LocationRedirect,
 } from "./pages/sectionRedirects";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { PricingTestPage } from "@/components/PricingTestPage";
@@ -27,6 +29,7 @@ const SuiteWithMountainView = lazy(() => import("./pages/rooms/SuiteWithMountain
 const SpaciousApartment = lazy(() => import("./pages/rooms/SpaciousApartment"));
 const FamilyRoom = lazy(() => import("./pages/rooms/FamilyRoom"));
 const FamilyRoom2 = lazy(() => import("./pages/rooms/FamilyRoom2"));
+const AboutUs = lazy(() => import("./pages/AboutUs"));
 
 const queryClient = new QueryClient();
 
@@ -65,8 +68,11 @@ const App = () => {
               <Route path="/garden" element={<GardenRedirect />} />
               <Route path="/gallery" element={<GalleryRedirect />} />
               <Route path="/activities" element={<ActivitiesRedirect />} />
+              <Route path="/location" element={<LocationRedirect />} />
               <Route path="/reviews" element={<ReviewsRedirect />} />
+              <Route path="/booking" element={<BookingRedirect />} />
               <Route path="/contactus" element={<ContactUs />} />
+              <Route path="/aboutus" element={<Suspense fallback={<div className="min-h-screen" />}><AboutUs /></Suspense>} />
               <Route path="/test-pricing" element={<PricingTestPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

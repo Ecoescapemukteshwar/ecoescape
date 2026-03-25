@@ -15,6 +15,7 @@ const navLinks = [
   { name: "Gallery", href: "#gallery" },
   { name: "Things to Do", href: "#things-to-do" },
   { name: "Reviews", href: "#reviews" },
+  { name: "About", href: "/aboutus", isRoute: true },
   { name: "Blog", href: "/blog", isRoute: true },
 ];
 
