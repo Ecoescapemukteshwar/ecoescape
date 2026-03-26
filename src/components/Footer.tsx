@@ -72,7 +72,7 @@ function LazyTripAdvisor() {
 
 export function Footer() {
   return (
-    <footer id="contact" className="bg-foreground text-background py-10">
+    <footer id="contact" className="bg-foreground text-background py-10 pb-28">
       <div className="container">
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}

@@ -52,7 +52,7 @@ import stargazingImg from "@/assets/blog/stargazing/featured.webp";
 import birdwatchingImg from "@/assets/blog/birdwatching/featured.webp";
 import kumaoniFoodImg from "@/assets/blog/kumaoni-food-guide/kumaoni-thali.webp";
 import chauliKiJaliImg from "@/assets/blog/things-to-do/chauli-ki-jali.webp";
-import gardenTerraceImg from "@/assets/garden-terrace.webp";
+import gardenTerraceImg from "@/assets/garden-terrace-opt.webp";
 
 export const blogPosts: BlogPost[] = [
   {

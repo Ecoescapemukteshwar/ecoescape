@@ -71,7 +71,7 @@ export default function SpaciousApartment() {
       />
       <Header />
 
-      <main className="pt-28 pb-20">
+      <main className="pt-44 pb-20">
         {/* Breadcrumb */}
         <div className="container max-w-6xl">
           <Link

@@ -36,7 +36,7 @@ export default function BackpackerMukteshwarGuide() {
         breadcrumb: breadcrumbSchema
       }}
     >
-      <header className="mb-10">
+      <header className="relative mb-10">
         <span className="text-xs font-semibold uppercase tracking-wider text-primary">Budget Travel</span>
         <h1 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mt-3 mb-4 leading-tight">
           Backpacking Mukteshwar: Stays, Cafes & Solo Travel Tips (2026)

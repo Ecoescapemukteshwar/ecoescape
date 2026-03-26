@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom"
-import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
+import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Leaf, Sun, Recycle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import featuredImg from "@/assets/blog/sustainable-stays/featured.webp";
 
 const SUSTAINABLE_FEATURES = [

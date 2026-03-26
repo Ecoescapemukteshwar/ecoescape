@@ -1,3 +1,4 @@
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -17,7 +18,6 @@ import {
 } from "./pages/sectionRedirects";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { PricingTestPage } from "@/components/PricingTestPage";
-import { lazy, Suspense, useEffect } from "react";
 import { initializeDemandMultiplier } from "@/services/pricing";
 
 const Blog = lazy(() => import("./pages/Blog"));
@@ -39,6 +39,35 @@ const IndexFallback = () => (
   </div>
 );
 
+// Deferred analytics component - loads after page is interactive
+const DeferredAnalytics = () => {
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    // Defer analytics until after page is interactive (2 second delay + requestIdleCallback)
+    const timer = setTimeout(() => {
+      // Use requestIdleCallback if available, otherwise load immediately
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => setShouldRender(true));
+      } else {
+        setShouldRender(true);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const isDev = import.meta.env.DEV;
+  if (!shouldRender || isDev) return null;
+
+  return (
+    <>
+      <Analytics />
+      <SpeedInsights />
+    </>
+  );
+};
+
 const App = () => {
   // Initialize demand multiplier on app startup
   useEffect(() => {
@@ -50,8 +79,7 @@ const App = () => {
   return (
     <ErrorBoundary>
       <TooltipProvider>
-        {!isDev && <Analytics />}
-        {!isDev && <SpeedInsights />}
+        <DeferredAnalytics />
         <Toaster />
         <BrowserRouter>
             <Routes>

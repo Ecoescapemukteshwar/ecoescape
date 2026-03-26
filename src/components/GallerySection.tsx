@@ -20,16 +20,16 @@ import apt4 from "@/assets/two_bed_room_apartment/IMG_2901.webp";
 import terrace1 from "@/assets/terrace/6fc849e5-c31a-42b3-954c-0a943f6c9f21.webp";
 import terrace2 from "@/assets/terrace/IMG_1459.webp";
 import terrace3 from "@/assets/terrace/IMG_2495.webp";
-import terrace4 from "@/assets/terrace/IMG_2926.webp";
+import terrace4 from "@/assets/terrace/IMG_2926-opt.webp";
 
 // Views
 import view1 from "@/assets/view/F4E15BBC-891E-40CB-84F4-77E47B25C194_1_105_c-opt.webp";
-import view2 from "@/assets/view/IMG_0754.webp";
+import view2 from "@/assets/view/IMG_0754-opt.webp";
 import view3 from "@/assets/view/IMG_0774.webp";
 import view4 from "@/assets/view/image00004.webp";
 
 // Activities
-import act1 from "@/assets/activites/img1.webp";
+import act1 from "@/assets/activites/img1-opt.webp";
 import act2 from "@/assets/activites/img2.webp";
 import act3 from "@/assets/activites/IMG_3113_2.webp";
 import act4 from "@/assets/activites/IMG_3736.webp";

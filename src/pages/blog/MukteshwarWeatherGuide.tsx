@@ -4,7 +4,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { Calendar, Clock, MessageCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import gardenTerraceImg from "@/assets/garden-terrace.webp";
+import gardenTerraceImg from "@/assets/garden-terrace-opt.webp";
 
 const weatherData = [
   { month: "January", temp: "2°C – 15°C", weather: "Cold, clear skies, occasional frost", best: "Snow views, bonfire evenings", crowd: "Low" },

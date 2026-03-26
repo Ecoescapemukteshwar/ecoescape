@@ -1,5 +1,5 @@
 import { Flower2, Camera, Bird, BookOpen, Sparkles } from "lucide-react";
-import gardenTerrace from "@/assets/garden-terrace.webp";
+import gardenTerrace from "@/assets/garden-terrace-opt.webp";
 import { useInView } from "@/hooks/useInView";
 import { cn } from "@/lib/utils";
 

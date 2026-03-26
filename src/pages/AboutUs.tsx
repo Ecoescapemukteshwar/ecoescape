@@ -33,7 +33,7 @@ const AboutUs = () => {
       
       <main>
         {/* Simple Hero Section */}
-        <section className="relative h-[60vh] flex items-center justify-center overflow-hidden pt-20">
+        <section className="relative h-[60vh] flex items-center justify-center overflow-hidden pt-40">
           <div className="absolute inset-0">
             <img
               src="/images/hero-sunrise.webp"
