@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Search, Binoculars, MessageCircle, Heart } from "lucide-react";
@@ -8,7 +9,7 @@ import birdwatchingFeaturedImg from "@/assets/blog/birdwatching/featured.webp";
 
 export default function BirdwatchingGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Birdwatching in Mukteshwar: A Complete Guide to Himalayan Avian Diversity",
     image: birdwatchingFeaturedImg,
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -23,13 +24,13 @@ export default function BirdwatchingGuide() {
     },
     description: "Explore the rich avian diversity of Mukteshwar. From the colorful Himalayan Monal to the elusive Laughingthrush, discover the best birding trails and seasonal highlights around Ecoescape.",
     url: "https://ecoescapemukteshwar.com/blog/birdwatching-in-mukteshwar-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Birdwatching in Mukteshwar" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
@@ -17,7 +18,7 @@ const RESORTS = [
 export default function BestResortsInMukteshwar() {
   const { navigateToBooking } = useBookingNavigation();
 
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "10 Best Resorts in Mukteshwar: Luxury to Budget Stays (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -25,13 +26,13 @@ export default function BestResortsInMukteshwar() {
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Compare the top resorts in Mukteshwar! From Lemon Tree and Justa to sustainable boutique stays like Ecoescape, find your perfect Himalayan holiday home.",
     url: "https://ecoescapemukteshwar.com/blog/best-resorts-in-mukteshwar",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Best Resorts in Mukteshwar" },
-  ]);
+  ]), []);
 
   const resorts = RESORTS;
 

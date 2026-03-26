@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Compass, MapPin, Trees } from "lucide-react";
@@ -7,7 +8,7 @@ import featuredImg from "@/assets/blog/offbeat-places/featured.webp";
 
 export default function MukteshwarOffbeatPlaces() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Offbeat Mukteshwar: 7 Hidden Gems Away from the Crowds (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -15,13 +16,13 @@ export default function MukteshwarOffbeatPlaces() {
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Discover the offbeat side of Mukteshwar. 7 hidden spots including remote village trails, secluded viewpoints, and secret waterfalls for 2026.",
     url: "https://ecoescapemukteshwar.com/blog/offbeat-places-in-mukteshwar",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Offbeat Mukteshwar Guide" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

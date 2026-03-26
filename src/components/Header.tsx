@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, memo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Phone, MessageCircle, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import { useThrottle } from "@/hooks/useThrottle";
@@ -238,15 +237,13 @@ export function Header() {
         </div>
 
         {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden overflow-hidden bg-background rounded-xl mt-4 shadow-card"
-              id="mobile-menu"
-            >
+        <div
+          className={cn(
+            "lg:hidden overflow-hidden bg-background rounded-xl mt-4 shadow-card transition-all duration-300 ease-in-out",
+            isOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+          )}
+          id="mobile-menu"
+        >
               <div className="p-4 space-y-2">
                 {navLinks.map((link) =>
                   'isRoute' in link && link.isRoute ? (
@@ -297,9 +294,7 @@ export function Header() {
                   </Button>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
       </nav>
     </header>
   );

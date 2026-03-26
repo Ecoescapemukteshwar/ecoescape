@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Car, Info } from "lucide-react";
@@ -7,7 +8,7 @@ import featuredImg from "@/assets/blog/kainchi-dham/featured.webp";
 
 export default function KainchiDhamToMukteshwar() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Kainchi Dham to Mukteshwar: Distance, Route & Travel Guide (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -15,13 +16,13 @@ export default function KainchiDhamToMukteshwar() {
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Plan your spiritual journey from Kainchi Dham to Mukteshwar. Get distance, best routes via Bhowali, taxi fares, and travel tips for 2026.",
     url: "https://ecoescapemukteshwar.com/blog/kainchi-dham-to-mukteshwar-distance",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Kainchi Dham to Mukteshwar Guide" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

@@ -1,4 +1,5 @@
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Wifi, Zap, Coffee, Shield, Phone, MessageCircle } from "lucide-react";
@@ -9,7 +10,7 @@ import workcationFeaturedImg from "@/assets/blog/workcation/featured.webp";
 export default function WorkcationGuide() {
   const { navigateToBooking } = useBookingNavigation();
   // Article Schema
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Workcation in Mukteshwar: A Digital Nomad's Guide to Working from the Hills",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/workcation/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -24,14 +25,14 @@ export default function WorkcationGuide() {
     },
     description: "Planning a workcation in Mukteshwar? Our guide for digital nomads covers high-speed WiFi, power backup, quiet workspaces, and why Ecoescape is the perfect mountain office.",
     url: "https://ecoescapemukteshwar.com/blog/workcation-guide",
-  });
+  }), []);
 
   // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Workcation in Mukteshwar" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

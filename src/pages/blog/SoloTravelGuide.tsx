@@ -1,4 +1,5 @@
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Shield, Compass, Sunrise, Phone, MessageCircle } from "lucide-react";
@@ -9,7 +10,7 @@ import soloFeaturedImg from "@/assets/blog/solo/featured.webp";
 export default function SoloTravelGuide() {
   const { navigateToBooking } = useBookingNavigation();
   // Article Schema
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Solo Travel in Mukteshwar: A Safe and Serene Guide for Adventurers",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/solo/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -24,14 +25,14 @@ export default function SoloTravelGuide() {
     },
     description: "Planning a solo trip to Mukteshwar? Our solo travel guide covers safety tips, navigation, meeting locals, and the best ways to explore the Kumaon hills on your own.",
     url: "https://ecoescapemukteshwar.com/blog/solo-travel-guide",
-  });
+  }), []);
 
   // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Solo Travel in Mukteshwar" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

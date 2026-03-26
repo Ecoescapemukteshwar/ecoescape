@@ -38,7 +38,7 @@ export default function FamilyRoom2() {
   if (!room) return null;
 
   // LodgingReservation Schema
-  const lodgingSchema = generateLodgingReservationSchema({
+  const lodgingSchema = useMemo(() => generateLodgingReservationSchema({
     name: room.name,
     description: room.longDescription,
     url: `https://ecoescapemukteshwar.com/rooms/${room.slug}`,
@@ -50,14 +50,14 @@ export default function FamilyRoom2() {
     bedConfig: room.bedConfig,
     amenities: room.amenities,
     bookingUrl: "https://ecoescapemukteshwar.com/#booking",
-  });
+  }), [room.name, room.longDescription, room.slug, room.images[0], currentPrice, room.capacity, room.size, room.bedConfig, room.amenities]);
 
   // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Rooms", item: "https://ecoescapemukteshwar.com/#rooms" },
     { name: room.name },
-  ]);
+  ]), [room.name]);
 
   return (
     <div className="min-h-screen bg-background">

@@ -15,44 +15,8 @@ export interface BlogPost {
 
 const heroSunriseImg = "/images/hero-sunrise-opt.webp";
 
-// Image imports for blog posts
-import winterExperienceImg from "@/assets/blog/winter-experience/featured.webp";
-import vsNainitalImg from "@/assets/blog/vs-nainital/featured.webp";
-import bestTimeImg from "@/assets/blog/best-time-to-visit/featured.webp";
-import beyondTempleImg from "@/assets/blog/beyond-temple/featured.webp";
-import bestHomestaysImg from "@/assets/blog/best-homestays/featured.webp";
-import petFriendlyImg from "@/assets/blog/pet-friendly/featured.webp";
-import sustainableStaysImg from "@/assets/blog/sustainable-stays/featured.webp";
-import budgetStaysImg from "@/assets/blog/budget-stays/featured.webp";
-import kainchiDhamImg from "@/assets/blog/kainchi-dham/featured.webp";
-import nainitalDayTripImg from "@/assets/blog/nainital-day-trip/featured.webp";
-import bestResortsImg from "@/assets/blog/best-resorts/featured.webp";
-import spiritualKumaonImg from "@/assets/blog/spiritual-kumaon/featured.webp";
-import bhaluGaadImg from "@/assets/blog/bhalu-gaad/featured.webp";
-import backpackerImg from "@/assets/blog/backpacker-guide/featured.webp";
-import templeHistoryImg from "@/assets/blog/temple-history/featured.webp";
-import delhiRoadTripImg from "@/assets/blog/delhi-road-trip/featured.webp";
-import offbeatPlacesImg from "@/assets/blog/offbeat-places/featured.webp";
-import springGuideImg from "@/assets/blog/spring-guide/featured.webp";
-import monsoonImg from "@/assets/blog/monsoon/featured.webp";
-import photographyImg from "@/assets/blog/photography/featured.webp";
-import festivalsImg from "@/assets/blog/festivals/featured.webp";
-import packingImg from "@/assets/blog/packing-list/featured.webp";
-import workcationImg from "@/assets/blog/workcation/featured.webp";
-import romanticImg from "@/assets/blog/romantic/featured.webp";
-import soloImg from "@/assets/blog/solo/featured.webp";
-import familyImg from "@/assets/blog/family/featured.webp";
-import howToReachImg from "@/assets/blog/how-to-reach/featured.webp";
-import cafesImg from "@/assets/blog/cafes/featured.webp";
-import snowfallImg from "@/assets/blog/snowfall/featured.webp";
-import itineraryImg from "@/assets/blog/itinerary/featured.webp";
-import trekkingImg from "@/assets/blog/trekking/featured.webp";
-import orchardsImg from "@/assets/blog/fruit-orchards/featured.webp";
-import stargazingImg from "@/assets/blog/stargazing/featured.webp";
-import birdwatchingImg from "@/assets/blog/birdwatching/featured.webp";
-import kumaoniFoodImg from "@/assets/blog/kumaoni-food-guide/kumaoni-thali.webp";
-import chauliKiJaliImg from "@/assets/blog/things-to-do/chauli-ki-jali.webp";
-import gardenTerraceImg from "@/assets/garden-terrace-opt.webp";
+// Blog image paths (served from /public, not bundled into JS)
+const blogImg = (path: string) => `/images/blog/${path}`;
 
 export const blogPosts: BlogPost[] = [
   {
@@ -61,7 +25,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "A guide to visiting Mukteshwar during December–February, covering snowfall, temperatures, packing tips, and why cozy boutique homestays are the best choice.",
     date: "March 24, 2026",
     readTime: "8 min read",
-    image: winterExperienceImg,
+    image: blogImg("winter-experience/featured.webp"),
     imageAlt: "Cozy homestay in Mukteshwar covered in snow with Himalayan views",
     category: "Seasonal Guide",
   },
@@ -71,7 +35,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "An honest side-by-side comparison covering crowd levels, prices, vibe, and activities to help you find your perfect Himalayan getaway.",
     date: "March 24, 2026",
     readTime: "9 min read",
-    image: vsNainitalImg,
+    image: blogImg("vs-nainital/featured.webp"),
     imageAlt: "Comparison of peaceful Mukteshwar trail and busy Nainital lake",
     category: "Comparison Guide",
   },
@@ -81,7 +45,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "A seasonal breakdown of Mukteshwar throughout the year — spring orchards, monsoon waterfalls, autumn Himalayan views, and winter snow — with honest pros and cons.",
     date: "March 24, 2026",
     readTime: "10 min read",
-    image: bestTimeImg,
+    image: blogImg("best-time-to-visit/featured.webp"),
     imageAlt: "Seasonal montage of Mukteshwar from blossoms to snow",
     category: "Planning Guide",
   },
@@ -91,7 +55,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "A practical activity guide covering trekking trails, rock climbing, stargazing, fruit picking, and village walks for travelers wanting more than the standard checklist.",
     date: "March 24, 2026",
     readTime: "11 min read",
-    image: beyondTempleImg,
+    image: blogImg("beyond-temple/featured.webp"),
     imageAlt: "Trekkers on a scenic trail in Mukteshwar forests",
     category: "Activity Guide",
   },
@@ -101,7 +65,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Looking for the best homestays in Mukteshwar? Discover 10 top-rated stays offering stunning Himalayan views, home-cooked Kumaoni food, and authentic mountain hospitality.",
     date: "March 23, 2026",
     readTime: "7 min read",
-    image: bestHomestaysImg,
+    image: blogImg("best-homestays/featured.webp"),
     imageAlt: "Homestay in Mukteshwar with clear view of the Himalayas",
     category: "Stay Guide",
   },
@@ -111,7 +75,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Planning a trip to Mukteshwar with your pet? Discover the best pet-friendly hotels, cottages, and homestays in Mukteshwar for a comfortable stay with your furry best friend.",
     date: "March 23, 2026",
     readTime: "6 min read",
-    image: petFriendlyImg,
+    image: blogImg("pet-friendly/featured.webp"),
     imageAlt: "Happy dog playing in the mountains of Mukteshwar",
     category: "Pet Travel",
   },
@@ -121,7 +85,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Looking for eco-friendly stays in Mukteshwar? Discover how sustainable tourism is shaping the Kumaon hills and explore the best green resorts and boutique stays for a conscious escape.",
     date: "March 23, 2026",
     readTime: "7 min read",
-    image: sustainableStaysImg,
+    image: blogImg("sustainable-stays/featured.webp"),
     imageAlt: "Sustainable boutique stay in Mukteshwar using natural materials",
     category: "Conscious Travel",
   },
@@ -131,7 +95,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Discover the best budget-friendly homestays and hostels in Mukteshwar. Perfect for solo travelers and backpackers looking for affordable stays with great views.",
     date: "March 23, 2026",
     readTime: "5 min read",
-    image: budgetStaysImg,
+    image: blogImg("budget-stays/featured.webp"),
     imageAlt: "Cozy budget homestay in Mukteshwar with mountain view",
     category: "Budget Travel",
   },
@@ -141,7 +105,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Planning a spiritual journey from Kainchi Dham? Get the latest guide on Kainchi Dham to Mukteshwar distance, best routes via Bhowali, taxi fares, and expert travel tips for 2026.",
     date: "March 19, 2026",
     readTime: "5 min read",
-    image: kainchiDhamImg,
+    image: blogImg("kainchi-dham/featured.webp"),
     imageAlt: "Aerial view of the winding roads between Kainchi Dham and Mukteshwar",
     category: "Travel Guide",
   },
@@ -151,7 +115,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Everything you need for a perfect Mukteshwar to Nainital day trip. Nainital to Mukteshwar distance is ~50 km — get travel time, route options, and top attractions like Naini Lake.",
     date: "March 19, 2026",
     readTime: "6 min read",
-    image: nainitalDayTripImg,
+    image: blogImg("nainital-day-trip/featured.webp"),
     imageAlt: "The scenic lake district of Nainital as seen from a height",
     category: "Travel Guide",
   },
@@ -161,7 +125,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Looking for the best Mukteshwar hotel? Compare top resorts and homestays — from Lemon Tree and Justa to sustainable boutique stays like Ecoescape. Find your perfect Himalayan retreat.",
     date: "March 19, 2026",
     readTime: "8 min read",
-    image: bestResortsImg,
+    image: blogImg("best-resorts/featured.webp"),
     imageAlt: "Luxury resort terrace with panoramic Himalayan mountain views",
     category: "Stay Guide",
   },
@@ -171,7 +135,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Explore the ancient spiritual circuit of Kumaon — from Mukteshwar Dham temple to Jageshwar Dham and Kainchi Dham. Complete pilgrimage guide with distances and timings.",
     date: "March 19, 2026",
     readTime: "7 min read",
-    image: spiritualKumaonImg,
+    image: blogImg("spiritual-kumaon/featured.webp"),
     imageAlt: "Ancient stone temple at Jageshwar Dham surrounded by deodar forests",
     category: "Spiritual Tourism",
   },
@@ -181,7 +145,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Trek to the hidden Bhalu Gaad waterfall in Mukteshwar. Find trail difficulty, timings, and the best time to visit this cascading wonder.",
     date: "March 19, 2026",
     readTime: "5 min read",
-    image: bhaluGaadImg,
+    image: blogImg("bhalu-gaad/featured.webp"),
     imageAlt: "Cascading waterfall in the heart of the Mukteshwar forest",
     category: "Adventure",
   },
@@ -191,7 +155,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "The ultimate backpacker's guide to Mukteshwar Uttarakhand. Compare budget hotels in Mukteshwar, find solo-traveler cafes, and get cheap travel hacks.",
     date: "March 19, 2026",
     readTime: "6 min read",
-    image: backpackerImg,
+    image: blogImg("backpacker-guide/featured.webp"),
     imageAlt: "A solo backpacker trekking through the mountain trails of Mukteshwar",
     category: "Budget Travel",
   },
@@ -201,7 +165,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Deep dive into the 350-year-old history of Mukteshwar Dham temple. Learn about the legend of liberation, Chauli Ki Jali, and ancient Kumaoni rituals at the Mukteshwar Mandir.",
     date: "March 19, 2026",
     readTime: "7 min read",
-    image: templeHistoryImg,
+    image: blogImg("temple-history/featured.webp"),
     imageAlt: "The ancient Mukteshwar Mahadev Temple against a golden sunrise",
     category: "History & Heritage",
   },
@@ -211,7 +175,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Delhi to Mukteshwar distance is ~320 km (7-8 hours). Plan the perfect road trip with the best route via Moradabad, top dhabas, and essential hill driving tips.",
     date: "March 19, 2026",
     readTime: "8 min read",
-    image: delhiRoadTripImg,
+    image: blogImg("delhi-road-trip/featured.webp"),
     imageAlt: "A car driving through the scenic mountain roads towards Mukteshwar",
     category: "Road Trip",
   },
@@ -221,7 +185,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Discover offbeat places to visit in Mukteshwar. From silent village trails to secret waterfalls, here are 7 hidden gems in Mukteshwar Uttarakhand for 2026.",
     date: "March 19, 2026",
     readTime: "6 min read",
-    image: offbeatPlacesImg,
+    image: blogImg("offbeat-places/featured.webp"),
     imageAlt: "A quiet, secluded viewpoint overlooking the Himalayan peaks",
     category: "Hidden Gems",
   },
@@ -231,7 +195,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Experience the magic of spring. Guide to flower seasons, fruit blossoms, and perfect Mukteshwar temperature for a mountain getaway.",
     date: "March 19, 2026",
     readTime: "5 min read",
-    image: springGuideImg,
+    image: blogImg("spring-guide/featured.webp"),
     imageAlt: "Vibrant pink fruit blossoms in a Mukteshwar orchard during spring",
     category: "Seasonal Guide",
   },
@@ -241,7 +205,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Experience Mukteshwar in monsoon — weather conditions, misty Himalayan views, lush green trails, and why the rainy season is the best time for a quiet retreat in Uttarakhand.",
     date: "March 19, 2026",
     readTime: "9 min read",
-    image: monsoonImg,
+    image: blogImg("monsoon/featured.webp"),
     imageAlt: "Misty mountain landscape in Mukteshwar during the monsoon season",
     category: "Seasonal Guide",
   },
@@ -251,7 +215,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Looking for the best photography spots in Mukteshwar? From the dramatic cliffs of Chauli Ki Jali to the sunrise views at Ecoescape, here is your 2026 photography guide.",
     date: "March 19, 2026",
     readTime: "8 min read",
-    image: photographyImg,
+    image: blogImg("photography/featured.webp"),
     imageAlt: "A professional camera capturing the Himalayan peaks at sunset in Mukteshwar",
     category: "Photography Guide",
   },
@@ -261,7 +225,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Discover the vibrant culture of Mukteshwar Uttarakhand. From Choliya dance to Phool Dei and Harela, experience authentic Kumaoni heritage at Ecoescape.",
     date: "March 19, 2026",
     readTime: "10 min read",
-    image: festivalsImg,
+    image: blogImg("festivals/featured.webp"),
     imageAlt: "Traditional Choliya dancers performing in a village square in Mukteshwar",
     category: "Cultural Guide",
   },
@@ -271,7 +235,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "What to pack for Mukteshwar? Our comprehensive 2026 packing guide covers clothing for summer, monsoon, and winter, plus trekking gear and essential travel items.",
     date: "March 19, 2026",
     readTime: "7 min read",
-    image: packingImg,
+    image: blogImg("packing-list/featured.webp"),
     imageAlt: "A neatly organized travel packing layout for a mountain trip to Mukteshwar",
     category: "Travel Checklist",
   },
@@ -281,7 +245,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Planning a workcation in Mukteshwar? Our guide covers high-speed WiFi, power backup, quiet workspaces, and why Ecoescape is the perfect mountain office.",
     date: "March 19, 2026",
     readTime: "7 min read",
-    image: workcationImg,
+    image: blogImg("workcation/featured.webp"),
     imageAlt: "A productive home office setup with Himalayan mountain views",
     category: "Digital Nomad",
   },
@@ -291,7 +255,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Planning a romantic trip to Mukteshwar? Our couples guide covers candlelit terrace dinners, sunrise viewpoints, private bonfires, and the most romantic spots in the Kumaon hills.",
     date: "March 19, 2026",
     readTime: "8 min read",
-    image: romanticImg,
+    image: blogImg("romantic/featured.webp"),
     imageAlt: "A romantic candlelit dinner setup on a terrace with mountain views at night",
     category: "Couples Guide",
   },
@@ -301,7 +265,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Planning a solo trip to Mukteshwar? Our solo travel guide covers safety tips, navigation, meeting locals, and the best ways to explore the Kumaon hills on your own.",
     date: "March 19, 2026",
     readTime: "7 min read",
-    image: soloImg,
+    image: blogImg("solo/featured.webp"),
     imageAlt: "A solo traveler standing on a ridge with vast Himalayan views at golden hour",
     category: "Solo Travel",
   },
@@ -311,7 +275,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Planning a family trip to Mukteshwar? Our guide covers activities for kids and seniors, family-friendly rooms, and why Ecoescape is the perfect multigenerational retreat.",
     date: "March 19, 2026",
     readTime: "8 min read",
-    image: familyImg,
+    image: blogImg("family/featured.webp"),
     imageAlt: "A multigenerational family enjoying a sunny day in a mountain garden",
     category: "Family Guide",
   },
@@ -321,7 +285,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "How to reach Mukteshwar? Complete 2026 transport guide covering Delhi to Mukteshwar distance (~320 km), Kathgodam to Mukteshwar route, and local taxi tips.",
     date: "March 19, 2026",
     readTime: "8 min read",
-    image: howToReachImg,
+    image: blogImg("how-to-reach/featured.webp"),
     imageAlt: "Scenic road winding through the Kumaon hills towards Mukteshwar",
     category: "Travel Guide",
   },
@@ -331,7 +295,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Discover the best cafes and restaurants in Mukteshwar. From the famous Choco-House and Nirvana Cafe to authentic Kumaoni dining at Ecoescape — your ultimate foodie guide.",
     date: "March 19, 2026",
     readTime: "10 min read",
-    image: cafesImg,
+    image: blogImg("cafes/featured.webp"),
     imageAlt: "Terrace dining at Ecoescape Mukteshwar with panoramic mountain views",
     category: "Food & Culture",
   },
@@ -341,7 +305,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "When does it snow in Mukteshwar? Complete guide to Mukteshwar snowfall — best months (Dec–Feb), top snow viewing spots, winter packing essentials, and what to expect during a winter trip.",
     date: "March 19, 2026",
     readTime: "10 min read",
-    image: snowfallImg,
+    image: blogImg("snowfall/featured.webp"),
     imageAlt: "Mukteshwar village covered in thick white snow with Himalayan peaks in the background",
     category: "Seasonal Guide",
   },
@@ -351,7 +315,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Planning a quick trip to Mukteshwar? Our 2-day itinerary covers the best places to visit, adventure activities, and local dining for a perfect weekend getaway from Delhi.",
     date: "March 19, 2026",
     readTime: "8 min read",
-    image: itineraryImg,
+    image: blogImg("itinerary/featured.webp"),
     imageAlt: "A scenic montage of Mukteshwar trip with Himalayan views and cozy stay",
     category: "Travel Plan",
   },
@@ -361,7 +325,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Discover the best trekking trails in Mukteshwar. From the Bhalu Gaad waterfall to scenic forest walks, explore the top hiking paths near Ecoescape Mukteshwar.",
     date: "March 19, 2026",
     readTime: "8 min read",
-    image: trekkingImg,
+    image: blogImg("trekking/featured.webp"),
     imageAlt: "Beautiful trekking trail in Mukteshwar with Himalayan views and lush forests",
     category: "Adventure",
   },
@@ -371,7 +335,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Explore the 'Fruit Bowl of Kumaon'. Guide to Mukteshwar's fruit orchards — apple, peach, and plum harvest seasons and how to enjoy the orchard experience.",
     date: "March 19, 2026",
     readTime: "7 min read",
-    image: orchardsImg,
+    image: blogImg("fruit-orchards/featured.webp"),
     imageAlt: "Lush fruit orchard in Mukteshwar with ripe fruits on trees and clear blue sky",
     category: "Nature & Culture",
   },
@@ -381,7 +345,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Discover the magic of the Himalayan night sky. Guide to stargazing in Mukteshwar — best times, what to see, and why Ecoescape is the perfect dark-sky retreat.",
     date: "March 19, 2026",
     readTime: "8 min read",
-    image: stargazingImg,
+    image: blogImg("stargazing/featured.webp"),
     imageAlt: "The Milky Way over the Himalayan mountains in Mukteshwar, as seen from Ecoescape terrace",
     category: "Activity",
   },
@@ -391,7 +355,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Explore the rich avian diversity of Mukteshwar. From the Himalayan Monal to the Laughingthrush, discover the best birding trails around Ecoescape.",
     date: "March 19, 2026",
     readTime: "10 min read",
-    image: birdwatchingImg,
+    image: blogImg("birdwatching/featured.webp"),
     imageAlt: "Himalayan Monal perched in a misty Mukteshwar forest",
     category: "Nature",
   },
@@ -401,7 +365,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Discover authentic Kumaoni food in Mukteshwar — 12 traditional dishes, local ingredients, best restaurants, terrace dining, and Uttarakhand cuisine guide.",
     date: "March 18, 2026",
     readTime: "10 min read",
-    image: kumaoniFoodImg,
+    image: blogImg("kumaoni-food-guide/kumaoni-thali.webp"),
     imageAlt: "Traditional Kumaoni thali with bhat ki churkani, kafuli, baadi served at Ecoescape Mukteshwar",
     category: "Food & Culture",
   },
@@ -411,7 +375,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Discover the best places to visit in Mukteshwar — ancient temples, adventure sports, scenic viewpoints, and cultural experiences. Complete guide with Mukteshwar distance from Nainital and tips.",
     date: "March 18, 2026",
     readTime: "12 min read",
-    image: chauliKiJaliImg,
+    image: blogImg("things-to-do/chauli-ki-jali.webp"),
     imageAlt: "Dramatic Chauli Ki Jali cliff edge in Mukteshwar with Himalayan mountain backdrop",
     category: "Travel Guide",
   },
@@ -431,7 +395,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Check Mukteshwar weather today and plan your trip with our complete month-by-month temperature guide. Best time to visit for snowfall, pleasant weather, or Himalayan views.",
     date: "March 2, 2026",
     readTime: "6 min read",
-    image: gardenTerraceImg,
+    image: blogImg("garden-terrace-opt.webp"),
     imageAlt: "Seasonal weather views of Mukteshwar showing Himalayan peaks through different seasons",
     category: "Planning",
   },

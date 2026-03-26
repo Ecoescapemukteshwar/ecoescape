@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Snowflake, Thermometer, Coffee, Home, MessageCircle, Phone } from "lucide-react";
@@ -10,7 +11,7 @@ export default function WinterExperienceGuide() {
   const navigate = useNavigate();
 
   // Article Schema
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Mukteshwar in Winter: Snowfall, Cozy Stays & What to Expect (2026)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/winter-experience/featured.webp",
     datePublished: formatDateForSchema("March 24, 2026"),
@@ -25,14 +26,14 @@ export default function WinterExperienceGuide() {
     },
     description: "Planning a winter trip to Mukteshwar? Our guide covers when snowfall happens, what temperatures to expect, and why a cozy boutique homestay beats a large hotel in the cold season.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-in-winter",
-  });
+  }), []);
 
   // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Mukteshwar in Winter" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

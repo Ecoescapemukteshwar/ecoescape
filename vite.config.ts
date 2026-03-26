@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
-import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -19,7 +19,6 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
-      cssInjectedByJsPlugin(),
       mode === "development" && componentTagger(),
       VitePWA({
         registerType: "autoUpdate",
@@ -45,8 +44,9 @@ export default defineConfig(({ mode }) => {
           ]
         },
         workbox: {
-          globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,jpg,jpeg}"],
-          maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // 3 MB - TODO: Compress F4E15BBC-891E-40CB-84F4-77E47B25C194_1_105_c.webp (2.48 MB)
+          globPatterns: ["**/*.{js,css,html,ico,svg,woff,woff2}"],
+          globIgnores: ["**/stats.html"], // Exclude bundle analyzer output from PWA
+          maximumFileSizeToCacheInBytes: 200 * 1024, // 200KB - Precache JS/CSS/fonts only, large images use runtime caching
           runtimeCaching: [
             {
               urlPattern: /^https?:\/\/.*/i,
@@ -68,8 +68,8 @@ export default defineConfig(({ mode }) => {
               options: {
                 cacheName: "image-cache",
                 expiration: {
-                  maxEntries: 200,
-                  maxAgeSeconds: 60 * 60 * 24 * 60 // 60 days
+                  maxEntries: 50, // Reduced from 200 to limit cache size
+                  maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days (reduced from 60)
                 }
               }
             }
@@ -78,6 +78,12 @@ export default defineConfig(({ mode }) => {
         // Disable inline service worker registration
         injectRegister: false,
         selfDestroying: false
+      }),
+      visualizer({
+        filename: './dist/stats.html',
+        gzipSize: true,
+        brotliSize: true,
+        open: false,
       }),
       prerenderPlugin && (prerenderPlugin as Function)({
         staticDir: path.join(__dirname, "dist"),
@@ -103,9 +109,6 @@ export default defineConfig(({ mode }) => {
             // Group heavy vendor libraries into their own chunks
             if (id.includes("node_modules/lucide-react")) {
               return "vendor-lucide";
-            }
-            if (id.includes("node_modules/framer-motion")) {
-              return "vendor-framer";
             }
             if (id.includes("node_modules/react") || id.includes("node_modules/react-dom") || id.includes("node_modules/react-router-dom")) {
               return "vendor-core";

@@ -1,4 +1,5 @@
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Camera, Sunrise, Utensils, MessageCircle, Info, Tent } from "lucide-react";
@@ -10,7 +11,7 @@ export default function WeekendItinerary() {
   const { navigateToBooking } = useBookingNavigation();
 
   // Article Schema
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Mukteshwar 2-Day Itinerary: The Perfect Weekend Getaway from Delhi",
     image: itineraryFeaturedImg,
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -25,14 +26,14 @@ export default function WeekendItinerary() {
     },
     description: "Planning a quick trip to Mukteshwar? Our 2-day itinerary covers the best sights, adventure activities, and local dining for a perfect weekend getaway from Delhi/NCR.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-weekend-itinerary",
-  });
+  }), []);
 
   // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Mukteshwar 2-Day Itinerary" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

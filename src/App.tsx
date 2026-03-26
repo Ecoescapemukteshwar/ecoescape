@@ -2,8 +2,8 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+const BlogCardSkeleton = lazy(() => import("@/components/BlogCardSkeleton").then(m => ({ default: m.BlogCardSkeleton })));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 import {
@@ -17,8 +17,13 @@ import {
   LocationRedirect,
 } from "./pages/sectionRedirects";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { PricingTestPage } from "@/components/PricingTestPage";
+import { lazy as lazyPricing } from "react";
+const PricingTestPage = lazyPricing(() => import("./components/PricingTestPage"));
 import { initializeDemandMultiplier } from "@/services/pricing";
+
+const TooltipProvider = lazy(() =>
+  import("@/components/ui/tooltip").then(m => ({ default: m.TooltipProvider }))
+);
 
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPostPage = lazy(() => import("./components/BlogPostPage"));
@@ -69,24 +74,75 @@ const DeferredAnalytics = () => {
 };
 
 const App = () => {
-  // Initialize demand multiplier on app startup
+  // Defer demand multiplier init to avoid competing with hero image bandwidth
   useEffect(() => {
-    initializeDemandMultiplier();
+    const timer = setTimeout(() => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => initializeDemandMultiplier());
+      } else {
+        initializeDemandMultiplier();
+      }
+    }, 3000); // Wait 3s after page load
+    return () => clearTimeout(timer);
   }, []);
 
   const isDev = import.meta.env.DEV;
 
   return (
     <ErrorBoundary>
-      <TooltipProvider>
-        <DeferredAnalytics />
+      <Suspense fallback={null}>
+        <TooltipProvider>
+          <DeferredAnalytics />
         <Toaster />
         <BrowserRouter>
             <Routes>
               <Route path="/" element={<Suspense fallback={<IndexFallback />}><Index /></Suspense>} />
-              <Route path="/blog" element={<Suspense fallback={<div className="min-h-screen" />}><Blog /></Suspense>} />
+              <Route
+                path="/blog"
+                element={
+                  <Suspense fallback={
+                    <div className="min-h-screen bg-background pt-40 pb-20">
+                      <div className="container max-w-4xl">
+                        <div className="text-center mb-14">
+                          <div className="h-12 bg-muted rounded w-64 mx-auto mb-4 animate-pulse" />
+                          <div className="h-6 bg-muted rounded w-96 mx-auto animate-pulse" />
+                        </div>
+                        <div className="space-y-8">
+                          <BlogCardSkeleton />
+                          <BlogCardSkeleton />
+                          <BlogCardSkeleton />
+                        </div>
+                      </div>
+                    </div>
+                  }>
+                    <Blog />
+                  </Suspense>
+                }
+              />
               {/* Dynamic blog routing - handles all blog posts automatically */}
-              <Route path="/blog/:slug" element={<Suspense fallback={<div className="min-h-screen" />}><BlogPostPage /></Suspense>} />
+              <Route
+                path="/blog/:slug"
+                element={
+                  <Suspense fallback={
+                    <div className="min-h-screen bg-background pt-40 pb-20">
+                      <div className="container max-w-4xl">
+                        <div className="space-y-8 animate-pulse">
+                          <div className="h-8 bg-muted rounded w-3/4" />
+                          <div className="h-4 bg-muted rounded w-1/2" />
+                          <div className="h-64 bg-muted rounded" />
+                          <div className="space-y-4">
+                            <div className="h-4 bg-muted rounded" />
+                            <div className="h-4 bg-muted rounded" />
+                            <div className="h-4 bg-muted rounded w-5/6" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  }>
+                    <BlogPostPage />
+                  </Suspense>
+                }
+              />
               {/* Room pages */}
               <Route path="/rooms/suite-with-mountain-view" element={<Suspense fallback={<div className="min-h-screen" />}><SuiteWithMountainView /></Suspense>} />
               <Route path="/rooms/spacious-apartment" element={<Suspense fallback={<div className="min-h-screen" />}><SpaciousApartment /></Suspense>} />
@@ -109,6 +165,7 @@ const App = () => {
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
+      </Suspense>
     </ErrorBoundary>
   );
 };

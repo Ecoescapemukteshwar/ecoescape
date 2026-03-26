@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MessageCircle, Phone } from "lucide-react";
@@ -23,7 +24,7 @@ const weatherData = [
 
 export default function MukteshwarWeatherGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Mukteshwar Weather Today & Month-by-Month Temperature Guide (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 2, 2026"),
@@ -38,13 +39,13 @@ export default function MukteshwarWeatherGuide() {
     },
     description: "Check Mukteshwar weather today, get month-by-month temperature data, and find the best time to visit for snowfall or pleasant sunshine in 2026.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-weather-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Weather in Mukteshwar" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

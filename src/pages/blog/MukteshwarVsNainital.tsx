@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Scale, Users, Wallet, Trees, MessageCircle } from "lucide-react";
@@ -9,7 +10,7 @@ import vsFeaturedImg from "@/assets/blog/vs-nainital/featured.webp";
 export default function MukteshwarVsNainital() {
   const navigate = useNavigate();
 
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Mukteshwar vs Nainital: Which Hill Station Should You Choose? (2026)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/vs-nainital/featured.webp",
     datePublished: formatDateForSchema("March 24, 2026"),
@@ -24,13 +25,13 @@ export default function MukteshwarVsNainital() {
     },
     description: "Choosing between Mukteshwar and Nainital? Our side-by-side comparison covers crowd levels, prices, vibe, and activities to help you find your perfect Himalayan getaway.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-vs-nainital",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Mukteshwar vs Nainital" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

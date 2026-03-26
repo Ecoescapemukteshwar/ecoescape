@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Calendar, Clock, Phone, MessageCircle, Utensils, ChefHat, Leaf, Star, Flame } from "lucide-react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ import traditionalFoodImg from "@/assets/blog/kumaoni-food-guide/traditional-foo
 export default function KumaoniFoodGuide() {
   const { navigateToBooking } = useBookingNavigation();
   // Article Schema
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Kumaoni Food Guide: Traditional Cuisine & Dining in Mukteshwar",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 18, 2026"),
@@ -27,17 +28,17 @@ export default function KumaoniFoodGuide() {
     },
     description: "Complete guide to Kumaoni cuisine in Mukteshwar - 12 traditional dishes, local ingredients, best places to eat, terrace dining experiences, and Uttarakhand food culture.",
     url: "https://ecoescapemukteshwar.com/blog/kumaoni-food-guide",
-  });
+  }), []);
 
   // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Kumaoni Food Guide" },
-  ]);
+  ]), []);
 
   // Restaurant Schema for Ecoescape dining
-  const restaurantSchema = generateRestaurantSchema();
+  const restaurantSchema = useMemo(() => generateRestaurantSchema(), []);
 
   return (
     <BlogPostLayout

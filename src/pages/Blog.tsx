@@ -1,12 +1,37 @@
-import { Link } from "react-router-dom";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
 import { PageMeta } from "@/seo/PageMeta";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { BlogCard } from "@/components/BlogCard";
+import { BlogCardSkeleton } from "@/components/BlogCardSkeleton";
 import { blogPosts } from "@/config/blog-posts";
+import { useInViewCallback } from "@/hooks/useInViewCallback";
+
+const POSTS_PER_PAGE = 10;
 
 export default function Blog() {
+  const [visibleCount, setVisibleCount] = useState(POSTS_PER_PAGE);
+
+  // Track latest state in ref so callback stays stable
+  const visibleCountRef = useRef(visibleCount);
+  useEffect(() => {
+    visibleCountRef.current = visibleCount;
+  }, [visibleCount]);
+
+  const loadMore = useCallback(() => {
+    if (visibleCountRef.current >= blogPosts.length) return;
+    setVisibleCount((prev) => Math.min(prev + POSTS_PER_PAGE, blogPosts.length));
+  }, []);
+
+  const sentinelRef = useInViewCallback(loadMore, {
+    threshold: 0,
+    rootMargin: '200px',
+  });
+
+  const visiblePosts = blogPosts.slice(0, visibleCount);
+  const hasMore = visibleCount < blogPosts.length;
+
   return (
     <div className="min-h-screen bg-background">
       <PageMeta
@@ -28,53 +53,23 @@ export default function Blog() {
           </div>
 
           <div className="grid gap-8">
-            {blogPosts.map((post) => (
-              <Link
-                key={post.slug}
-                to={`/blog/${post.slug}`}
-                className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 flex flex-col sm:flex-row"
-              >
-                <div className="sm:w-72 aspect-video bg-muted flex-shrink-0 overflow-hidden">
-                  <img
-                    src={post.image}
-                    alt={post.imageAlt || post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                    width={288}
-                    height={162}
-                    sizes="(max-width: 640px) 100vw, 288px"
-                  />
-                </div>
-                <div className="p-6 flex flex-col justify-between flex-1">
-                  <div>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-primary">
-                      {post.category}
-                    </span>
-                    <h2 className="text-xl font-serif font-semibold text-foreground mt-2 mb-3 group-hover:text-primary transition-colors">
-                      {post.title}
-                    </h2>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {post.excerpt}
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3.5 w-3.5" />
-                        {post.date}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3.5 w-3.5" />
-                        {post.readTime}
-                      </span>
-                    </div>
-                    <span className="text-primary text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                      Read <ArrowRight className="h-4 w-4" />
-                    </span>
-                  </div>
-                </div>
-              </Link>
+            {visiblePosts.map((post) => (
+              <BlogCard key={post.slug} post={post} />
             ))}
+
+            {hasMore && (
+              <div ref={sentinelRef} className="py-4">
+                <BlogCardSkeleton />
+              </div>
+            )}
+
+            {!hasMore && blogPosts.length > 0 && (
+              <div className="text-center mt-12 text-muted-foreground py-8 border-t border-border">
+                <p className="text-sm">
+                  Showing all {blogPosts.length} posts
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </main>

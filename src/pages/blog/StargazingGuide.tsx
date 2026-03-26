@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
@@ -10,7 +11,7 @@ import stargazingFeaturedImg from "@/assets/blog/stargazing/featured.webp";
 export default function StargazingGuide() {
   const { navigateToBooking } = useBookingNavigation();
   // Article Schema
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Stargazing in Mukteshwar: A Complete Guide to the Night Sky at Ecoescape",
     image: stargazingFeaturedImg,
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -25,14 +26,14 @@ export default function StargazingGuide() {
     },
     description: "Discover the magic of the Himalayan night sky. Our guide to stargazing in Mukteshwar covers the best times to visit, what to see (planets, Milky Way, constellations), and why Ecoescape is the perfect dark-sky retreat.",
     url: "https://ecoescapemukteshwar.com/blog/stargazing-in-mukteshwar",
-  });
+  }), []);
 
   // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Stargazing in Mukteshwar" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

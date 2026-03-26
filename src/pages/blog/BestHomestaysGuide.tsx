@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Home, Star, MapPin } from "lucide-react";
@@ -16,7 +17,7 @@ const HOMESTAYS = [
 export default function BestHomestaysGuide() {
   const { navigateToBooking } = useBookingNavigation();
 
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "10 Best Homestays in Mukteshwar with Himalayan Views (2026 Guide)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 23, 2026"),
@@ -24,13 +25,13 @@ export default function BestHomestaysGuide() {
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Looking for the best homestays in Mukteshwar? Discover 10 top-rated stays offering stunning Himalayan views, home-cooked Kumaoni food, and authentic mountain hospitality.",
     url: "https://ecoescapemukteshwar.com/blog/best-homestays-in-mukteshwar-with-himalayan-views",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Best Homestays in Mukteshwar" },
-  ]);
+  ]), []);
 
   const homestays = HOMESTAYS;
 

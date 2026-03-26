@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, CloudRain, Wind, Coffee, Info, Phone, MessageCircle } from "lucide-react";
@@ -8,7 +9,7 @@ import monsoonFeaturedImg from "@/assets/blog/monsoon/featured.webp";
 
 export default function MonsoonGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Mukteshwar in Monsoon: A Comprehensive Guide to the Misty Mountains",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/monsoon/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -23,13 +24,13 @@ export default function MonsoonGuide() {
     },
     description: "Experience the magic of Mukteshwar in monsoon. Our 2026 guide covers weather, misty Himalayan views, lush green trails, and why the rainy season is the best time for a quiet retreat.",
     url: "https://ecoescapemukteshwar.com/blog/monsoon-in-mukteshwar-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Monsoon in Mukteshwar" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, generateRestaurantSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Utensils, Coffee, Star, MapPin, Phone, MessageCircle, Heart } from "lucide-react";
@@ -8,7 +9,7 @@ import cafesFeaturedImg from "@/assets/blog/cafes/featured.webp";
 
 export default function CafesAndRestaurantsGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Best Cafes in Mukteshwar: A Foodie's Guide to Mountain Dining",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/cafes/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -23,15 +24,15 @@ export default function CafesAndRestaurantsGuide() {
     },
     description: "Discover the best cafes and restaurants in Mukteshwar. From the famous Choco-House and Nirvana Cafe to authentic Kumaoni dining at Ecoescape, here is your ultimate foodie guide.",
     url: "https://ecoescapemukteshwar.com/blog/best-cafes-and-restaurants-in-mukteshwar",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Best Cafes & Restaurants" },
-  ]);
+  ]), []);
 
-  const restaurantSchema = generateRestaurantSchema();
+  const restaurantSchema = useMemo(() => generateRestaurantSchema(), []);
 
   return (
     <BlogPostLayout

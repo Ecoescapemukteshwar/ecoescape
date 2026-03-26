@@ -1,4 +1,5 @@
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Sparkles, Send } from "lucide-react";
@@ -7,7 +8,7 @@ import featuredImg from "@/assets/blog/spiritual-kumaon/featured.webp";
 
 export default function SpiritualKumaonGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Spiritual Kumaon: Mukteshwar Dham & Jageshwar Dham Guide (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -15,13 +16,13 @@ export default function SpiritualKumaonGuide() {
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Explore the ancient spiritual circuit of Kumaon. Guide to Mukteshwar Dham, Jageshwar Dham (cluster of 124 temples), and the holy Kainchi Dham.",
     url: "https://ecoescapemukteshwar.com/blog/spiritual-kumaon-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Spiritual Kumaon Guide" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

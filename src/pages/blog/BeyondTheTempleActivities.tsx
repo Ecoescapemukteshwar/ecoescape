@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Mountain, Sparkles, Map, Trees, MessageCircle } from "lucide-react";
@@ -8,7 +9,7 @@ import beyondTempleFeaturedImg from "@/assets/blog/beyond-temple/featured.webp";
 
 export default function BeyondTheTempleActivities() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "10 Things to Do in Mukteshwar Beyond the Temple (2026 Guide)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/beyond-temple/featured.webp",
     datePublished: formatDateForSchema("March 24, 2026"),
@@ -23,13 +24,13 @@ export default function BeyondTheTempleActivities() {
     },
     description: "Looking for more than the standard tourist checklist? Discover 10 practical things to do in Mukteshwar beyond the temple, from trekking trails to stargazing and fruit picking.",
     url: "https://ecoescapemukteshwar.com/blog/things-to-do-in-mukteshwar-beyond-temple",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Beyond the Temple" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

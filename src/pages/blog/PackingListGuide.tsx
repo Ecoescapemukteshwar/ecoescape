@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Backpack, ShoppingBag, Thermometer, Footprints, Phone, MessageCircle } from "lucide-react";
@@ -8,7 +9,7 @@ import packingFeaturedImg from "@/assets/blog/packing-list/featured.webp";
 
 export default function PackingListGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Ultimate Packing List for Mukteshwar: Essentials for Every Season (2026)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/packing-list/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -23,13 +24,13 @@ export default function PackingListGuide() {
     },
     description: "What to pack for Mukteshwar? Our comprehensive 2026 packing guide covers clothing for summer, monsoon, and winter, plus trekking gear and essential travel items.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-ultimate-packing-list",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Ultimate Packing List" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

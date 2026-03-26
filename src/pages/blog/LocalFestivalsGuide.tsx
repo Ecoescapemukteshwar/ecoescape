@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Music, Star, Landmark, Heart, Phone, MessageCircle } from "lucide-react";
@@ -8,7 +9,7 @@ import festivalsFeaturedImg from "@/assets/blog/festivals/featured.webp";
 
 export default function LocalFestivalsGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Local Festivals & Culture in Mukteshwar: A Kumaoni Heritage Guide",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/festivals/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -23,13 +24,13 @@ export default function LocalFestivalsGuide() {
     },
     description: "Discover the vibrant culture of Mukteshwar. From the traditional Choliya dance to festivals like Phool Dei and Harela, learn how to experience authentic Kumaoni heritage at Ecoescape.",
     url: "https://ecoescapemukteshwar.com/blog/local-festivals-and-culture-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Local Festivals & Culture" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout
