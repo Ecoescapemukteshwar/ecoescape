@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
+import { PageMeta } from "@/seo/PageMeta";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -18,7 +19,16 @@ import {
 } from "./pages/sectionRedirects";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { lazy as lazyPricing } from "react";
-const PricingTestPage = lazyPricing(() => import("./components/PricingTestPage"));
+const PricingTestPage = lazyPricing(() => import("./components/PricingTestPage").then(m => ({ default: () => (
+    <>
+      <PageMeta
+        title="Pricing Test - Ecoescape Mukteshwar"
+        description="Internal pricing test page"
+        noindex={true}
+      />
+      <m.default />
+    </>
+  ) })));
 import { initializeDemandMultiplier } from "@/services/pricing";
 
 const TooltipProvider = lazy(() =>
