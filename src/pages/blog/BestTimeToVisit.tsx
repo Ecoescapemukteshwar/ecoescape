@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Sun, CloudRain, Snowflake, ThermometerSun, MessageCircle } from "lucide-react";
@@ -8,7 +9,7 @@ import bestTimeFeaturedImg from "@/assets/blog/best-time-to-visit/featured.webp"
 
 export default function BestTimeToVisit() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Best Time to Visit Mukteshwar: A Month-by-Month Guide (2026)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/best-time-to-visit/featured.webp",
     datePublished: formatDateForSchema("March 24, 2026"),
@@ -23,13 +24,13 @@ export default function BestTimeToVisit() {
     },
     description: "When is the best time to visit Mukteshwar? Our seasonal breakdown covers spring orchards, monsoon waterfalls, autumn Himalayan views, and winter snow with honest pros and cons.",
     url: "https://ecoescapemukteshwar.com/blog/best-time-to-visit-mukteshwar-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Best Time to Visit" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

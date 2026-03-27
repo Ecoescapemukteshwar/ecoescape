@@ -1,14 +1,15 @@
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-const heroSunriseImg = "/images/hero-sunrise.webp";
+const heroSunriseImg = "/images/hero-sunrise-opt.webp";
 
 export default function MukteshwarTempleGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Mukteshwar Dham Temple: A Guide to Mukteshwar Mahadev Mandir (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 5, 2026"),
@@ -23,13 +24,13 @@ export default function MukteshwarTempleGuide() {
     },
     description: "Visit the ancient Mukteshwar Dham. Complete 2026 guide to Mukteshwar Mahadev Mandir, including history, temple timings, rituals, and how to reach from Nainital.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-mahadev-temple-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Mukteshwar Dham Guide" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

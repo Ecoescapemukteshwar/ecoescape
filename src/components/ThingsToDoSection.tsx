@@ -1,7 +1,8 @@
-import { motion } from "framer-motion";
 import { Sunrise, Camera, Utensils, TreePine, Car, Plane, Train } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 
 const onPropertyExperiences = [
   {
@@ -60,15 +61,16 @@ const nearbyAttractions = [
 ];
 
 export function ThingsToDoSection() {
+  const { ref, isInView } = useInView({ threshold: 0.1, rootMargin: "50px" });
+
   return (
-    <section id="things-to-do" className="py-24 bg-background">
+    <section id="things-to-do" ref={ref} className="py-24 bg-background overflow-hidden">
       <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+        <div
+          className={cn(
+            "text-center mb-12 opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
             Things to Do
@@ -76,7 +78,7 @@ export function ThingsToDoSection() {
           <p className="text-muted-foreground max-w-2xl mx-auto">
             From peaceful mornings on the terrace to exploring nearby attractions
           </p>
-        </motion.div>
+        </div>
 
         <Tabs defaultValue="on-property" className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
@@ -86,10 +88,11 @@ export function ThingsToDoSection() {
 
           {/* On Property Tab */}
           <TabsContent value="on-property" className="mt-0">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+            <div
+              className={cn(
+                "opacity-0",
+                isInView && "animate-fade-in-up opacity-100"
+              )}
             >
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {onPropertyExperiences.map((exp) => (
@@ -111,34 +114,32 @@ export function ThingsToDoSection() {
               </div>
 
               {/* Workcation Note */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-accent/10 border border-accent/20 rounded-xl p-6 text-center"
+              <div
+                className={cn(
+                  "bg-accent/10 border border-accent/20 rounded-xl p-6 text-center opacity-0",
+                  isInView && "animate-fade-in-up opacity-100"
+                )}
+                style={isInView ? { animationDelay: "0.2s" } : {}}
               >
                 <p className="text-foreground">
                   📶 <strong>Need to work remotely?</strong> Our high-speed WiFi and peaceful terrace
                   make for an inspiring workspace - perfect for short workcations!
                 </p>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </TabsContent>
 
           {/* Nearby Tab */}
           <TabsContent value="nearby" className="mt-0">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+            <div
+              className={cn(
+                "opacity-0",
+                isInView && "animate-fade-in-up opacity-100"
+              )}
             >
               {/* Map */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+              <div
+                id="location"
                 className="rounded-2xl overflow-hidden shadow-card h-80 lg:h-96 mb-8"
               >
                 <iframe
@@ -151,7 +152,7 @@ export function ThingsToDoSection() {
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Ecoescape Mukteshwar Location"
                 />
-              </motion.div>
+              </div>
 
               {/* Nearby Attractions Grid */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
@@ -176,56 +177,56 @@ export function ThingsToDoSection() {
 
               {/* How to Reach */}
               <div className="grid sm:grid-cols-3 gap-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="bg-secondary rounded-xl p-5 text-center"
+                <div
+                  className={cn(
+                    "bg-secondary rounded-xl p-5 text-center opacity-0",
+                    isInView && "animate-fade-in-up opacity-100"
+                  )}
+                  style={isInView ? { animationDelay: "0.1s" } : {}}
                 >
                   <Car className="h-6 w-6 text-accent mx-auto mb-2" />
                   <h4 className="font-semibold text-foreground text-sm mb-1">From Delhi</h4>
                   <p className="text-xs text-muted-foreground">
                     ~320 km · 7-8 hours
                   </p>
-                </motion.div>
+                </div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="bg-secondary rounded-xl p-5 text-center"
+                <div
+                  className={cn(
+                    "bg-secondary rounded-xl p-5 text-center opacity-0",
+                    isInView && "animate-fade-in-up opacity-100"
+                  )}
+                  style={isInView ? { animationDelay: "0.2s" } : {}}
                 >
                   <Plane className="h-6 w-6 text-highlight mx-auto mb-2" />
                   <h4 className="font-semibold text-foreground text-sm mb-1">Nearest Airport</h4>
                   <p className="text-xs text-muted-foreground">
                     Pantnagar · ~100 km
                   </p>
-                </motion.div>
+                </div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="bg-secondary rounded-xl p-5 text-center"
+                <div
+                  className={cn(
+                    "bg-secondary rounded-xl p-5 text-center opacity-0",
+                    isInView && "animate-fade-in-up opacity-100"
+                  )}
+                  style={isInView ? { animationDelay: "0.3s" } : {}}
                 >
                   <Train className="h-6 w-6 text-primary mx-auto mb-2" />
                   <h4 className="font-semibold text-foreground text-sm mb-1">Nearest Railway</h4>
                   <p className="text-xs text-muted-foreground">
                     Kathgodam · ~70 km
                   </p>
-                </motion.div>
+                </div>
               </div>
 
               {/* Pickup Note */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="bg-accent/10 border border-accent/20 rounded-xl p-4 text-center mt-6"
+              <div
+                className={cn(
+                  "bg-accent/10 border border-accent/20 rounded-xl p-4 text-center mt-6 opacity-0",
+                  isInView && "animate-fade-in-up opacity-100"
+                )}
+                style={isInView ? { animationDelay: "0.4s" } : {}}
               >
                 <p className="text-foreground text-sm">
                   🚗 <strong>Pickup available</strong> from Kathgodam station or Pantnagar airport.
@@ -233,8 +234,8 @@ export function ThingsToDoSection() {
                     Contact us to arrange
                   </Button>
                 </p>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
       </div>

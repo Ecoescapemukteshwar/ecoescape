@@ -1,17 +1,6 @@
-import { motion } from "framer-motion";
-import {
-  Bath,
-  Home,
-  Thermometer,
-  Shield,
-  Wifi,
-  Sparkles,
-  Mountain,
-  Coffee,
-  Car,
-  Sun,
-  ChevronRight,
-} from "lucide-react";
+import { Bath, Home, Thermometer, Shield, Wifi, Sparkles, Mountain, Coffee, Car, Sun, ChevronRight } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 
 interface AmenityItem {
   text: string;
@@ -121,15 +110,16 @@ const amenityCategories: {
 ];
 
 export function AmenitiesSection() {
+  const { ref, isInView } = useInView({ threshold: 0.1, rootMargin: "50px" });
+
   return (
-    <section id="amenities" className="py-24 bg-gradient-to-b from-secondary to-background">
+    <section id="amenities" ref={ref} className="py-24 bg-gradient-to-b from-secondary to-background overflow-hidden">
       <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+        <div
+          className={cn(
+            "text-center mb-16 opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
         >
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-2 mb-4">
             <Sparkles className="h-4 w-4" />
@@ -142,18 +132,18 @@ export function AmenitiesSection() {
             Thoughtful amenities designed for your comfort, convenience, and peace of mind.
             From private entrances to breathtaking Himalayan views, we've thought of everything.
           </p>
-        </motion.div>
+        </div>
 
         {/* Amenity Categories */}
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           {amenityCategories.map((category, index) => (
-            <motion.div
+            <div
               key={category.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="bg-card rounded-2xl p-6 shadow-soft hover:shadow-card transition-all duration-300 border border-border/50"
+              className={cn(
+                "bg-card rounded-2xl p-6 shadow-soft hover:shadow-card transition-all duration-300 border border-border/50 opacity-0",
+                isInView && "animate-fade-in-up opacity-100"
+              )}
+              style={isInView ? { animationDelay: `${index * 0.05}s` } : {}}
             >
               {/* Header */}
               <div className="flex items-center gap-3 mb-4">
@@ -170,9 +160,10 @@ export function AmenitiesSection() {
                 {category.items.map((item, itemIndex) => (
                   <li
                     key={itemIndex}
-                    className={`flex items-start gap-2 text-sm ${
+                    className={cn(
+                      "flex items-start gap-2 text-sm",
                       item.highlight ? "text-foreground font-medium" : "text-muted-foreground"
-                    }`}
+                    )}
                   >
                     {item.indent ? (
                       <ChevronRight className="h-4 w-4 text-primary flex-shrink-0 mt-0.5 ml-4" />
@@ -185,17 +176,17 @@ export function AmenitiesSection() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Quick Highlights Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-2xl p-8 border border-primary/20"
+        <div
+          className={cn(
+            "bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-2xl p-8 border border-primary/20 opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
+          style={isInView ? { animationDelay: "0.4s" } : {}}
         >
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
             <div className="flex flex-col items-center gap-2">
@@ -231,7 +222,7 @@ export function AmenitiesSection() {
               </span>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 
 function LazyTripAdvisor() {
   const ref = useRef<HTMLDivElement>(null);
@@ -72,7 +72,7 @@ function LazyTripAdvisor() {
 
 export function Footer() {
   return (
-    <footer id="contact" className="bg-foreground text-background py-10">
+    <footer id="contact" className="bg-foreground text-background py-10 pb-28">
       <div className="container">
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
@@ -119,39 +119,44 @@ export function Footer() {
             <h4 className="font-semibold text-background mb-4">Quick Links</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#rooms" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/#rooms" className="text-background/70 hover:text-accent transition-colors">
                   Rooms & Suites
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#dining" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/#dining" className="text-background/70 hover:text-accent transition-colors">
                   Dining
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#gallery" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/aboutus" className="text-background/70 hover:text-accent transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/#gallery" className="text-background/70 hover:text-accent transition-colors">
                   Gallery
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#garden" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/#garden" className="text-background/70 hover:text-accent transition-colors">
                   Garden
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#location" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/aboutus#location" className="text-background/70 hover:text-accent transition-colors">
                   How to Reach
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#reviews" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/#reviews" className="text-background/70 hover:text-accent transition-colors">
                   Guest Reviews
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#booking" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/#booking" className="text-background/70 hover:text-accent transition-colors">
                   Book Now
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -227,3 +232,5 @@ export function Footer() {
     </footer>
   );
 }
+
+export default memo(Footer);

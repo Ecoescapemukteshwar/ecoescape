@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -35,29 +36,36 @@ export default function SpaciousApartment() {
     return prices;
   }, [allPrices, relatedRooms]);
 
+  // LodgingReservation Schema - must be before early return (React Hooks rule)
+  const primaryImage = room?.images?.[0] ?? "";
+  const lodgingSchema = useMemo(() => {
+    if (!room) return null;
+    return generateLodgingReservationSchema({
+      name: room.name,
+      description: room.longDescription,
+      url: `https://ecoescapemukteshwar.com/rooms/${room.slug}`,
+      image: primaryImage,
+      price: currentPrice,
+      priceCurrency: "INR",
+      capacity: room.capacity,
+      size: room.size,
+      bedConfig: room.bedConfig,
+      amenities: room.amenities,
+      bookingUrl: "https://ecoescapemukteshwar.com/#booking",
+    });
+  }, [room, primaryImage, currentPrice]);
+
+  // Breadcrumb Schema - must be before early return (React Hooks rule)
+  const breadcrumbSchema = useMemo(() => {
+    if (!room) return null;
+    return generateBreadcrumbSchema([
+      { name: "Home", item: "https://ecoescapemukteshwar.com" },
+      { name: "Rooms", item: "https://ecoescapemukteshwar.com/#rooms" },
+      { name: room.name },
+    ]);
+  }, [room]);
+
   if (!room) return null;
-
-  // LodgingReservation Schema
-  const lodgingSchema = generateLodgingReservationSchema({
-    name: room.name,
-    description: room.longDescription,
-    url: `https://ecoescapemukteshwar.com/rooms/${room.slug}`,
-    image: room.images[0],
-    price: currentPrice,
-    priceCurrency: "INR",
-    capacity: room.capacity,
-    size: room.size,
-    bedConfig: room.bedConfig,
-    amenities: room.amenities,
-    bookingUrl: "https://ecoescapemukteshwar.com/#booking",
-  });
-
-  // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", item: "https://ecoescapemukteshwar.com" },
-    { name: "Rooms", item: "https://ecoescapemukteshwar.com/#rooms" },
-    { name: room.name },
-  ]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -67,11 +75,11 @@ export default function SpaciousApartment() {
         canonical={`https://ecoescapemukteshwar.com/rooms/${room.slug}`}
         keywords={room.keywords}
         ogImage={room.images[0]}
-        jsonLd={[lodgingSchema, breadcrumbSchema]}
+        jsonLd={[lodgingSchema, breadcrumbSchema].filter(Boolean)}
       />
       <Header />
 
-      <main className="pt-28 pb-20">
+      <main className="pt-44 pb-20">
         {/* Breadcrumb */}
         <div className="container max-w-6xl">
           <Link

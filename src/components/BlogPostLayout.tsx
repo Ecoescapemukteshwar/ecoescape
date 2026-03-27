@@ -83,7 +83,7 @@ export function BlogPostLayout({
         jsonLd={allSchemas}
       />
       <Header />
-      <main className="pt-28 pb-20">
+      <main className="pt-44 pb-32">
         <article className="container max-w-3xl">
           {/* Breadcrumb */}
           <Link

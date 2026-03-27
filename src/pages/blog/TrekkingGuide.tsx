@@ -1,4 +1,5 @@
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MessageCircle, Mountain, Timer, CheckCircle2 } from "lucide-react";
@@ -46,7 +47,7 @@ const trekkingTrails = [
 
 export default function TrekkingGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Mukteshwar Trekking Guide: 5 Best Trails for Adventure & Nature Lovers",
     image: "https://ecoescapemukteshwar.com/assets/blog/trekking/featured.png",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -61,13 +62,13 @@ export default function TrekkingGuide() {
     },
     description: "Discover the best trekking trails in Mukteshwar. From the Bhalu Gaad waterfall to scenic forest walks, explore the top hiking paths near Ecoescape Mukteshwar.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-trekking-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Mukteshwar Trekking Guide" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

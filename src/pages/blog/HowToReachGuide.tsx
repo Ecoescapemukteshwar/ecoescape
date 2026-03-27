@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, MapPin, Train, Car, Bus, Info, Phone, MessageCircle } from "lucide-react";
@@ -8,7 +9,7 @@ import howToReachFeaturedImg from "@/assets/blog/how-to-reach/featured.webp";
 
 export default function HowToReachGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "How to Reach Mukteshwar: Delhi to Mukteshwar Distance & Travel Guide (2026)",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/how-to-reach/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -23,13 +24,13 @@ export default function HowToReachGuide() {
     },
     description: "Planning a trip? Get the exact Delhi to Mukteshwar distance, train details to Kathgodam, and the best route from Kainchi Dham to Mukteshwar in this 2026 guide.",
     url: "https://ecoescapemukteshwar.com/blog/how-to-reach-mukteshwar-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "How to Reach Mukteshwar" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
@@ -9,7 +10,7 @@ import snowfallFeaturedImg from "@/assets/blog/snowfall/featured.webp";
 export default function SnowfallGuide() {
   const { navigateToBooking } = useBookingNavigation();
   // Article Schema
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Snowfall in Mukteshwar: Your Ultimate Guide to a Winter Wonderland Experience",
     image: snowfallFeaturedImg,
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -24,14 +25,14 @@ export default function SnowfallGuide() {
     },
     description: "Experience the magic of snowfall in Mukteshwar. Our guide covers the best months for snow, top viewing spots, winter packing essentials, and what to expect during a winter trip to the Kumaon Himalayas.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-snowfall-guide",
-  });
+  }), []);
 
   // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Mukteshwar Snowfall Guide" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

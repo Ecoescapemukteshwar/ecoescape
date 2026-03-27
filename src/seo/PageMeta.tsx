@@ -73,7 +73,10 @@ export function PageMeta({
       <title>{title}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
-      {noindex && <meta name="robots" content="noindex, nofollow" />}
+      {noindex
+        ? <meta name="robots" content="noindex, nofollow" />
+        : <meta name="robots" content="index, follow" />
+      }
 
       {/* Canonical URL */}
       <link rel="canonical" href={fullCanonical} />

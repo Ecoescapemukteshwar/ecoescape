@@ -1,5 +1,5 @@
 import type { RoomType } from "@/services/pricing";
-import mountainView1 from "@/assets/suite/IMG_4065.webp";
+import mountainView1 from "@/assets/suite/IMG_4065-opt.webp";
 import mountainView2 from "@/assets/suite/IMG_2630.webp";
 import mountainView3 from "@/assets/suite/IMG_3599.webp";
 import spacious1 from "@/assets/suite/img123.webp";

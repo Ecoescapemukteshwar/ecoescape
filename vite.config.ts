@@ -3,11 +3,10 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
-export default defineConfig(async ({ mode }) => {
-  const prerenderPlugin = null; // Temporarily disabled due to ESM/require issue in the plugin
-
+export default defineConfig(({ mode }) => {
   return {
     server: {
       host: "::",
@@ -43,8 +42,9 @@ export default defineConfig(async ({ mode }) => {
           ]
         },
         workbox: {
-          globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,jpg,jpeg}"],
-          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MB
+          globPatterns: ["**/*.{js,css,html,ico,svg,woff,woff2}"],
+          globIgnores: ["**/stats.html"], // Exclude bundle analyzer output from PWA
+          maximumFileSizeToCacheInBytes: 200 * 1024, // 200KB - Precache JS/CSS/fonts only, large images use runtime caching
           runtimeCaching: [
             {
               urlPattern: /^https?:\/\/.*/i,
@@ -66,8 +66,8 @@ export default defineConfig(async ({ mode }) => {
               options: {
                 cacheName: "image-cache",
                 expiration: {
-                  maxEntries: 200,
-                  maxAgeSeconds: 60 * 60 * 24 * 60 // 60 days
+                  maxEntries: 50, // Reduced from 200 to limit cache size
+                  maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days (reduced from 60)
                 }
               }
             }
@@ -77,69 +77,60 @@ export default defineConfig(async ({ mode }) => {
         injectRegister: false,
         selfDestroying: false
       }),
-      prerenderPlugin && (prerenderPlugin as unknown)({
-        staticDir: path.join(__dirname, "dist"),
-        routes: [
-          "/",
-          "/blog",
-          "/blog/kumaoni-food-guide",
-          "/blog/things-to-do-in-mukteshwar",
-          "/blog/mukteshwar-mahadev-temple-guide",
-          "/blog/mukteshwar-weather-guide",
-          "/blog/stargazing-in-mukteshwar",
-          "/blog/birdwatching-in-mukteshwar-guide",
-          "/blog/mukteshwar-trekking-guide",
-          "/blog/fruit-orchards-of-mukteshwar-guide",
-          "/blog/mukteshwar-snowfall-guide",
-          "/blog/mukteshwar-weekend-itinerary",
-          "/blog/how-to-reach-mukteshwar-guide",
-          "/blog/best-cafes-and-restaurants-in-mukteshwar",
-          "/blog/workcation-guide",
-          "/blog/romantic-getaway-guide",
-          "/blog/solo-travel-guide",
-          "/blog/family-vacation-guide",
-          "/blog/monsoon-in-mukteshwar-guide",
-          "/blog/best-photography-spots-in-mukteshwar",
-          "/blog/local-festivals-and-culture-guide",
-          "/blog/mukteshwar-ultimate-packing-list",
-          "/rooms/suite-with-mountain-view",
-          "/rooms/spacious-apartment",
-          "/rooms/family-room",
-          "/rooms/family-room-2",
-        ],
-        renderer: new (prerenderPlugin as Record<string, unknown>).PuppeteerRenderer({
-          maxConcurrentRoutes: 1,
-          renderAfterTime: 500,
-        }),
+      visualizer({
+        filename: './dist/stats.html',
+        gzipSize: true,
+        brotliSize: true,
+        open: false,
       }),
-    ].filter(Boolean),
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+    ],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
     },
-  },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: (id: string) => {
-          // Keep room and blog pages separate
-          if (id.includes("src/pages/rooms")) {
-            return "room-pages";
-          }
-          if (id.includes("src/pages/blog")) {
-            return "blog-pages";
-          }
-          // Don't split vendor chunks to avoid loading order issues
-          return undefined;
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: (id: string) => {
+            // Group heavy vendor libraries into their own chunks
+            if (id.includes("node_modules/lucide-react")) {
+              return "vendor-lucide";
+            }
+            if (id.includes("node_modules/react") || id.includes("node_modules/react-dom") || id.includes("node_modules/react-router-dom")) {
+              return "vendor-core";
+            }
+
+            // Split blog posts into individual chunks
+            if (id.includes("src/pages/blog/") && !id.includes("node_modules")) {
+              const match = id.match(/src\/pages\/blog\/([A-Z][a-zA-Z0-9]+)\.tsx/);
+              if (match) {
+                return `blog-${match[1].toLowerCase()}`;
+              }
+            }
+            // Keep blog index separate
+            if (id.includes("src/pages/blog/index")) {
+              return "blog-index";
+            }
+            // Keep room pages separate
+            if (id.includes("src/pages/rooms")) {
+              return "room-pages";
+            }
+          },
+        },
+      },
+      chunkSizeWarningLimit: 400,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
         },
       },
     },
-    chunkSizeWarningLimit: 1000,
-    cssCodeSplit: true,
-  },
-  optimizeDeps: {
-    include: ["react", "react-dom", "react-router-dom"],
-    exclude: [],
-  },
-};
+    optimizeDeps: {
+      include: ["react", "react-dom", "react-router-dom"],
+      exclude: [],
+    },
+  };
 });

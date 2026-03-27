@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
@@ -7,7 +8,7 @@ import featuredImg from "@/assets/blog/backpacker-guide/featured.webp";
 
 export default function BackpackerMukteshwarGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Backpacking Mukteshwar: Budget Stays & Solo Travel Guide (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -15,13 +16,13 @@ export default function BackpackerMukteshwarGuide() {
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "The ultimate backpacker's guide to Mukteshwar. Compare budget stays like GoStops, Hosteller, and Ecoescape. Solo travel tips, cafes, and cheap travel hacks for 2026.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-backpacker-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Backpacker Guide" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout
@@ -36,7 +37,7 @@ export default function BackpackerMukteshwarGuide() {
         breadcrumb: breadcrumbSchema
       }}
     >
-      <header className="mb-10">
+      <header className="relative mb-10">
         <span className="text-xs font-semibold uppercase tracking-wider text-primary">Budget Travel</span>
         <h1 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mt-3 mb-4 leading-tight">
           Backpacking Mukteshwar: Stays, Cafes & Solo Travel Tips (2026)

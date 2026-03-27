@@ -22,19 +22,15 @@ export function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="/images/hero-sunrise.webp"
+          src="/images/hero-sunrise-opt.webp"
+          srcSet="/images/hero-640.webp 640w, /images/hero-1080.webp 1080w, /images/hero-sunrise-opt.webp 1920w"
+          sizes="100vw"
           alt="Sunrise view over the Himalayan mountains from the terrace of Ecoescape Mukteshwar boutique homestay"
           className="w-full h-full object-cover"
           loading="eager"
           fetchPriority="high"
           width={1920}
           height={1080}
-          sizes="100vw"
-          srcSet={`
-            /images/hero-sunrise.webp 1920w,
-            /images/hero-sunrise.webp 1280w,
-            /images/hero-sunrise.webp 640w
-          `}
         />
         <div className="absolute inset-0 bg-hero-overlay" />
       </div>
@@ -43,7 +39,7 @@ export function HeroSection() {
       <div className="relative z-10 container pt-[180px] pb-20">
         <div className="max-w-3xl">
           {/* Trust Badge */}
-          <div className="inline-flex items-center gap-2 bg-background/90 backdrop-blur-sm rounded-full px-4 py-2 mb-6 animate-fade-in">
+          <div className="inline-flex items-center gap-2 bg-[hsl(30_20%_10%/0.7)] rounded-full px-4 py-2 mb-6 animate-fade-in">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="h-4 w-4 fill-accent text-accent" />

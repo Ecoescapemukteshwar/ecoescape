@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Gift, Smile, Trees, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ import familyFeaturedImg from "@/assets/blog/family/featured.webp";
 
 export default function FamilyVacationGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Mukteshwar Family Vacation: Best Activities for Kids and Seniors",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/family/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -24,13 +25,13 @@ export default function FamilyVacationGuide() {
     },
     description: "Planning a family trip to Mukteshwar? Our guide covers activities for kids and seniors, family-friendly rooms, local picnics, and why Ecoescape is the perfect multigenerational retreat.",
     url: "https://ecoescapemukteshwar.com/blog/family-vacation-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Mukteshwar Family Vacation" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Smile, Sun, Sparkles } from "lucide-react";
@@ -7,7 +8,7 @@ import featuredImg from "@/assets/blog/spring-guide/featured.webp";
 
 export default function MukteshwarSpringGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Spring in Mukteshwar: Flowers, Fruit Blossoms & Best Weather (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -15,13 +16,13 @@ export default function MukteshwarSpringGuide() {
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Experience the magic of spring in Mukteshwar. April to June guide featuring fruit blossoms, pleasant temperatures, and the best time for garden lovers in 2026.",
     url: "https://ecoescapemukteshwar.com/blog/spring-in-mukteshwar-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Spring in Mukteshwar" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

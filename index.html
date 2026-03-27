@@ -5,14 +5,37 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 
-    <!-- Preconnect hints -->
-    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <!-- Preconnect hints - critical origins -->
     <link rel="preconnect" href="https://www.tripadvisor.in">
     <link rel="preconnect" href="https://static.tacdn.com">
-    <link rel="dns-prefetch" href="https://www.google-analytics.com">
 
     <!-- Hero image preload -->
-    <link rel="preload" as="image" href="/images/hero-sunrise.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/images/hero-sunrise-opt.webp" imagesrcset="/images/hero-640.webp 640w, /images/hero-1080.webp 1080w, /images/hero-sunrise-opt.webp 1920w" imagesizes="100vw" fetchpriority="high">
+
+    <!-- Preload critical above-the-fold images -->
+    <link rel="preload" as="image" href="/LOGO-opt.webp" fetchpriority="high">
+
+    <style>
+      :root {
+        --background: 40 30% 98%;
+        --foreground: 30 20% 15%;
+        --primary: 150 35% 28%;
+        --accent: 35 80% 55%;
+      }
+      body {
+        margin: 0;
+        background-color: hsl(40, 30%, 98%);
+        color: hsl(30, 20%, 15%);
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      .hero-placeholder {
+        background-color: #3d5a4c;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
 
     <!-- Primary SEO -->
     <title>Ecoescape Mukteshwar | Boutique Homestay with Sunrise Views & Garden</title>
@@ -22,6 +45,9 @@
     
     <!-- Canonical -->
     <link rel="canonical" href="https://ecoescapemukteshwar.com" />
+
+    <!-- Robots - explicit index directive for Googlebot first pass -->
+    <meta name="robots" content="index, follow" />
     
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -29,7 +55,7 @@
     <meta property="og:description" content="A Green Paradise in the Mountains. Boutique homestay with 100+ plant varieties, stunning sunrise views, in-house restaurant & terrace dining. Book direct for best rates." />
     <meta property="og:url" content="https://ecoescapemukteshwar.com" />
     <meta property="og:locale" content="en_IN" />
-    <meta property="og:image" content="https://ecoescapemukteshwar.com/LOGO.webp" />
+    <meta property="og:image" content="https://ecoescapemukteshwar.com/LOGO-opt.webp" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Ecoescape Mukteshwar - A boutique homestay with sunrise views and lush gardens in Uttarakhand" />
@@ -39,7 +65,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Ecoescape Mukteshwar | Boutique Homestay with Sunrise Views" />
     <meta name="twitter:description" content="A Green Paradise in the Mountains. Boutique homestay with 100+ plant varieties, stunning sunrise views & in-house restaurant." />
-    <meta name="twitter:image" content="https://ecoescapemukteshwar.com/LOGO.webp" />
+    <meta name="twitter:image" content="https://ecoescapemukteshwar.com/LOGO-opt.webp" />
     
     <!-- Mobile -->
     <meta name="theme-color" content="#3d5a4c" />
@@ -56,15 +82,8 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-P1EDMZPGVW');
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          var s = document.createElement('script');
-          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-P1EDMZPGVW';
-          s.async = true;
-          document.head.appendChild(s);
-        }, 3000);
-      });
     </script>
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-P1EDMZPGVW"></script>
     
     <!-- Schema.org LodgingBusiness + Restaurant -->
     <script type="application/ld+json">

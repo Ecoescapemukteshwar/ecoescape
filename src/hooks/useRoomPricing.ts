@@ -24,13 +24,10 @@ interface UseRoomPricingResult {
  * @example
  * // Single room
  * const { prices, isLoading } = useRoomPricing('suite');
- * console.log(prices.suite); // "₹3,500"
  *
  * @example
  * // Multiple rooms
  * const { prices, isLoading } = useRoomPricing(['suite', 'apartment']);
- * console.log(prices.suite); // "₹3,500"
- * console.log(prices.apartment); // "₹5,500"
  */
 export function useRoomPricing(roomTypes: RoomType | RoomType[]): UseRoomPricingResult {
   // Normalize to array and memoize to prevent useEffect dependency warnings
@@ -78,7 +75,6 @@ export function useRoomPricing(roomTypes: RoomType | RoomType[]): UseRoomPricing
       } catch (err) {
         // Only update state if component is still mounted
         if (isMountedRef.current) {
-          console.error('Failed to load room prices:', err);
           // Fallback to base prices on error
           const fallbackPrices: Record<RoomType, string> = {} as Record<RoomType, string>;
           roomTypesArray.forEach(roomType => {

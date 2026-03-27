@@ -1,4 +1,5 @@
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Camera, CameraIcon, Sun, MapPin, Phone, MessageCircle } from "lucide-react";
@@ -9,7 +10,7 @@ import photographyFeaturedImg from "@/assets/blog/photography/featured.webp";
 export default function PhotographySpotsGuide() {
   const { navigateToBooking } = useBookingNavigation();
   // Article Schema
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "10 Best Photography Spots in Mukteshwar: Capturing the Himalayan Soul",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/photography/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -24,14 +25,14 @@ export default function PhotographySpotsGuide() {
     },
     description: "Looking for the best photography spots in Mukteshwar? From the dramatic cliffs of Chauli Ki Jali to the sunrise views at Ecoescape, here is your 2026 photography guide.",
     url: "https://ecoescapemukteshwar.com/blog/best-photography-spots-in-mukteshwar",
-  });
+  }), []);
 
   // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Best Photography Spots" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

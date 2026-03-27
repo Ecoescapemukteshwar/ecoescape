@@ -1,8 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Phone, MessageCircle, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import { useThrottle } from "@/hooks/useThrottle";
@@ -15,19 +14,15 @@ const navLinks = [
   { name: "Gallery", href: "#gallery" },
   { name: "Things to Do", href: "#things-to-do" },
   { name: "Reviews", href: "#reviews" },
+  { name: "About", href: "/aboutus", isRoute: true },
   { name: "Blog", href: "/blog", isRoute: true },
 ];
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [_isMounted, setIsMounted] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const handleScroll = useThrottle(() => {
     if (typeof window !== 'undefined') {
@@ -147,7 +142,15 @@ export function Header() {
               "flex flex-col p-2 rounded-lg transition-all duration-300",
               !showScrolledStyle && "bg-white/10 backdrop-blur-sm"
             )}>
-              <img src={showScrolledStyle ? "/LOGO2.webp" : "/LOGO.webp"} alt="Ecoescape Mukteshwar Logo" width={175} height={136} className="w-[100px] h-auto" />
+              <img
+                src={showScrolledStyle ? "/LOGO2.webp" : "/LOGO-opt.webp"}
+                alt="Ecoescape Mukteshwar Logo"
+                width={175}
+                height={136}
+                className="w-[100px] h-auto"
+                fetchPriority="high"
+                loading="eager"
+              />
             </div>
           </Link>
 
@@ -215,7 +218,6 @@ export function Header() {
                 : "text-[hsl(40_30%_98%)] hover:bg-[hsl(40_30%_98%/0.1)]"
             )}
             onClick={() => setIsOpen(!isOpen)}
-
             aria-label="Toggle menu"
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
@@ -229,15 +231,13 @@ export function Header() {
         </div>
 
         {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden overflow-hidden bg-background rounded-xl mt-4 shadow-card"
-              id="mobile-menu"
-            >
+        <div
+          className={cn(
+            "lg:hidden overflow-hidden bg-background rounded-xl mt-4 shadow-card transition-all duration-300 ease-in-out",
+            isOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+          )}
+          id="mobile-menu"
+        >
               <div className="p-4 space-y-2">
                 {navLinks.map((link) =>
                   'isRoute' in link && link.isRoute ? (
@@ -288,10 +288,10 @@ export function Header() {
                   </Button>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
       </nav>
     </header>
   );
 }
+
+export default memo(Header);

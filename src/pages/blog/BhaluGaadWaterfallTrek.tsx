@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Mountain, Waves } from "lucide-react";
@@ -7,7 +8,7 @@ import featuredImg from "@/assets/blog/bhalu-gaad/featured.webp";
 
 export default function BhaluGaadWaterfallTrek() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Bhalu Gaad Waterfall Trek: Mukteshwar's Hidden Gem (2026 Guide)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -15,13 +16,13 @@ export default function BhaluGaadWaterfallTrek() {
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Trek to the hidden Bhalu Gaad waterfall in Mukteshwar. Find trek difficulty, timings, best time to visit (monsoon), and how to reach the falls in 2026.",
     url: "https://ecoescapemukteshwar.com/blog/bhalu-gaad-waterfall-trek",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Bhalu Gaad Waterfall Trek" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

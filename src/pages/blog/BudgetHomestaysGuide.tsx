@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Banknote, MapPin, Coffee } from "lucide-react";
@@ -17,7 +18,7 @@ const BUDGET_PICKS = [
 export default function BudgetHomestaysGuide() {
   const { navigateToBooking } = useBookingNavigation();
 
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Top 5 Budget-Friendly Homestays in Mukteshwar for Solo Travelers & Backpackers",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 23, 2026"),
@@ -25,13 +26,13 @@ export default function BudgetHomestaysGuide() {
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Discover the best budget-friendly homestays and hostels in Mukteshwar. Perfect for solo travelers and backpackers looking for affordable stays with great views.",
     url: "https://ecoescapemukteshwar.com/blog/budget-friendly-homestays-mukteshwar-solo-travel",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Budget Homestays in Mukteshwar" },
-  ]);
+  ]), []);
 
   const budgetPicks = BUDGET_PICKS;
 

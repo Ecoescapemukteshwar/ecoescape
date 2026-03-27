@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
@@ -16,7 +17,7 @@ import fruitOrchardImg from "@/assets/blog/things-to-do/fruit-orchard.webp";
 export default function ThingsToDoInMukteshwar() {
   const { navigateToBooking } = useBookingNavigation();
   // Article Schema
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "15 Best Places to Visit in Mukteshwar: Tourism & Sightseeing Guide (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -31,14 +32,14 @@ export default function ThingsToDoInMukteshwar() {
     },
     description: "Looking for the best places to visit in Mukteshwar? Explore our 2026 guide to Mukteshwar Dham, Bhalu Gaad Waterfall, and more attractions for a perfect trip.",
     url: "https://ecoescapemukteshwar.com/blog/things-to-do-in-mukteshwar",
-  });
+  }), []);
 
   // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Places to Visit in Mukteshwar" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

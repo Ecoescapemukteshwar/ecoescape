@@ -1,4 +1,5 @@
 import { BlogPostLayout } from "@/components/BlogPostLayout";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Phone, Sun, Info } from "lucide-react";
@@ -35,7 +36,7 @@ const harvestSeasons = [
 
 export default function FruitOrchardsGuide() {
   const { navigateToBooking } = useBookingNavigation();
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Fruit Orchards of Mukteshwar: A Guide to Apple, Peach & Plum Seasons",
     image: "https://ecoescapemukteshwar.com/assets/blog/fruit-orchards/featured.png",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -50,13 +51,13 @@ export default function FruitOrchardsGuide() {
     },
     description: "Explore the 'Fruit Bowl of Kumaon'. Our guide to Mukteshwar's fruit orchards covers the best seasons for apple, peach, and plum harvests and how to enjoy the experience.",
     url: "https://ecoescapemukteshwar.com/blog/fruit-orchards-of-mukteshwar-guide",
-  });
+  }), []);
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Fruit Orchards Guide" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

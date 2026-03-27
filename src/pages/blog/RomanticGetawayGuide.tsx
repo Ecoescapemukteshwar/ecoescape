@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";;
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
@@ -10,7 +11,7 @@ import romanticFeaturedImg from "@/assets/blog/romantic/featured.webp";
 export default function RomanticGetawayGuide() {
   const { navigateToBooking } = useBookingNavigation();
   // Article Schema
-  const articleSchema = generateArticleSchema({
+  const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Romantic Getaway in Mukteshwar: Best Spots for Couples in 2026",
     image: "https://ecoescapemukteshwar.com/src/assets/blog/romantic/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
@@ -25,14 +26,14 @@ export default function RomanticGetawayGuide() {
     },
     description: "Planning a romantic trip to Mukteshwar? Our couples guide covers candlelit terrace dinners, sunrise viewpoints, private bonfires, and the most romantic spots in the Kumaon hills.",
     url: "https://ecoescapemukteshwar.com/blog/romantic-getaway-guide",
-  });
+  }), []);
 
   // Breadcrumb Schema
-  const breadcrumbSchema = generateBreadcrumbSchema([
+  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
     { name: "Home", item: "https://ecoescapemukteshwar.com" },
     { name: "Blog", item: "https://ecoescapemukteshwar.com/blog" },
     { name: "Romantic Getaway in Mukteshwar" },
-  ]);
+  ]), []);
 
   return (
     <BlogPostLayout

@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
 import { Clock, FileText, Shield, Sparkles } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 import {
   Accordion,
   AccordionContent,
@@ -122,15 +123,35 @@ const policies = [
 ];
 
 export function PoliciesSection() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1, rootMargin: "50px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="py-24 bg-background">
+    <section ref={sectionRef} className="py-24 bg-background overflow-hidden">
       <div className="container max-w-3xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+        <div
+          className={cn(
+            "text-center mb-12 opacity-0",
+            isVisible && "animate-fade-in-up opacity-100"
+          )}
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
             Good to Know
@@ -138,13 +159,14 @@ export function PoliciesSection() {
           <p className="text-muted-foreground">
             Important information for a comfortable and enjoyable stay
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+        <div
+          className={cn(
+            "opacity-0",
+            isVisible && "animate-fade-in-up opacity-100"
+          )}
+          style={isVisible ? { animationDelay: "0.1s" } : {}}
         >
           <Accordion type="single" collapsible className="space-y-4">
             {policies.map((policy) => (
@@ -169,21 +191,21 @@ export function PoliciesSection() {
               </AccordionItem>
             ))}
           </Accordion>
-        </motion.div>
+        </div>
 
         {/* Cancellation Note */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-8 bg-accent/10 border border-accent/20 rounded-xl p-6 text-center"
+        <div
+          className={cn(
+            "mt-8 bg-accent/10 border border-accent/20 rounded-xl p-6 text-center opacity-0",
+            isVisible && "animate-fade-in-up opacity-100"
+          )}
+          style={isVisible ? { animationDelay: "0.3s" } : {}}
         >
           <h4 className="font-semibold text-foreground mb-2">Cancellation Policy</h4>
           <p className="text-muted-foreground text-sm">
             Free cancellation up to 5 days before check-in. Cancellations within 5 days are non-refundable. If we are able to rebook the dates, a full refund will be processed.
           </p>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

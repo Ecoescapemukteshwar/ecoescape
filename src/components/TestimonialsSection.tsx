@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { memo } from "react";
 import { Star, MapPin, Calendar, ShieldCheck } from "lucide-react";
 import {
   Carousel,
@@ -8,17 +8,20 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { testimonials } from "@/config/testimonials";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 
 export function TestimonialsSection() {
+  const { ref, isInView } = useInView({ threshold: 0.1, rootMargin: "50px" });
+
   return (
-    <section id="reviews" className="py-24 bg-secondary">
+    <section id="reviews" ref={ref} className="py-24 bg-secondary overflow-hidden">
       <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+        <div
+          className={cn(
+            "text-center mb-12 opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground mb-4">
             Stories from Our Guests
@@ -32,7 +35,7 @@ export function TestimonialsSection() {
             <span className="font-semibold text-foreground">4.9</span>
             <span className="text-muted-foreground">from 100+ reviews</span>
           </div>
-        </motion.div>
+        </div>
 
         {/* Mobile Carousel */}
         <div className="md:hidden">
@@ -49,12 +52,12 @@ export function TestimonialsSection() {
                   key={testimonial.id}
                   className="pl-4 basis-[85%]"
                 >
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-background rounded-2xl p-6 shadow-soft hover:shadow-card transition-shadow flex flex-col"
+                  <div
+                    className={cn(
+                      "bg-background rounded-2xl p-6 shadow-soft hover:shadow-card transition-shadow flex flex-col opacity-0",
+                      isInView && "animate-fade-in-up opacity-100"
+                    )}
+                    style={isInView ? { animationDelay: `${index * 0.1}s` } : {}}
                   >
                     {/* Avatar & Quote Icon */}
                     <div className="flex items-start gap-4 mb-4">
@@ -100,7 +103,7 @@ export function TestimonialsSection() {
                         <span>via {testimonial.source}</span>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -112,13 +115,13 @@ export function TestimonialsSection() {
         {/* Desktop Grid */}
         <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.map((testimonial, index) => (
-            <motion.div
+            <div
               key={testimonial.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-background rounded-2xl p-6 shadow-soft hover:shadow-card transition-shadow flex flex-col"
+              className={cn(
+                "bg-background rounded-2xl p-6 shadow-soft hover:shadow-card transition-shadow flex flex-col opacity-0",
+                isInView && "animate-fade-in-up opacity-100"
+              )}
+              style={isInView ? { animationDelay: `${index * 0.1}s` } : {}}
             >
               {/* Avatar & Quote Icon */}
               <div className="flex items-start gap-4 mb-4">
@@ -164,17 +167,17 @@ export function TestimonialsSection() {
                   <span>via {testimonial.source}</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Trust Badges */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-8 text-center"
+        <div
+          className={cn(
+            "mt-12 flex flex-wrap items-center justify-center gap-8 text-center opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
+          style={isInView ? { animationDelay: "0.4s" } : {}}
         >
           <div className="flex flex-col items-center">
             <div className="text-2xl font-serif font-semibold text-primary">4.9★</div>
@@ -195,8 +198,10 @@ export function TestimonialsSection() {
             <div className="text-2xl font-serif font-semibold text-primary">100%</div>
             <div className="text-sm text-muted-foreground">Verified Reviews</div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
+
+export default memo(TestimonialsSection);

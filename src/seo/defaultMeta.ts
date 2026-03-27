@@ -6,7 +6,7 @@ export const defaultMeta = {
     "Experience Ecoescape Mukteshwar, the top-rated boutique homestay in Uttarakhand. Enjoy breathtaking Himalayan sunrise views, a lush 100+ plant garden, and authentic Kumaoni dining. Perfect for families, couples, and digital nomads seeking a serene mountain retreat.",
   keywords:
     "Ecoescape Mukteshwar, Mukteshwar homestay, Mukteshwar bed and breakfast, sunrise view property Mukteshwar, garden homestay Uttarakhand, safe homestay Mukteshwar, terrace dining Mukteshwar, best place to stay Mukteshwar",
-  ogImage: "https://ecoescapemukteshwar.com/LOGO.webp",
+  ogImage: "https://ecoescapemukteshwar.com/LOGO-opt.webp",
   ogImageWidth: "1200",
   ogImageHeight: "630",
   ogImageAlt: "Ecoescape Mukteshwar - A boutique homestay with sunrise views and lush gardens in Uttarakhand",
@@ -20,7 +20,7 @@ export const defaultSchema = {
   "@context": "https://schema.org",
   "@type": "LodgingBusiness",
   "name": "Ecoescape Mukteshwar",
-  "image": "https://ecoescapemukteshwar.com/LOGO.webp",
+  "image": "https://ecoescapemukteshwar.com/LOGO-opt.webp",
   "description": defaultMeta.description,
   "url": siteUrl,
   "telephone": "+919667846787",
