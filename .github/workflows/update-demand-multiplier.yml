@@ -2,8 +2,8 @@ name: Update Demand Multiplier
 
 on:
   schedule:
-    # Run daily at 8 AM IST (2:30 UTC)
-    - cron: '30 2 * * *'
+   # Run weekly on Mondays at 8 AM IST (2:30 UTC)
+    - cron: '30 2 * * 1'
   workflow_dispatch: # Allow manual trigger
 
 jobs:
