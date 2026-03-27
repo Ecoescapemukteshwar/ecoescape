@@ -77,7 +77,7 @@ export default defineConfig(async ({ mode }) => {
         injectRegister: false,
         selfDestroying: false
       }),
-      prerenderPlugin && (prerenderPlugin as any)({
+      prerenderPlugin && (prerenderPlugin as unknown)({
         staticDir: path.join(__dirname, "dist"),
         routes: [
           "/",
@@ -107,7 +107,7 @@ export default defineConfig(async ({ mode }) => {
           "/rooms/family-room",
           "/rooms/family-room-2",
         ],
-        renderer: new (prerenderPlugin as any).PuppeteerRenderer({
+        renderer: new (prerenderPlugin as Record<string, unknown>).PuppeteerRenderer({
           maxConcurrentRoutes: 1,
           renderAfterTime: 500,
         }),

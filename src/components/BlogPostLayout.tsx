@@ -48,9 +48,9 @@ export interface BlogPostLayoutProps {
   };
   /** Schema.org structured data */
   schema: {
-    article: any;
-    breadcrumb: any;
-    additional?: any[];
+    article: Record<string, unknown>;
+    breadcrumb: Record<string, unknown>;
+    additional?: Record<string, unknown>[];
   };
   /** Back link for breadcrumb navigation (defaults to /blog) */
   backLink?: string;

@@ -12,7 +12,8 @@ import { siteConfig } from "@/config/site";
 import { sanitizeName, sanitizePhone, sanitizeEmail } from "@/lib/sanitizer";
 import { createWhatsAppMessage, openWhatsAppWithMessage } from "@/services/whatsapp";
 import { trackBookingSubmit, trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/analytics";
-import { getCurrentPrice, formatPrice, getBookingPrice, mapRoomTypeToPricingType } from "@/services/pricing";
+import { getBookingPrice, mapRoomTypeToPricingType } from "@/services/pricing";
+import { useRoomPricing } from "@/hooks/useRoomPricing";
 
 const bookingSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -52,35 +53,59 @@ export function BookingSection() {
     isPeak: boolean;
   } | null>(null);
 
+  // Load current prices for all rooms using custom hook
+  const { prices: roomPrices } = useRoomPricing([
+    'suite',
+    'apartment',
+    'familyRoom',
+    'familyRoom2'
+  ]);
+
   // Dynamic room options with current pricing
   const roomOptions = useMemo(() => [
-    { value: "suite-mountain-view", label: `Suite with Mountain View (${formatPrice(getCurrentPrice('suite'))}/night)` },
-    { value: "spacious-apartment", label: `Spacious Apartment (${formatPrice(getCurrentPrice('apartment'))}/night)` },
-    { value: "family-room", label: `Family Room (${formatPrice(getCurrentPrice('familyRoom'))}/night)` },
-    { value: "family-room-2", label: `Family Room 2 (${formatPrice(getCurrentPrice('familyRoom2'))}/night)` },
-  ], []);
+    { value: "suite-mountain-view", label: `Suite with Mountain View (${roomPrices.suite || '₹3,500'}/night)` },
+    { value: "spacious-apartment", label: `Spacious Apartment (${roomPrices.apartment || '₹5,500'}/night)` },
+    { value: "family-room", label: `Family Room (${roomPrices.familyRoom || '₹4,500'}/night)` },
+    { value: "family-room-2", label: `Family Room 2 (${roomPrices.familyRoom2 || '₹4,000'}/night)` },
+  ], [roomPrices]);
 
   // Calculate price summary when dates and room type change
   useEffect(() => {
-    if (formData.checkIn && formData.checkOut && formData.roomType) {
-      const checkIn = new Date(formData.checkIn);
-      const checkOut = new Date(formData.checkOut);
-      const roomType = mapRoomTypeToPricingType(formData.roomType);
+    let isMounted = true;
 
-      if (roomType && checkOut > checkIn) {
-        const pricing = getBookingPrice(roomType, checkIn, checkOut);
-        setPriceSummary({
-          pricePerNight: pricing.basePrice,
-          nights: pricing.nights,
-          totalPrice: pricing.totalPrice,
-          isPeak: pricing.isPeakSeason,
-        });
+    const calculatePrice = async () => {
+      if (formData.checkIn && formData.checkOut && formData.roomType) {
+        const checkIn = new Date(formData.checkIn);
+        const checkOut = new Date(formData.checkOut);
+        const roomType = mapRoomTypeToPricingType(formData.roomType);
+
+        if (roomType && checkOut > checkIn) {
+          const pricing = await getBookingPrice(roomType, checkIn, checkOut);
+          if (isMounted) {
+            setPriceSummary({
+              pricePerNight: pricing.basePrice,
+              nights: pricing.nights,
+              totalPrice: pricing.totalPrice,
+              isPeak: pricing.isPeakSeason,
+            });
+          }
+        } else {
+          if (isMounted) {
+            setPriceSummary(null);
+          }
+        }
       } else {
-        setPriceSummary(null);
+        if (isMounted) {
+          setPriceSummary(null);
+        }
       }
-    } else {
-      setPriceSummary(null);
-    }
+    };
+
+    calculatePrice();
+
+    return () => {
+      isMounted = false;
+    };
   }, [formData.checkIn, formData.checkOut, formData.roomType]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

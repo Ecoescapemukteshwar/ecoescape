@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BlogPostLayout } from "@/components/BlogPostLayout";
 import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } from "@/lib/schema";
 import { Calendar, Clock, Snowflake, Thermometer, Coffee, Home, MessageCircle, Phone } from "lucide-react";

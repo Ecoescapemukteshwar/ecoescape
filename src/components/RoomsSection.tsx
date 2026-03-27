@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Users, Eye, Maximize, Coffee, Droplets, Wifi, BedDouble, Shield, Car } from "lucide-react";
 import { roomsConfig } from "@/config/rooms";
-import { getCurrentPrice, formatPrice, type RoomType } from "@/services/pricing";
+import { formatPrice, getBasePrice, type RoomType } from "@/services/pricing";
+import { useRoomPricing } from "@/hooks/useRoomPricing";
 
 // Room data without prices (prices added dynamically)
 const roomData = roomsConfig.map((room) => ({
@@ -42,13 +43,19 @@ const propertyHighlights = [
 ];
 
 export function RoomsSection() {
-  // Generate rooms array with dynamic pricing
+  // Get room types from roomData
+  const roomTypes = roomData.map(room => room.roomType);
+
+  // Load prices using custom hook
+  const { prices: roomPrices } = useRoomPricing(roomTypes);
+
+  // Derive rooms from prices using useMemo
   const rooms = useMemo(() => {
     return roomData.map((room) => ({
       ...room,
-      price: formatPrice(getCurrentPrice(room.roomType)),
+      price: roomPrices[room.roomType] || formatPrice(getBasePrice(room.roomType)),
     }));
-  }, []);
+  }, [roomPrices]);
 
   // scrollToBooking removed — booking links handled by room detail pages
 
