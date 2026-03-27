@@ -21,13 +21,8 @@ const navLinks = [
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [_isMounted, setIsMounted] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const handleScroll = useThrottle(() => {
     if (typeof window !== 'undefined') {
