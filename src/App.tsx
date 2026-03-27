@@ -96,8 +96,6 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const isDev = import.meta.env.DEV;
-
   return (
     <ErrorBoundary>
       <Suspense fallback={null}>

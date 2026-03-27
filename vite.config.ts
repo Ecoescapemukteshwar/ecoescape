@@ -85,7 +85,7 @@ export default defineConfig(({ mode }) => {
         brotliSize: true,
         open: false,
       }),
-      prerenderPlugin && (prerenderPlugin as Function)({
+      prerenderPlugin && (prerenderPlugin as unknown as (config: Record<string, unknown>) => unknown)({
         staticDir: path.join(__dirname, "dist"),
         routes: [
           "/",

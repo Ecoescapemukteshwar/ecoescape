@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -35,29 +36,36 @@ export default function SuiteWithMountainView() {
     return prices;
   }, [allPrices, relatedRooms]);
 
+  // LodgingReservation Schema - must be before early return (React Hooks rule)
+  const primaryImage = room?.images?.[0] ?? "";
+  const lodgingSchema = useMemo(() => {
+    if (!room) return null;
+    return generateLodgingReservationSchema({
+      name: room.name,
+      description: room.longDescription,
+      url: `https://ecoescapemukteshwar.com/rooms/${room.slug}`,
+      image: primaryImage,
+      price: currentPrice,
+      priceCurrency: "INR",
+      capacity: room.capacity,
+      size: room.size,
+      bedConfig: room.bedConfig,
+      amenities: room.amenities,
+      bookingUrl: "https://ecoescapemukteshwar.com/#booking",
+    });
+  }, [room, primaryImage, currentPrice]);
+
+  // Breadcrumb Schema - must be before early return (React Hooks rule)
+  const breadcrumbSchema = useMemo(() => {
+    if (!room) return null;
+    return generateBreadcrumbSchema([
+      { name: "Home", item: "https://ecoescapemukteshwar.com" },
+      { name: "Rooms", item: "https://ecoescapemukteshwar.com/#rooms" },
+      { name: room.name },
+    ]);
+  }, [room]);
+
   if (!room) return null;
-
-  // LodgingReservation Schema
-  const lodgingSchema = useMemo(() => generateLodgingReservationSchema({
-    name: room.name,
-    description: room.longDescription,
-    url: `https://ecoescapemukteshwar.com/rooms/${room.slug}`,
-    image: room.images[0],
-    price: currentPrice,
-    priceCurrency: "INR",
-    capacity: room.capacity,
-    size: room.size,
-    bedConfig: room.bedConfig,
-    amenities: room.amenities,
-    bookingUrl: "https://ecoescapemukteshwar.com/#booking",
-  }), [room.name, room.longDescription, room.slug, room.images[0], currentPrice, room.capacity, room.size, room.bedConfig, room.amenities]);
-
-  // Breadcrumb Schema
-  const breadcrumbSchema = useMemo(() => generateBreadcrumbSchema([
-    { name: "Home", item: "https://ecoescapemukteshwar.com" },
-    { name: "Rooms", item: "https://ecoescapemukteshwar.com/#rooms" },
-    { name: room.name },
-  ]), [room.name]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -67,7 +75,7 @@ export default function SuiteWithMountainView() {
         canonical={`https://ecoescapemukteshwar.com/rooms/${room.slug}`}
         keywords={room.keywords}
         ogImage={room.images[0]}
-        jsonLd={[lodgingSchema, breadcrumbSchema]}
+        jsonLd={[lodgingSchema, breadcrumbSchema].filter(Boolean)}
       />
       <Header />
 
