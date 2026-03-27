@@ -326,7 +326,10 @@ const AboutUs = () => {
                     <Button
                       variant="link"
                       className="p-0 h-auto ml-2"
-                      onClick={() => window.open("https://wa.me/919667846787", "_blank")}
+                      onClick={() => {
+                        const newWindow = window.open("https://wa.me/919667846787", "_blank");
+                        if (newWindow) newWindow.opener = null;
+                      }}
                     >
                       Contact us to arrange
                     </Button>

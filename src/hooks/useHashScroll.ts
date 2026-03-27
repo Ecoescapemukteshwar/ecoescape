@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 /**
@@ -28,6 +28,12 @@ const hashToSectionKeys: Record<string, string[]> = {
  */
 export function useHashScroll(onRequestSections?: (sectionKeys: string[]) => void) {
   const { hash, pathname } = useLocation();
+  const onRequestSectionsRef = useRef(onRequestSections);
+
+  // Keep the ref in sync with the latest callback
+  useEffect(() => {
+    onRequestSectionsRef.current = onRequestSections;
+  }, [onRequestSections]);
 
   useEffect(() => {
     if (!hash || typeof document === "undefined") return;
@@ -36,8 +42,8 @@ export function useHashScroll(onRequestSections?: (sectionKeys: string[]) => voi
 
     // Request all sections up to and including the target to be loaded
     const sectionKeys = hashToSectionKeys[id];
-    if (sectionKeys && onRequestSections) {
-      onRequestSections(sectionKeys);
+    if (sectionKeys && onRequestSectionsRef.current) {
+      onRequestSectionsRef.current(sectionKeys);
     }
 
     // Poll for the element to appear (sections are lazy-loaded)
@@ -62,5 +68,5 @@ export function useHashScroll(onRequestSections?: (sectionKeys: string[]) => voi
       clearTimeout(timer);
       if (pollInterval) clearInterval(pollInterval);
     };
-  }, [hash, pathname, onRequestSections]);
+  }, [hash, pathname]);
 }

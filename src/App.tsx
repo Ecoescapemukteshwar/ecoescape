@@ -72,8 +72,14 @@ const DeferredAnalytics = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Skip analytics in dev mode and on localhost/preview
   const isDev = import.meta.env.DEV;
-  if (!shouldRender || isDev) return null;
+  const isLocalhost = typeof window !== 'undefined' && (
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1' ||
+    window.location.hostname === ''
+  );
+  if (!shouldRender || isDev || isLocalhost) return null;
 
   return (
     <>

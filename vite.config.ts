@@ -7,8 +7,6 @@ import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const prerenderPlugin = null; // Temporarily disabled due to ESM/require issue in the plugin
-
   return {
     server: {
       host: "::",
@@ -85,18 +83,7 @@ export default defineConfig(({ mode }) => {
         brotliSize: true,
         open: false,
       }),
-      prerenderPlugin && (prerenderPlugin as unknown as (config: Record<string, unknown>) => unknown)({
-        staticDir: path.join(__dirname, "dist"),
-        routes: [
-          "/",
-          "/blog",
-        ],
-        renderer: new (prerenderPlugin as unknown as { PuppeteerRenderer: any }).PuppeteerRenderer({ // eslint-disable-line @typescript-eslint/no-explicit-any
-          maxConcurrentRoutes: 1,
-          renderAfterTime: 500,
-        }),
-      }),
-    ].filter(Boolean),
+    ],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

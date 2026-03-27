@@ -223,7 +223,6 @@ export function Header() {
                 : "text-[hsl(40_30%_98%)] hover:bg-[hsl(40_30%_98%/0.1)]"
             )}
             onClick={() => setIsOpen(!isOpen)}
-
             aria-label="Toggle menu"
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
