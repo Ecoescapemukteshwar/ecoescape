@@ -119,12 +119,12 @@ export function Footer() {
             <h4 className="font-semibold text-background mb-4">Quick Links</h4>
             <ul className="space-y-3">
               <li>
-                <Link to="/rooms" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/#rooms" className="text-background/70 hover:text-accent transition-colors">
                   Rooms & Suites
                 </Link>
               </li>
               <li>
-                <Link to="/dining" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/#dining" className="text-background/70 hover:text-accent transition-colors">
                   Dining
                 </Link>
               </li>
@@ -134,12 +134,12 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/gallery" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/#gallery" className="text-background/70 hover:text-accent transition-colors">
                   Gallery
                 </Link>
               </li>
               <li>
-                <Link to="/garden" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/#garden" className="text-background/70 hover:text-accent transition-colors">
                   Garden
                 </Link>
               </li>
@@ -149,12 +149,12 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/reviews" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/#reviews" className="text-background/70 hover:text-accent transition-colors">
                   Guest Reviews
                 </Link>
               </li>
               <li>
-                <Link to="/booking" className="text-background/70 hover:text-accent transition-colors">
+                <Link to="/#booking" className="text-background/70 hover:text-accent transition-colors">
                   Book Now
                 </Link>
               </li>

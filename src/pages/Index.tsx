@@ -29,7 +29,20 @@ const SectionFallback = () => (
 );
 
 const Index = () => {
-  useHashScroll();
+  // Callback to force-load sections when navigating with a hash
+  const loadSectionsForHash = useCallback((sectionKeys: string[]) => {
+    setSectionsToLoad(prev => {
+      const updated = { ...prev };
+      sectionKeys.forEach(key => {
+        if (key in updated) {
+          updated[key as keyof typeof updated] = true;
+        }
+      });
+      return updated;
+    });
+  }, []);
+
+  useHashScroll(loadSectionsForHash);
 
   // Track which sections should be loaded
   const [sectionsToLoad, setSectionsToLoad] = useState({
