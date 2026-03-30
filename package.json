@@ -17,7 +17,7 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "clean": "rm -rf dist node_modules/.vite",
-    "compress:images": "node scripts/compress-images.js"
+    "convert:webp": "node scripts/convert-to-webp.js"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.2.8",
