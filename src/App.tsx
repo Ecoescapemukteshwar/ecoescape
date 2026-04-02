@@ -16,6 +16,7 @@ import {
   ReviewsRedirect,
   BookingRedirect,
   LocationRedirect,
+  TariffsRedirect,
 } from "./pages/sectionRedirects";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { lazy as lazyPricing } from "react";
@@ -171,6 +172,7 @@ const App = () => {
               <Route path="/location" element={<LocationRedirect />} />
               <Route path="/reviews" element={<ReviewsRedirect />} />
               <Route path="/booking" element={<BookingRedirect />} />
+              <Route path="/tariffs" element={<TariffsRedirect />} />
               <Route path="/contactus" element={<Suspense fallback={<div className="min-h-screen" />}><ContactUs /></Suspense>} />
               <Route path="/aboutus" element={<Suspense fallback={<div className="min-h-screen" />}><AboutUs /></Suspense>} />
               <Route path="/test-pricing" element={<PricingTestPage />} />
