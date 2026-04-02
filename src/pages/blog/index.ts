@@ -9,6 +9,10 @@ import { lazy } from 'react';
 
 // Lazy load all blog components
 export const blogComponents = {
+  'slow-travel-mukteshwar': lazy(() => import('./SlowTravelGuide')),
+  'offbeat-village-walking-trails': lazy(() => import('./VillageWalkingTrails')),
+  'summer-escape-guide-2026': lazy(() => import('./SummerEscapeGuide')),
+  'farm-to-table-mukteshwar-dining': lazy(() => import('./FarmToTableDining')),
   'mukteshwar-in-winter': lazy(() => import('./WinterExperienceGuide')),
   'mukteshwar-vs-nainital': lazy(() => import('./MukteshwarVsNainital')),
   'best-time-to-visit-mukteshwar-guide': lazy(() => import('./BestTimeToVisit')),
