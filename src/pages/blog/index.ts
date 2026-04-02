@@ -64,12 +64,3 @@ export type BlogSlug = keyof typeof blogComponents;
 export function getBlogComponent(slug: string) {
   return blogComponents[slug as BlogSlug] || null;
 }
-
-/**
- * Check if a blog post exists
- * @param slug - The blog post slug
- * @returns True if the blog post exists
- */
-export function blogExists(slug: string): slug is BlogSlug {
-  return slug in blogComponents;
-}

@@ -19,8 +19,7 @@ import {
   TariffsRedirect,
 } from "./pages/sectionRedirects";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { lazy as lazyPricing } from "react";
-const PricingTestPage = lazyPricing(() => import("./components/PricingTestPage").then(m => ({ default: () => (
+const PricingTestPage = lazy(() => import("./components/PricingTestPage").then(m => ({ default: () => (
     <>
       <PageMeta
         title="Pricing Test - Ecoescape Mukteshwar"
