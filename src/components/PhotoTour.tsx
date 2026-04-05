@@ -45,7 +45,7 @@ export function PhotoTour({ suiteName }: PhotoTourProps) {
     Object.entries(imageModules).forEach(([path, module]: [string, any]) => {
       // Extract suite name, room folder name and image number from path
       // Path format: /assets/PhotoTour/Suite Name/Room Name/imgX.webp
-      const match = path.match(/\/assets\/PhotoTour\/([^/]+)\/([^/]+)\/img(\d+)\.webp/);
+      const match = path.match(/\/assets\/PhotoTour\/([^/]+)\/([^/]+)\/(?:img)?(\d+)\.webp/);
 
       if (match) {
         const [, suiteName, roomName, imageNumber] = match;
