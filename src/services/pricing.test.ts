@@ -3,7 +3,6 @@ import {
   getBasePrice,
   formatPrice,
   formatPriceExact,
-  getPeakSeasonPrice,
   mapRoomTypeToPricingType,
   getMarkupForDate,
   isPeakSeason,
@@ -97,28 +96,6 @@ describe('Pricing Service', () => {
 
     it('handles large numbers with Indian locale', () => {
       expect(formatPriceExact(100000)).toBe('₹1,00,000');
-    });
-  });
-
-  describe('getPeakSeasonPrice', () => {
-    it('calculates 30% markup for suite', () => {
-      expect(getPeakSeasonPrice('suite')).toBe(4550); // 3500 * 1.30
-    });
-
-    it('calculates 30% markup for apartment', () => {
-      expect(getPeakSeasonPrice('apartment')).toBe(7150); // 5500 * 1.30
-    });
-
-    it('calculates 30% markup for familyRoom', () => {
-      expect(getPeakSeasonPrice('familyRoom')).toBe(5850); // 4500 * 1.30
-    });
-
-    it('calculates 30% markup for familyRoom2', () => {
-      expect(getPeakSeasonPrice('familyRoom2')).toBe(5200); // 4000 * 1.30
-    });
-
-    it('returns 0 for invalid room type', () => {
-      expect(getPeakSeasonPrice('invalid' as RoomType)).toBe(0);
     });
   });
 

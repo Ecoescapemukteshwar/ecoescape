@@ -8,3 +8,4 @@ export const ActivitiesRedirect = () => <Navigate to="/#things-to-do" replace />
 export const ReviewsRedirect = () => <Navigate to="/#reviews" replace />;
 export const BookingRedirect = () => <Navigate to="/#booking" replace />;
 export const LocationRedirect = () => <Navigate to="/#location" replace />;
+export const TariffsRedirect = () => <Navigate to="/rooms" replace />;

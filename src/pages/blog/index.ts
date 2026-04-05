@@ -9,6 +9,10 @@ import { lazy } from 'react';
 
 // Lazy load all blog components
 export const blogComponents = {
+  'slow-travel-mukteshwar': lazy(() => import('./SlowTravelGuide')),
+  'offbeat-village-walking-trails': lazy(() => import('./VillageWalkingTrails')),
+  'summer-escape-guide-2026': lazy(() => import('./SummerEscapeGuide')),
+  'farm-to-table-mukteshwar-dining': lazy(() => import('./FarmToTableDining')),
   'mukteshwar-in-winter': lazy(() => import('./WinterExperienceGuide')),
   'mukteshwar-vs-nainital': lazy(() => import('./MukteshwarVsNainital')),
   'best-time-to-visit-mukteshwar-guide': lazy(() => import('./BestTimeToVisit')),
@@ -59,13 +63,4 @@ export type BlogSlug = keyof typeof blogComponents;
  */
 export function getBlogComponent(slug: string) {
   return blogComponents[slug as BlogSlug] || null;
-}
-
-/**
- * Check if a blog post exists
- * @param slug - The blog post slug
- * @returns True if the blog post exists
- */
-export function blogExists(slug: string): slug is BlogSlug {
-  return slug in blogComponents;
 }

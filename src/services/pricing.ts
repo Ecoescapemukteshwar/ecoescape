@@ -1,4 +1,4 @@
-import type { RoomType, RoomPricing, BookingPricing, PricingModifiersConfig, BookingPricingWithDemand } from "@/types/pricing";
+import type { RoomType, RoomPricing, BookingPricing, PricingModifiersConfig } from "@/types/pricing";
 export type { RoomType };
 
 // Base prices for each room type (standard season)
@@ -224,14 +224,6 @@ export function formatPriceExact(price: number): string {
 }
 
 /**
- * Get peak season price for a room type (maximum markup: 30% for June)
- */
-export function getPeakSeasonPrice(roomType: RoomType): number {
-  const basePrice = getBasePrice(roomType);
-  return Math.round(basePrice * (1 + 0.30));
-}
-
-/**
  * Map room option values from booking form to RoomType
  */
 export function mapRoomTypeToPricingType(roomOptionValue: string): RoomType | null {
@@ -291,10 +283,6 @@ function getDemandMultiplier(): number {
     fetchDemandMultiplier().then(value => {
       demandMultiplierCache = value;
       isLoading = false;
-      // Force re-render by updating window location
-      if (typeof window !== 'undefined' && value !== 1.0) {
-        // Updated
-      }
     });
   }
 
@@ -313,94 +301,4 @@ export async function initializeDemandMultiplier() {
     return demandMultiplierCache;
   }
   return demandMultiplierCache ?? 1.0;
-}
-
-/**
- * Force reload the demand multiplier
- */
-export async function reloadDemandMultiplier() {
-  demandMultiplierCache = null;
-  isLoading = false;
-  demandMultiplierCache = await fetchDemandMultiplier();
-  return demandMultiplierCache;
-}
-
-/**
- * Get price for a specific date with demand multiplier applied
- * Enhanced version of getPriceForDate() with weighted adjustments
- * NO CLAMPING - weights ensure we stay within ±30% naturally
- */
-export async function getPriceForDateWithDemand(roomType: RoomType, date: Date): Promise<number> {
-  const basePrice = getBasePrice(roomType);
-  const markup = await getMarkupForDate(date);
-
-  // Apply weighted markup directly (no clamping!)
-  const price = basePrice * (1 + markup);
-
-  // Round to nearest ₹100
-  return Math.round(price / 100) * 100;
-}
-
-/**
- * Calculate booking price with demand multiplier
- * Enhanced version with detailed breakdown
- * NO CLAMPING - weights ensure we stay within ±30% naturally
- */
-export async function getBookingPriceWithDemand(
-  roomType: RoomType,
-  checkIn: Date,
-  checkOut: Date
-): Promise<BookingPricingWithDemand> {
-  const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
-
-  if (nights <= 0) {
-    return {
-      basePrice: getBasePrice(roomType),
-      totalPrice: 0,
-      nights: 0,
-      isPeakSeason: false,
-      demandMultiplier: 1.0,
-      priceBreakdown: [],
-    };
-  }
-
-  const demandMultiplier = getDemandMultiplier();
-  const priceBreakdown: Array<{ date: Date; price: number; markup: number; demandMult: number }> = [];
-  let totalPrice = 0;
-
-  // Calculate price for each night
-  for (let i = 0; i < nights; i++) {
-    const nightDate = new Date(checkIn);
-    nightDate.setDate(nightDate.getDate() + i);
-
-    const basePrice = getBasePrice(roomType);
-    const markup = await getMarkupForDate(nightDate);
-
-    // Apply weighted markup directly (no clamping!)
-    let price = basePrice * (1 + markup);
-    price = Math.round(price / 100) * 100;
-
-    priceBreakdown.push({ date: nightDate, price, markup, demandMult: demandMultiplier });
-    totalPrice += price;
-  }
-
-  const hasPeakSeasonNight = priceBreakdown.some(({ markup }) => markup > 0);
-  const basePrice = priceBreakdown[0]?.price || getBasePrice(roomType);
-
-  return {
-    basePrice,
-    totalPrice,
-    nights,
-    isPeakSeason: hasPeakSeasonNight,
-    demandMultiplier,
-    priceBreakdown,
-  };
-}
-
-/**
- * Get current price with demand multiplier applied
- * Convenience wrapper for getPriceForDateWithDemand with today's date
- */
-export async function getCurrentPriceWithDemand(roomType: RoomType): Promise<number> {
-  return getPriceForDateWithDemand(roomType, new Date());
 }

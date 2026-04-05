@@ -359,14 +359,6 @@ export function getRoomBySlug(slug: string): RoomConfig | undefined {
   return roomsConfig.find((room) => room.slug === slug);
 }
 
-export function getRoomById(id: number): RoomConfig | undefined {
-  return roomsConfig.find((room) => room.id === id);
-}
-
-export function getRoomByType(roomType: RoomType): RoomConfig | undefined {
-  return roomsConfig.find((room) => room.roomType === roomType);
-}
-
 export function getAllRooms(): RoomConfig[] {
   return roomsConfig;
 }

@@ -19,26 +19,6 @@ export interface PricingModifiersConfig {
   };
 }
 
-export interface DateRange {
-  start: number;
-  end: number;
-}
-
-export interface MonthlyPeakConfig {
-  month: number; // 0-indexed (0=January, 11=December)
-  dateRanges: DateRange[];
-  weekdayMarkup: number;
-  weekendMarkup: number;
-}
-
-export interface PeakSeasonConfig {
-  year: number;
-  month: number;
-  dateRanges: DateRange[];
-  weekdayMarkup: number;
-  weekendMarkup: number;
-}
-
 export interface RoomPricing {
   basePrice: number;
   currentPrice: number;
@@ -54,15 +34,5 @@ export interface BookingPricing {
   priceBreakdown: Array<{
     date: Date;
     price: number;
-  }>;
-}
-
-export interface BookingPricingWithDemand extends BookingPricing {
-  demandMultiplier: number;
-  priceBreakdown: Array<{
-    date: Date;
-    price: number;
-    markup: number;
-    demandMult: number;
   }>;
 }
