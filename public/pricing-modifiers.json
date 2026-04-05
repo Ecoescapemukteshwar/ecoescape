@@ -1,0 +1,26 @@
+{
+  "monthlyModifiers": {
+    "0": { "weekday": 0.10, "weekend": 0.13 },
+    "1": { "weekday": -0.07, "weekend": -0.03 },
+    "2": { "weekday": -0.07, "weekend": -0.03 },
+    "3": { "weekday": 0.10, "weekend": 0.13 },
+    "4": { "weekday": 0.17, "weekend": 0.20 },
+    "5": { "weekday": 0.23, "weekend": 0.27 },
+    "6": { "weekday": 0.10, "weekend": 0.13 },
+    "7": { "weekday": -0.07, "weekend": -0.03 },
+    "8": { "weekday": -0.07, "weekend": -0.03 },
+    "9": { "weekday": -0.07, "weekend": -0.03 },
+    "10": { "weekday": 0.10, "weekend": 0.13 },
+    "11": { "weekday": 0.17, "weekend": 0.20 }
+  },
+  "weights": {
+    "monthly": 0.60,
+    "weekend": 0.25,
+    "demand": 0.15
+  },
+  "metadata": {
+    "description": "Weighted pricing ensures total never exceeds ±30%",
+    "lastUpdated": "2026-03-25",
+    "note": "Demand multiplier has no limits - weighting handles extremes"
+  }
+}

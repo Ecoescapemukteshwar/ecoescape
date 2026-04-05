@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
 import { UtensilsCrossed, Sun, BedDouble, BookOpen, Leaf, ChefHat, Clock, Coffee, Salad } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 
 const diningOptions = [
   {
@@ -31,6 +32,8 @@ const features = [
 ];
 
 export function DiningSection() {
+  const { ref, isInView } = useInView({ threshold: 0.1, rootMargin: "50px" });
+
   const handleWhatsApp = () => {
     const message = encodeURIComponent(
       "Hi! I'd like to pre-order meals for my stay at Ecoescape Mukteshwar."
@@ -39,14 +42,13 @@ export function DiningSection() {
   };
 
   return (
-    <section id="dining" className="py-24 bg-secondary">
+    <section id="dining" ref={ref} className="py-24 bg-secondary overflow-hidden">
       <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+        <div
+          className={cn(
+            "text-center mb-12 opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
         >
           <div className="inline-flex items-center gap-2 bg-accent/10 text-accent rounded-full px-4 py-2 mb-4">
             <UtensilsCrossed className="h-4 w-4" />
@@ -61,18 +63,18 @@ export function DiningSection() {
             Choose to dine on our scenic terrace with breathtaking Himalayan views, or enjoy
             room service delivered right to your door.
           </p>
-        </motion.div>
+        </div>
 
         {/* Dining Options */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {diningOptions.map((option, index) => (
-            <motion.div
+            <div
               key={option.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-background rounded-2xl p-6 shadow-soft hover:shadow-card transition-shadow group"
+              className={cn(
+                "bg-background rounded-2xl p-6 shadow-soft hover:shadow-card transition-shadow group opacity-0",
+                isInView && "animate-fade-in-up opacity-100"
+              )}
+              style={isInView ? { animationDelay: `${index * 0.1}s` } : {}}
             >
               <div className="w-14 h-14 bg-gradient-sunrise rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <option.icon className="h-7 w-7 text-primary-foreground" />
@@ -86,17 +88,17 @@ export function DiningSection() {
               <p className="text-sm text-primary font-medium">
                 {option.highlight}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Restaurant Features */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="bg-background rounded-2xl p-8 shadow-card"
+        <div
+          className={cn(
+            "bg-background rounded-2xl p-8 shadow-card opacity-0",
+            isInView && "animate-fade-in-up opacity-100"
+          )}
+          style={isInView ? { animationDelay: "0.3s" } : {}}
         >
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {features.map((feature, index) => (
@@ -132,7 +134,7 @@ export function DiningSection() {
               Use our WhatsApp to pre-order meals at least 2 hours before
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

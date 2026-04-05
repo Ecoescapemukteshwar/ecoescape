@@ -28,3 +28,6 @@ dist-ssr
 .claude/
 *.sln
 *.sw?
+
+# Build artifact temp files
+*.tmp

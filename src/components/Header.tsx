@@ -13,11 +13,11 @@ const navLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Experiences", href: "/experiences" },
+  { name: "Blog", href: "/blog" },
 ];
 
 // Dynamically load gallery suites
 const gallerySuites = getSuiteNavItems();
-console.log('[Header] Gallery suites loaded:', gallerySuites);
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,11 +36,9 @@ export function Header() {
 
   const scrollToSection = (href: string) => {
     setIsOpen(false);
-    // For external routes, use navigate
     if (href.startsWith("/")) {
       window.location.href = href;
     } else {
-      // For anchor links (if any remain)
       const element = document.querySelector<HTMLElement>(href);
       element?.scrollIntoView({ behavior: "smooth" });
     }
