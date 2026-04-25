@@ -1,4 +1,5 @@
 // Default SEO metadata configuration
+import { siteConfig } from "@/config/site";
 
 export const defaultMeta = {
   title: "Ecoescape Mukteshwar | Best Boutique Homestay in Uttarakhand with Sunrise Views",
@@ -19,24 +20,24 @@ export const siteUrl = "https://ecoescapemukteshwar.com";
 export const defaultSchema = {
   "@context": "https://schema.org",
   "@type": "LodgingBusiness",
-  "name": "Ecoescape Mukteshwar",
+  "name": siteConfig.name,
   "image": "https://ecoescapemukteshwar.com/LOGO-opt.webp",
   "description": defaultMeta.description,
   "url": siteUrl,
-  "telephone": "+919667846787",
-  "email": "reservations@ecoescapemukteshwar.com",
+  "telephone": siteConfig.phone,
+  "email": siteConfig.email.reservations,
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Mukteshwar Village",
-    "addressLocality": "Mukteshwar, Nainital District",
-    "addressRegion": "Uttarakhand",
-    "postalCode": "263132",
-    "addressCountry": "IN"
+    "streetAddress": siteConfig.address.streetAddress,
+    "addressLocality": siteConfig.address.addressLocalityFull,
+    "addressRegion": siteConfig.address.addressRegion,
+    "postalCode": siteConfig.address.postalCode,
+    "addressCountry": siteConfig.address.addressCountry,
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": 29.4722,
-    "longitude": 79.6472
+    "latitude": siteConfig.geo.latitude,
+    "longitude": siteConfig.geo.longitude,
   },
   "priceRange": "₹₹",
   "starRating": {
@@ -45,9 +46,9 @@ export const defaultSchema = {
   },
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "reviewCount": "125",
-    "bestRating": "5"
+    "ratingValue": siteConfig.aggregateRating.ratingValue,
+    "reviewCount": siteConfig.aggregateRating.reviewCount,
+    "bestRating": siteConfig.aggregateRating.bestRating,
   },
   "amenityFeature": [
     { "@type": "LocationFeatureSpecification", "name": "Free Wi-Fi", "value": true },
@@ -57,7 +58,7 @@ export const defaultSchema = {
     { "@type": "LocationFeatureSpecification", "name": "100+ Plant Garden", "value": true }
   ],
   "sameAs": [
-    "https://www.instagram.com/ecoescape.mukteshwar/",
-    "https://www.facebook.com/people/Ecoescape-Mukteshwar/61554610562549/"
+    siteConfig.social.instagram,
+    siteConfig.social.facebook,
   ]
 };

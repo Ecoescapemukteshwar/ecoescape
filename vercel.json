@@ -4,6 +4,9 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "vite",
+  "redirects": [
+    { "source": "/contactus", "destination": "/#booking", "statusCode": 301 }
+  ],
   "rewrites": [
     {
       "source": "/sw.js",
@@ -12,10 +15,6 @@
     {
       "source": "/index.html",
       "destination": "/"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ],
   "headers": [

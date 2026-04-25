@@ -13,9 +13,14 @@
   status = 301
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  from = "/contactus"
+  to = "/#booking"
+  status = 301
+
+# Prerender emits a static HTML file for every known route. Netlify auto-
+# serves dist/404.html with HTTP 404 when no other route matches, so the
+# previous catch-all SPA fallback (status 200) is intentionally removed
+# to fix the soft-404 issue (audit C4).
 
 [[headers]]
   for = "/assets/*"

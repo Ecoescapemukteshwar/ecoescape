@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { PhotoTour, getAvailableSuitesSync, toUrlFriendly } from "@/components/PhotoTour";
 import { FloatingCTA } from "@/components/FloatingCTA";
+import { PageMeta } from "@/seo/PageMeta";
 
 const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
 
@@ -35,8 +36,17 @@ const GalleryPage = () => {
     );
   }
 
+  const suiteLabel = suite
+    ? suite.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
+    : "Gallery";
+
   return (
     <div className="min-h-screen">
+      <PageMeta
+        title={`${suiteLabel} Photo Tour | Ecoescape Mukteshwar`}
+        description={`Take a photo tour of the ${suiteLabel} at Ecoescape Mukteshwar — interiors, mountain views, garden, and amenities of our boutique homestay in Uttarakhand.`}
+        canonical={`/gallery/${suite}`}
+      />
       <Header />
       <main>
         <PhotoTour suiteName={suite} />

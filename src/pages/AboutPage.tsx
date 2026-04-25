@@ -2,6 +2,7 @@ import { lazy, Suspense, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { FloatingCTA } from "@/components/FloatingCTA";
+import { PageMeta } from "@/seo/PageMeta";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -55,6 +56,11 @@ const AboutPage = () => {
 
   return (
     <div className="min-h-screen">
+      <PageMeta
+        title="About Ecoescape Mukteshwar | Garden, Dining & Property Story"
+        description="The Ecoescape Mukteshwar story: a 100+ plant botanical garden, in-house Kumaoni dining, mountain-view terrace, and policies for families, couples, and workationers. Discover what makes our boutique homestay special."
+        canonical="/about"
+      />
       <Header />
       <main>
         {/* Hero Section */}

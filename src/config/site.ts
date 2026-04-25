@@ -1,3 +1,28 @@
+// Canonical NAP (Name / Address / Phone) for the property.
+// Every schema generator and SEO meta block imports from here.
+// TODO: VERIFY postalCode with India Post — TripAdvisor lists 263132,
+//       this codebase used 263138 in 4/5 places before centralization.
+//       The audit (C5) flagged this conflict; resolve before next prod push.
+export const siteAddress = {
+  streetAddress: "Mukteshwar Village",
+  addressLocality: "Mukteshwar",
+  addressLocalityFull: "Mukteshwar, Nainital District",
+  addressRegion: "Uttarakhand",
+  postalCode: "263138",
+  addressCountry: "IN",
+} as const;
+
+export const siteGeo = {
+  latitude: 29.4722,
+  longitude: 79.6472,
+} as const;
+
+export const siteAggregateRating = {
+  ratingValue: "4.8",
+  reviewCount: "125",
+  bestRating: "5",
+} as const;
+
 export const siteConfig = {
   name: "Ecoescape Mukteshwar",
   phone: "+919667846787",
@@ -28,6 +53,9 @@ export const siteConfig = {
     state: "Uttarakhand",
     country: "India",
   },
+  address: siteAddress,
+  geo: siteGeo,
+  aggregateRating: siteAggregateRating,
 } as const;
 
 export type SiteConfig = typeof siteConfig;

@@ -1,13 +1,11 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { initializeDemandMultiplier } from "@/services/pricing";
 import {
   RoomsRedirect,
   DiningRedirect,
@@ -85,25 +83,12 @@ const DeferredAnalytics = () => {
 };
 
 const App = () => {
-  // Defer demand multiplier init to avoid competing with hero image bandwidth
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => initializeDemandMultiplier());
-      } else {
-        initializeDemandMultiplier();
-      }
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <DeferredAnalytics />
           <Toaster />
-          <Sonner />
           <BrowserRouter>
             <Routes>
               {/* Main pages */}
@@ -180,6 +165,9 @@ const App = () => {
               <Route path="/aboutus" element={<Suspense fallback={<div className="min-h-screen" />}><AboutUs /></Suspense>} />
               <Route path="/contactus" element={<Suspense fallback={<div className="min-h-screen" />}><ContactUs /></Suspense>} />
               <Route path="/test-pricing" element={<Suspense fallback={<div className="min-h-screen" />}><PricingTestPage /></Suspense>} />
+
+              {/* Explicit /404 route lets prerender emit a static 404.html. */}
+              <Route path="/404" element={<Suspense fallback={<div className="min-h-screen" />}><NotFound /></Suspense>} />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<Suspense fallback={<div className="min-h-screen" />}><NotFound /></Suspense>} />
