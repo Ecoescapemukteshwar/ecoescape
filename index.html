@@ -14,18 +14,16 @@
     <!-- Hero image preload -->
     <link rel="preload" as="image" href="/src/assets/hero-sunrise.webp" fetchpriority="high">
 
-    <!-- Primary SEO (per-page values are written by react-helmet-async via
-         src/seo/PageMeta and frozen into the served HTML by vite-plugin-prerender.
-         Static fallbacks below are only used if Helmet has not yet hydrated.) -->
+    <!-- Per-page <title>, <meta name="description">, and <link rel="canonical">
+         are all written by react-helmet-async via src/seo/PageMeta and frozen
+         into the served HTML by scripts/prerender-spa.mjs. Static defaults are
+         INTENTIONALLY OMITTED here so the prerendered HTML has exactly one
+         canonical and one description per route — the per-page Helmet-set
+         values, never a stale homepage fallback that competes with them.
+         The <title> tag below is the SPA-shell fallback for the rare case
+         where prerender is disabled and Helmet hasn't hydrated yet. -->
     <title>Ecoescape Mukteshwar | Boutique Homestay with Sunrise Views & Garden</title>
-    <meta name="description" content="Book your stay at Ecoescape Mukteshwar - boutique homestay in Mukteshwar village with 100+ plant garden, sunrise views, in-house restaurant, terrace dining. 24/7 secure. Best homestay in Mukteshwar." />
     <meta name="author" content="Ecoescape Mukteshwar" />
-
-    <!-- Static canonical = homepage. PageMeta replaces this on every route
-         that mounts react-helmet-async, but dist/index.html (the homepage)
-         keeps it as-is — so prerendered HTML always has at least one valid
-         canonical even if Helmet's flush misses puppeteer's wait window. -->
-    <link rel="canonical" href="https://ecoescapemukteshwar.com/" />
 
     <!-- Open Graph (PageMeta overrides per-page) -->
     <meta property="og:type" content="website" />
