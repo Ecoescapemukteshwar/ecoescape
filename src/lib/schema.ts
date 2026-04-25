@@ -274,6 +274,75 @@ export function formatDateForSchema(dateString: string): string {
 }
 
 /**
+ * Apartment Schema for self-contained aparthotel units.
+ * Use this on individual /rooms/* pages — Apartment is more semantically
+ * correct than HotelRoom/LodgingReservation for units with their own
+ * dining area, balcony/terrace, and private entrance.
+ */
+export interface ApartmentSchemaData {
+  name: string;
+  description: string;
+  url: string;
+  images: string[];
+  /** numeric square feet (e.g. 280) */
+  floorSizeSqFt: number;
+  numberOfBedrooms: number;
+  /** total rooms in the unit (bedrooms + living/dining counted as rooms) */
+  numberOfRooms: number;
+  occupancy: number;
+  amenities: string[];
+  bedConfig: string;
+  view: string;
+}
+
+export interface ApartmentSchema {
+  "@context": string;
+  "@type": "Apartment";
+  [key: string]: unknown;
+}
+
+export function generateApartmentSchema(data: ApartmentSchemaData): ApartmentSchema {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Apartment",
+    name: data.name,
+    description: data.description,
+    url: data.url,
+    image: data.images,
+    floorSize: {
+      "@type": "QuantitativeValue",
+      value: data.floorSizeSqFt,
+      unitCode: "FTK", // UN/CEFACT code for square feet
+    },
+    numberOfRooms: data.numberOfRooms,
+    numberOfBedrooms: data.numberOfBedrooms,
+    occupancy: {
+      "@type": "QuantitativeValue",
+      value: data.occupancy,
+    },
+    bed: data.bedConfig,
+    amenityFeature: data.amenities.map((a) => ({
+      "@type": "LocationFeatureSpecification",
+      name: a,
+      value: true,
+    })),
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: siteConfig.address.streetAddress,
+      addressLocality: siteConfig.address.addressLocality,
+      addressRegion: siteConfig.address.addressRegion,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: siteConfig.address.addressCountry,
+    },
+    containedInPlace: {
+      "@type": "LodgingBusiness",
+      name: siteConfig.name,
+      url: "https://ecoescapemukteshwar.com",
+    },
+  };
+}
+
+/**
  * LodgingReservation Schema Interface
  */
 export interface LodgingReservationData {

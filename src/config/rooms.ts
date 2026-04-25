@@ -24,7 +24,16 @@ export interface RoomConfig {
   keywords: string;
   images: string[];
   capacity: string;
+  /** Display string e.g. "280 sq ft" */
   size: string;
+  /** Numeric square feet — used for Apartment schema floorSize */
+  sizeSqFt: number;
+  /** Numeric occupancy — used for Apartment schema */
+  maxOccupancy: number;
+  /** Bedrooms in this aparthotel unit */
+  numberOfBedrooms: number;
+  /** Total rooms (bedrooms + living + dining + bath) — Apartment.numberOfRooms */
+  numberOfRooms: number;
   view: string;
   bedConfig: string;
   features: string[];
@@ -53,6 +62,10 @@ Our suite comes equipped with modern amenities including high-speed 5G WiFi, ele
     images: [mountainView1, mountainView2, mountainView3],
     capacity: "2 Guests",
     size: "280 sq ft",
+    sizeSqFt: 280,
+    maxOccupancy: 2,
+    numberOfBedrooms: 1,
+    numberOfRooms: 2, // bedroom + bath (private outside sitting area is exterior)
     view: "Sunrise View",
     bedConfig: "King Bed",
     features: [
@@ -134,6 +147,10 @@ The property's unique feature is that each unit has a private entrance, giving y
     images: [spacious1, spacious2, spacious3, spacious4],
     capacity: "4 Guests",
     size: "550 sq ft",
+    sizeSqFt: 550,
+    maxOccupancy: 4,
+    numberOfBedrooms: 2,
+    numberOfRooms: 6, // 2 bedrooms + 2 baths + living + dining
     view: "Mountain View",
     bedConfig: "2 Queen Beds",
     features: [
@@ -214,6 +231,10 @@ Like all our accommodations, this family room has a private entrance, giving you
     images: [family1, family2],
     capacity: "4 Guests",
     size: "450 sq ft",
+    sizeSqFt: 450,
+    maxOccupancy: 4,
+    numberOfBedrooms: 2,
+    numberOfRooms: 4, // 2 bedrooms + 1 shared bath + dining
     view: "Mountain View",
     bedConfig: "2 Bedrooms",
     features: [
@@ -294,6 +315,10 @@ Like all our accommodations, this family room has a private entrance, giving you
     images: [familyRoom2_1, familyRoom2_2, familyRoom2_3],
     capacity: "4 Guests",
     size: "380 sq ft",
+    sizeSqFt: 380,
+    maxOccupancy: 4,
+    numberOfBedrooms: 1, // "1 Bedroom Quadruple" with 2 king-size double-sharing beds
+    numberOfRooms: 3, // bedroom + bath + dining
     view: "Sunrise View",
     bedConfig: "2 King Beds",
     features: [

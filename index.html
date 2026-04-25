@@ -21,6 +21,12 @@
     <meta name="description" content="Book your stay at Ecoescape Mukteshwar - boutique homestay in Mukteshwar village with 100+ plant garden, sunrise views, in-house restaurant, terrace dining. 24/7 secure. Best homestay in Mukteshwar." />
     <meta name="author" content="Ecoescape Mukteshwar" />
 
+    <!-- Static canonical = homepage. PageMeta replaces this on every route
+         that mounts react-helmet-async, but dist/index.html (the homepage)
+         keeps it as-is — so prerendered HTML always has at least one valid
+         canonical even if Helmet's flush misses puppeteer's wait window. -->
+    <link rel="canonical" href="https://ecoescapemukteshwar.com/" />
+
     <!-- Open Graph (PageMeta overrides per-page) -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_IN" />

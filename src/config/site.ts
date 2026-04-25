@@ -25,6 +25,11 @@ export const siteAggregateRating = {
 
 export const siteConfig = {
   name: "Ecoescape Mukteshwar",
+  // The property is technically a boutique aparthotel: 4 self-contained
+  // apartment-style units, each with a different layout. Marketing copy
+  // can use "boutique homestay" — schema and AI-facing surfaces use this.
+  propertyType: "Aparthotel",
+  unitCount: 4,
   phone: "+919667846787",
   phoneDisplay: "+91 96678 46787",
   whatsappUrl: "https://wa.me/919667846787",
