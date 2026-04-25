@@ -106,11 +106,25 @@ export default defineConfig(({ mode }) => {
       // OPT-IN: requires ENABLE_PRERENDER=1 in the env. The bundled
       // Chromium in puppeteer@1.20 can't launch on Apple Silicon or on
       // Vercel/Netlify's serverless Linux build containers. Locally we
-      // detect the user's installed Chrome (set in `bun run build`).
+      // detect the user's installed Chrome (set in `bun run build:prerender`).
       // For Vercel/Netlify: leave ENABLE_PRERENDER unset until a proper
       // Linux Chromium (e.g. @sparticuz/chromium) is wired up — the SPA
       // shell will be served instead, which is what the site shipped
-      // before this PR. PR description tracks the follow-up.
+      // before this PR.
+      ...(mode === "production"
+        ? [
+            (() => {
+              const enabled = process.env.ENABLE_PRERENDER === "1";
+              console.log(
+                `[vite.config] Prerender ${enabled ? "ENABLED" : "DISABLED"}` +
+                  (enabled
+                    ? " (ENABLE_PRERENDER=1)"
+                    : " (set ENABLE_PRERENDER=1 to enable)"),
+              );
+              return null;
+            })(),
+          ]
+        : []),
       mode === "production" &&
         process.env.ENABLE_PRERENDER === "1" &&
         vitePrerender({
