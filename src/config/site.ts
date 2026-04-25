@@ -1,8 +1,10 @@
 // Canonical NAP (Name / Address / Phone) for the property.
 // Every schema generator and SEO meta block imports from here.
-// TODO: VERIFY postalCode with India Post — TripAdvisor lists 263132,
-//       this codebase used 263138 in 4/5 places before centralization.
-//       The audit (C5) flagged this conflict; resolve before next prod push.
+// PIN 263138 confirmed correct via India Post: Mukteshwar (Kumaon) is a
+// Sub Post Office under PIN 263138 in Nainital District. PIN 263132
+// covers Bhowali / Kainchi / surrounding blocks — not Mukteshwar.
+// TripAdvisor's listing of 263132 is therefore wrong; their profile
+// should be corrected on the operational side. Audit finding C5 resolved.
 export const siteAddress = {
   streetAddress: "Mukteshwar Village",
   addressLocality: "Mukteshwar",
