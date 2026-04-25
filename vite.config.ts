@@ -1,26 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import fs from "node:fs";
-import { createRequire } from "node:module";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
 import { visualizer } from "rollup-plugin-visualizer";
-// vite-plugin-prerender@1.0.8 ships a broken .mjs that uses CJS require()
-// AND a restrictive exports map that blocks subpath imports. Load the .cjs
-// via createRequire pointed at an absolute path inside node_modules.
-const cjsRequire = createRequire(import.meta.url);
-const vitePrerender = cjsRequire(
-  path.resolve(
-    __dirname,
-    "node_modules",
-    "vite-plugin-prerender",
-    "dist",
-    "index.cjs",
-  ),
-);
-// @ts-expect-error -- shared route module, also consumed by scripts/generate-sitemap.mjs.
-import { getAllRoutes } from "./scripts/lib/routes.mjs";
+// (vite-plugin-prerender removed — replaced by scripts/prerender-spa.mjs.)
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -100,71 +84,13 @@ export default defineConfig(({ mode }) => {
         brotliSize: true,
         open: false,
       }),
-      // Prerender every known route at build time so non-JS crawlers see
-      // populated <head> and content. Resolves audit C1/C3/H1.
-      //
-      // OPT-IN: requires ENABLE_PRERENDER=1 in the env. The bundled
-      // Chromium in puppeteer@1.20 can't launch on Apple Silicon or on
-      // Vercel/Netlify's serverless Linux build containers. Locally we
-      // detect the user's installed Chrome (set in `bun run build:prerender`).
-      // For Vercel/Netlify: leave ENABLE_PRERENDER unset until a proper
-      // Linux Chromium (e.g. @sparticuz/chromium) is wired up — the SPA
-      // shell will be served instead, which is what the site shipped
-      // before this PR.
-      ...(mode === "production"
-        ? [
-            (() => {
-              const enabled = process.env.ENABLE_PRERENDER === "1";
-              console.log(
-                `[vite.config] Prerender ${enabled ? "ENABLED" : "DISABLED"}` +
-                  (enabled
-                    ? " (ENABLE_PRERENDER=1)"
-                    : " (set ENABLE_PRERENDER=1 to enable)"),
-              );
-              return null;
-            })(),
-          ]
-        : []),
-      mode === "production" &&
-        process.env.ENABLE_PRERENDER === "1" &&
-        vitePrerender({
-          staticDir: path.resolve(__dirname, "dist"),
-          routes: [...getAllRoutes(), "/404"],
-          renderer: new vitePrerender.PuppeteerRenderer({
-            // Concurrency 2 + 4s wait keeps build at ~2 min (vs ~5 min
-            // sequential) and is reliable. Concurrency 4 caused CPU
-            // contention that made Helmet's rAF batch miss the wait
-            // window on ~25% of routes. Don't raise concurrency further.
-            renderAfterTime: 4000,
-            maxConcurrentRoutes: 2,
-            headless: true,
-            // Surface in-page errors so we can debug ErrorBoundary triggers.
-            consoleHandler(route: string, message: { type(): string; text(): string }) {
-              const txt = message.text();
-              if (route.includes("kumaoni-food-guide")) {
-                console.warn(`[${route}] (${message.type()}) ${txt}`);
-              } else if (message.type() === "error" && !txt.includes("net::ERR_FAILED")) {
-                console.warn(`[prerender:${route}] ${txt}`);
-              }
-            },
-            // Skip third-party scripts (analytics, GTM) during prerender.
-            skipThirdPartyRequests: true,
-            executablePath:
-              process.env.PUPPETEER_EXECUTABLE_PATH ||
-              (process.platform === "darwin" &&
-              fs.existsSync("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
-                ? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-                : undefined),
-          }),
-          postProcess(ctx: { route: string; html: string; outputPath: string | null }) {
-            // Rename /404/index.html → /404.html so Vercel/Netlify auto-serve it
-            // for unknown paths with HTTP 404. Resolves audit C4 (soft-404).
-            if (ctx.route === "/404") {
-              ctx.outputPath = path.resolve(__dirname, "dist", "404.html");
-            }
-            return ctx;
-          },
-        }),
+      // Prerender used to live here as a vite-plugin-prerender invocation,
+      // but that plugin's bundled puppeteer 1.20 can't launch on modern
+      // Apple Silicon or on Vercel/Netlify Linux build containers. The
+      // prerender step now runs as a separate postbuild script
+      // (scripts/prerender-spa.mjs) using modern puppeteer-core +
+      // @sparticuz/chromium on Linux / system Chrome on Mac. See
+      // package.json `build` and `build:prerender` scripts.
     ].filter(Boolean),
     resolve: {
       alias: {
