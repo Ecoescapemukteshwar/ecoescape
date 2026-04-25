@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { FloatingCTA } from "@/components/FloatingCTA";
+import { PageMeta } from "@/seo/PageMeta";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
@@ -31,6 +32,11 @@ const ExperiencesPage = () => {
 
   return (
     <div className="min-h-screen">
+      <PageMeta
+        title="Experiences at Ecoescape Mukteshwar | Kumaoni Dining, Garden & Things to Do"
+        description="Authentic Kumaoni dining, a 100+ plant botanical garden, mountain-view terrace, and curated things to do in Mukteshwar — all from the comfort of Ecoescape boutique homestay."
+        canonical="/experiences"
+      />
       <Header />
       <main>
         {/* Hero Section */}

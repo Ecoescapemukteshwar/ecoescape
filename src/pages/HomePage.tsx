@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { FloatingCTA } from "@/components/FloatingCTA";
+import { PageMeta } from "@/seo/PageMeta";
 import { useLocation } from "react-router-dom";
 import { type RoomType } from "@/services/pricing";
 
@@ -36,6 +37,11 @@ const HomePage = () => {
   };
   return (
     <div className="min-h-screen">
+      <PageMeta
+        title="Ecoescape Mukteshwar | Boutique Homestay with Sunrise Views & Garden"
+        description="Boutique homestay in Mukteshwar village with 100+ plant garden, sunrise views, in-house Kumaoni restaurant, and terrace dining. Direct booking, secure 24/7. The best place to stay in Mukteshwar, Uttarakhand."
+        canonical="/"
+      />
       <Header />
       <main>
         <HeroSection />

@@ -1,5 +1,6 @@
 // SEO Schema Generation Utilities
 // Provides TypeScript interfaces and generator functions for structured data
+import { siteConfig } from "@/config/site";
 
 export interface PersonSchema {
   "@type": "Person" | "Organization";
@@ -117,18 +118,18 @@ const DEFAULT_PUBLISHER: OrganizationSchema = {
 const DEFAULT_LODGING_BUSINESS: LodgingBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LodgingBusiness",
-  name: "Ecoescape Mukteshwar",
+  name: siteConfig.name,
   url: SITE_URL,
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Mukteshwar Village",
-    addressLocality: "Mukteshwar",
-    addressRegion: "Uttarakhand",
-    postalCode: "263138",
-    addressCountry: "IN",
+    streetAddress: siteConfig.address.streetAddress,
+    addressLocality: siteConfig.address.addressLocality,
+    addressRegion: siteConfig.address.addressRegion,
+    postalCode: siteConfig.address.postalCode,
+    addressCountry: siteConfig.address.addressCountry,
   },
-  telephone: "+919667846787",
-  email: "reservations@ecoescapemukteshwar.com",
+  telephone: siteConfig.phone,
+  email: siteConfig.email.reservations,
 };
 
 /**
@@ -223,21 +224,21 @@ export function generateRestaurantSchema(): RestaurantSchema {
   return {
     "@context": "https://schema.org",
     "@type": "Restaurant",
-    name: "Ecoescape Mukteshwar Restaurant",
+    name: `${siteConfig.name} Restaurant`,
     servesCuisine: "Kumaoni, North Indian, Home-cooked",
     parentOrganization: {
       "@type": "LodgingBusiness",
-      name: "Ecoescape Mukteshwar",
+      name: siteConfig.name,
     },
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Mukteshwar Village",
-      addressLocality: "Mukteshwar",
-      addressRegion: "Uttarakhand",
-      postalCode: "263138",
-      addressCountry: "IN",
+      streetAddress: siteConfig.address.streetAddress,
+      addressLocality: siteConfig.address.addressLocality,
+      addressRegion: siteConfig.address.addressRegion,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: siteConfig.address.addressCountry,
     },
-    telephone: "+919667846787",
+    telephone: siteConfig.phone,
   };
 }
 
@@ -343,21 +344,21 @@ export function generateLodgingReservationSchema(data: LodgingReservationData): 
       image: [data.image],
       address: {
         "@type": "PostalAddress",
-        streetAddress: "Mukteshwar Village",
-        addressLocality: "Mukteshwar",
-        addressRegion: "Uttarakhand",
-        postalCode: "263138",
-        addressCountry: "IN",
+        streetAddress: siteConfig.address.streetAddress,
+        addressLocality: siteConfig.address.addressLocality,
+        addressRegion: siteConfig.address.addressRegion,
+        postalCode: siteConfig.address.postalCode,
+        addressCountry: siteConfig.address.addressCountry,
       },
-      telephone: "+919667846787",
-      email: "reservations@ecoescapemukteshwar.com",
+      telephone: siteConfig.phone,
+      email: siteConfig.email.reservations,
       amenities: data.amenities,
       priceRange: data.price,
       aggregateRating: {
         "@type": "AggregateRating",
-        ratingValue: "4.8",
-        reviewCount: "125",
-        bestRating: "5",
+        ratingValue: siteConfig.aggregateRating.ratingValue,
+        reviewCount: siteConfig.aggregateRating.reviewCount,
+        bestRating: siteConfig.aggregateRating.bestRating,
       },
     },
     reservationStatus: {
