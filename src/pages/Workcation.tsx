@@ -21,9 +21,6 @@ import workspaceImg from "@/assets/two_bed_room_apartment/IMG_1603.webp";
 
 const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
 
-// TODO: replace with actual founder display name
-const FOUNDER_NAME = "Shaurya";
-
 // TODO: confirm/update prices with current pricing service before launch.
 // Placeholder rates derived from siteConfig.roomPrices.* × 7 with a mild
 // loyalty discount (5%) — owner should overwrite with real workcation rates.
@@ -278,7 +275,7 @@ export default function Workcation() {
               <p className="text-muted-foreground leading-relaxed italic">
                 The baywindow in the Spacious Apartment faces the ridge — morning light is good without glare. The Airtel fibre handles 4K video calls without throttling; I've tested it with guests doing live demos and recorded sessions. Power backup kicks in within three seconds of a cut. Mukteshwar does get afternoon rain in monsoon and the occasional winter cut, which is exactly why we installed the inverter.
               </p>
-              <p className="text-sm font-medium mt-3">— {FOUNDER_NAME}, founder, Ecoescape Mukteshwar</p>
+              <p className="text-sm font-medium mt-3">— {siteConfig.founderName}, founder, Ecoescape Mukteshwar</p>
             </div>
           </div>
         </section>
@@ -350,7 +347,7 @@ export default function Workcation() {
                 size="xl"
                 variant="whatsapp"
                 onClick={() => {
-                  const msg = encodeURIComponent(`Hi ${FOUNDER_NAME}! I'd like to do a workcation at Ecoescape — could you tell me about availability and the WiFi setup?`);
+                  const msg = encodeURIComponent(`Hi ${siteConfig.founderName}! I'd like to do a workcation at Ecoescape — could you tell me about availability and the WiFi setup?`);
                   window.open(`${siteConfig.whatsappUrl}?text=${msg}`, "_blank");
                 }}
               >

@@ -32,6 +32,9 @@ export const siteConfig = {
   // can use "boutique homestay" — schema and AI-facing surfaces use this.
   propertyType: "Aparthotel",
   unitCount: 4,
+  // Display name for blog/landing-page bylines and Person-typed JSON-LD
+  // author. Kept as a single source so future content pages stay in sync.
+  founderName: "Shaurya Uppal",
   phone: "+919667846787",
   phoneDisplay: "+91 96678 46787",
   whatsappUrl: "https://wa.me/919667846787",

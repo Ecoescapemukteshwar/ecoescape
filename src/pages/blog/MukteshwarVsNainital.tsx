@@ -7,10 +7,8 @@ import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import vsFeaturedImg from "@/assets/blog/vs-nainital/featured.webp";
 
-// TODO: replace with actual founder display name + bio in src/config/site.ts
-const FOUNDER_NAME = "Shaurya Uppal";
-
 export default function MukteshwarVsNainital() {
+  const founderName = siteConfig.founderName;
   const navigate = useNavigate();
 
   const articleSchema = useMemo(() => generateArticleSchema({
@@ -20,7 +18,7 @@ export default function MukteshwarVsNainital() {
     dateModified: formatDateForSchema("April 25, 2026"),
     author: {
       "@type": "Person",
-      name: FOUNDER_NAME,
+      name: founderName,
     },
     publisher: {
       "@type": "Organization",
@@ -58,7 +56,7 @@ export default function MukteshwarVsNainital() {
           Mukteshwar vs Nainital (2026): Which Hill Station Is Right for You?
         </h1>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-          <span>By {FOUNDER_NAME}</span>
+          <span>By {founderName}</span>
           <span className="flex items-center gap-1">
             <Calendar className="h-4 w-4" /> Updated April 2026
           </span>
