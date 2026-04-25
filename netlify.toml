@@ -17,10 +17,18 @@
   to = "/#booking"
   status = 301
 
-# Prerender emits a static HTML file for every known route. Netlify auto-
-# serves dist/404.html with HTTP 404 when no other route matches, so the
-# previous catch-all SPA fallback (status 200) is intentionally removed
-# to fix the soft-404 issue (audit C4).
+# SPA catch-all. Restored after PR #11 because prerender is currently
+# disabled on Netlify (no per-route static HTML), and without this rewrite
+# every non-root URL returns HTTP 404. When a Linux-compatible Chromium is
+# wired up and ENABLE_PRERENDER=1 is set, Netlify will serve the
+# prerendered HTML for known routes before falling back to /index.html for
+# unknown paths. The trade-off is that unknown paths currently return 200
+# with the SPA shell (soft-404) — re-opens audit finding C4 until prerender
+# is restored on production.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 [[headers]]
   for = "/assets/*"
