@@ -17,14 +17,13 @@
   to = "/#booking"
   status = 301
 
-# SPA catch-all. Restored after PR #11 because prerender is currently
-# disabled on Netlify (no per-route static HTML), and without this rewrite
-# every non-root URL returns HTTP 404. When a Linux-compatible Chromium is
-# wired up and ENABLE_PRERENDER=1 is set, Netlify will serve the
-# prerendered HTML for known routes before falling back to /index.html for
-# unknown paths. The trade-off is that unknown paths currently return 200
-# with the SPA shell (soft-404) — re-opens audit finding C4 until prerender
-# is restored on production.
+# SPA catch-all. Required while ENABLE_PRERENDER is unset on Netlify
+# (no per-route static HTML), otherwise every non-root URL returns 404.
+# When prerender is restored on production via @sparticuz/chromium, the
+# prerendered HTML for known routes is served first; this rewrite only
+# fires for unknown paths. Trade-off acknowledged: this re-opens audit
+# C4 (soft-404 returns 200 with SPA shell). C4 fix returns when
+# prerender + dist/404.html flow is back on production.
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -67,6 +66,7 @@
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
 
 [build.environment]
   NODE_VERSION = "18"
