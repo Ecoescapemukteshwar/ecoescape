@@ -60,5 +60,63 @@ export const defaultSchema = {
   "sameAs": [
     siteConfig.social.instagram,
     siteConfig.social.facebook,
+    siteConfig.social.tripAdvisor,
   ]
+};
+
+// WebSite schema enables Google's site-name knowledge panel and the
+// SearchAction sitelinks searchbox in some SERPs. Injected once on the
+// homepage (PageMeta merges via includeDefaultSchema for now — single
+// instance is fine).
+export const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": siteUrl,
+  "name": siteConfig.name,
+  "alternateName": "Ecoescape",
+  "publisher": {
+    "@type": "Organization",
+    "@id": `${siteUrl}#organization`,
+    "name": siteConfig.name,
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${siteUrl}/blog?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
+// Organization schema with sameAs across social platforms — tells AI
+// engines and search engines that these accounts belong to the same
+// real-world entity. Links Ecoescape's brand identity across the web.
+export const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteUrl}#organization`,
+  "name": siteConfig.name,
+  "url": siteUrl,
+  "logo": "https://ecoescapemukteshwar.com/LOGO-opt.webp",
+  "image": "https://ecoescapemukteshwar.com/LOGO-opt.webp",
+  "telephone": siteConfig.phone,
+  "email": siteConfig.email.reservations,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": siteConfig.address.streetAddress,
+    "addressLocality": siteConfig.address.addressLocality,
+    "addressRegion": siteConfig.address.addressRegion,
+    "postalCode": siteConfig.address.postalCode,
+    "addressCountry": siteConfig.address.addressCountry,
+  },
+  "founder": {
+    "@type": "Person",
+    "name": siteConfig.founderName,
+  },
+  "sameAs": [
+    siteConfig.social.instagram,
+    siteConfig.social.facebook,
+    siteConfig.social.tripAdvisor,
+  ],
 };
