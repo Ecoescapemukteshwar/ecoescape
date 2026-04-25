@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
 import { PageMeta } from "@/seo/PageMeta";
-import { generateLodgingReservationSchema, generateBreadcrumbSchema } from "@/lib/schema";
+import { generateLodgingReservationSchema, generateBreadcrumbSchema, generateApartmentSchema } from "@/lib/schema";
 import { getRoomBySlug, getAllRooms } from "@/config/rooms";
 import { ArrowLeft, Users, Maximize, Eye, BedDouble, Coffee, Wifi, Droplets, Shield, Phone, MessageCircle, MapPin, Star, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -65,6 +65,24 @@ export default function SpaciousApartment() {
     ]);
   }, [room]);
 
+  // Apartment Schema — semantically correct for self-contained aparthotel units.
+  const apartmentSchema = useMemo(() => {
+    if (!room) return null;
+    return generateApartmentSchema({
+      name: room.name,
+      description: room.shortDescription,
+      url: `https://ecoescapemukteshwar.com/rooms/${room.slug}`,
+      images: room.images,
+      floorSizeSqFt: room.sizeSqFt,
+      numberOfBedrooms: room.numberOfBedrooms,
+      numberOfRooms: room.numberOfRooms,
+      occupancy: room.maxOccupancy,
+      amenities: room.amenities,
+      bedConfig: room.bedConfig,
+      view: room.view,
+    });
+  }, [room]);
+
   if (!room) return null;
 
   return (
@@ -75,7 +93,7 @@ export default function SpaciousApartment() {
         canonical={`https://ecoescapemukteshwar.com/rooms/${room.slug}`}
         keywords={room.keywords}
         ogImage={room.images[0]}
-        jsonLd={[lodgingSchema, breadcrumbSchema].filter(Boolean)}
+        jsonLd={[apartmentSchema, lodgingSchema, breadcrumbSchema].filter(Boolean)}
       />
       <Header />
 

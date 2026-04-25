@@ -30,7 +30,13 @@ export function readBlogSlugs() {
   const src = fs.readFileSync(BLOG_INDEX, "utf8");
   // Matches the keys of the blogComponents object: 'some-slug': lazy(() => ...)
   const re = /['"]([a-z0-9][a-z0-9-]+)['"]\s*:\s*lazy/g;
-  return [...src.matchAll(re)].map((m) => m[1]);
+  const slugs = [...src.matchAll(re)].map((m) => m[1]);
+  if (slugs.length === 0) {
+    throw new Error(
+      `routes.mjs: parsed 0 blog slugs from ${BLOG_INDEX}. The 'slug': lazy(...) format may have changed — update the regex or replace this with an explicit BLOG_SLUGS export.`,
+    );
+  }
+  return slugs;
 }
 
 export function getAllRoutes() {
