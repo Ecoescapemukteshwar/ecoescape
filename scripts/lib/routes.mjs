@@ -16,6 +16,7 @@ export const STATIC_ROUTES = [
   { path: "/about", priority: "0.7", changefreq: "monthly" },
   { path: "/aboutus", priority: "0.8", changefreq: "monthly" },
   { path: "/experiences", priority: "0.8", changefreq: "monthly" },
+  { path: "/workcation-mukteshwar", priority: "0.95", changefreq: "monthly" },
   // /contactus is a client-side <Navigate> redirect — handled at the platform
   // level via a 301 redirect in vercel.json / netlify.toml, so omit from
   // both prerender and sitemap to avoid duplicate-content / soft-404 noise.

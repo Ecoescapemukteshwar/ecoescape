@@ -38,6 +38,7 @@ const FamilyRoom2 = lazy(() => import("./pages/rooms/FamilyRoom2"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const Workcation = lazy(() => import("./pages/Workcation"));
 const PricingTestPage = lazy(() => import("./components/PricingTestPage").then(m => ({ default: m.PricingTestPage })));
 
 const queryClient = new QueryClient();
@@ -164,6 +165,7 @@ const App = () => {
               {/* Other pages */}
               <Route path="/aboutus" element={<Suspense fallback={<div className="min-h-screen" />}><AboutUs /></Suspense>} />
               <Route path="/contactus" element={<Suspense fallback={<div className="min-h-screen" />}><ContactUs /></Suspense>} />
+              <Route path="/workcation-mukteshwar" element={<Suspense fallback={<div className="min-h-screen" />}><Workcation /></Suspense>} />
               <Route path="/test-pricing" element={<Suspense fallback={<div className="min-h-screen" />}><PricingTestPage /></Suspense>} />
 
               {/* Explicit /404 route lets prerender emit a static 404.html. */}
