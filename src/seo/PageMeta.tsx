@@ -31,6 +31,13 @@ interface PageMetaProps {
   ogTitle?: string;
   ogDescription?: string;
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+  /**
+   * Whether to merge the global LodgingBusiness schema into this page's
+   * JSON-LD. Defaults to true. Pages that already publish their own
+   * comprehensive schema (Article + Breadcrumb on blog posts, Apartment
+   * on room pages) can opt out to reduce noise.
+   */
+  includeDefaultSchema?: boolean;
 }
 
 export function PageMeta({
@@ -47,6 +54,7 @@ export function PageMeta({
   ogTitle,
   ogDescription,
   jsonLd,
+  includeDefaultSchema = true,
 }: PageMetaProps) {
   const location = useLocation();
 
@@ -64,8 +72,11 @@ export function PageMeta({
   const finalOgTitle = ogTitle || title;
   const finalOgDescription = ogDescription || description;
 
-  // Merge defaultSchema with provided jsonLd
-  const finalJsonLd = Array.isArray(jsonLd) ? [defaultSchema, ...jsonLd] : jsonLd ? [defaultSchema, jsonLd] : [defaultSchema];
+  // Merge defaultSchema with provided jsonLd (unless caller opts out)
+  const userJsonLd = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
+  const finalJsonLd = includeDefaultSchema
+    ? [defaultSchema, ...userJsonLd]
+    : userJsonLd;
 
   return (
     <Helmet>
@@ -100,7 +111,7 @@ export function PageMeta({
       {finalOgImage && <meta name="twitter:image" content={finalOgImage} />}
 
       {/* Structured Data (JSON-LD) */}
-      {finalJsonLd && (
+      {finalJsonLd.length > 0 && (
         <script type="application/ld+json">
           {JSON.stringify(finalJsonLd)}
         </script>
