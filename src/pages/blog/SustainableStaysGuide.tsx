@@ -6,6 +6,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { Calendar, Clock, Leaf, Sun, Recycle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/sustainable-stays/featured.webp";
+import { siteConfig } from "@/config/site";
 
 const SUSTAINABLE_FEATURES = [
   { icon: <Sun className="h-6 w-6 text-primary" />, title: "Solar Powered", desc: "Ecoescape Mukteshwar utilizes solar energy for lighting and water heating." },
@@ -20,7 +21,10 @@ export default function SustainableStaysGuide() {
     headline: "Eco-Friendly & Sustainable Stays in Mukteshwar: A Conscious Traveler’s Guide",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 23, 2026"),
-    author: { "@type": "Organization", name: "Ecoescape Mukteshwar" },
+    author: {
+      "@type": "Person",
+      name: siteConfig.founderName,
+    },
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Looking for eco-friendly stays in Mukteshwar? Discover how sustainable tourism is shaping the Kumaon hills and explore the best green resorts and boutique stays for a conscious escape.",
     url: "https://ecoescapemukteshwar.com/blog/sustainable-stays-in-mukteshwar-guide",

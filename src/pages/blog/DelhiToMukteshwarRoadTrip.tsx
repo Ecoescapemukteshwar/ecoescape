@@ -5,6 +5,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { Calendar, Clock, Car, MapPin, Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/delhi-road-trip/featured.webp";
+import { siteConfig } from "@/config/site";
 
 export default function DelhiToMukteshwarRoadTrip() {
   const { navigateToBooking } = useBookingNavigation();
@@ -12,7 +13,10 @@ export default function DelhiToMukteshwarRoadTrip() {
     headline: "Delhi to Mukteshwar Road Trip Guide: Best Route, Stops & Tips (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
-    author: { "@type": "Organization", name: "Ecoescape Mukteshwar" },
+    author: {
+      "@type": "Person",
+      name: siteConfig.founderName,
+    },
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Plan the perfect Delhi to Mukteshwar road trip. Best route via Hapur & Moradabad, top dhabas for breakfast, road conditions, and must-know driving tips for 2026.",
     url: "https://ecoescapemukteshwar.com/blog/delhi-to-mukteshwar-road-trip",

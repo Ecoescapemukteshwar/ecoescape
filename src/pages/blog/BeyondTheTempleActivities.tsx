@@ -14,8 +14,8 @@ export default function BeyondTheTempleActivities() {
     image: "https://ecoescapemukteshwar.com/src/assets/blog/beyond-temple/featured.webp",
     datePublished: formatDateForSchema("March 24, 2026"),
     author: {
-      "@type": "Organization",
-      name: "Ecoescape Mukteshwar",
+      "@type": "Person",
+      name: siteConfig.founderName,
     },
     publisher: {
       "@type": "Organization",

@@ -5,6 +5,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { Calendar, Clock, Wallet, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/backpacker-guide/featured.webp";
+import { siteConfig } from "@/config/site";
 
 export default function BackpackerMukteshwarGuide() {
   const { navigateToBooking } = useBookingNavigation();
@@ -12,7 +13,10 @@ export default function BackpackerMukteshwarGuide() {
     headline: "Backpacking Mukteshwar: Budget Stays & Solo Travel Guide (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
-    author: { "@type": "Organization", name: "Ecoescape Mukteshwar" },
+    author: {
+      "@type": "Person",
+      name: siteConfig.founderName,
+    },
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "The ultimate backpacker's guide to Mukteshwar. Compare budget stays like GoStops, Hosteller, and Ecoescape. Solo travel tips, cafes, and cheap travel hacks for 2026.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-backpacker-guide",

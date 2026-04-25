@@ -6,6 +6,7 @@ import { Calendar, Clock, Banknote, MapPin, Coffee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import featuredImg from "@/assets/blog/budget-stays/featured.webp";
+import { siteConfig } from "@/config/site";
 
 const BUDGET_PICKS = [
   { name: "Himnadi Homestay", location: "Sargakhet", price: "Starting at ₹1,500/night", highlight: "Authentic local host and great views." },
@@ -22,7 +23,10 @@ export default function BudgetHomestaysGuide() {
     headline: "Top 5 Budget-Friendly Homestays in Mukteshwar for Solo Travelers & Backpackers",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 23, 2026"),
-    author: { "@type": "Organization", name: "Ecoescape Mukteshwar" },
+    author: {
+      "@type": "Person",
+      name: siteConfig.founderName,
+    },
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Discover the best budget-friendly homestays and hostels in Mukteshwar. Perfect for solo travelers and backpackers looking for affordable stays with great views.",
     url: "https://ecoescapemukteshwar.com/blog/budget-friendly-homestays-mukteshwar-solo-travel",

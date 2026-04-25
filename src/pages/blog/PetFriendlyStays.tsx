@@ -6,6 +6,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { Calendar, Clock, Dog, Trees, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/pet-friendly/featured.webp";
+import { siteConfig } from "@/config/site";
 
 const PET_FRIENDLY_PICKS = [
   { name: "Ecoescape Mukteshwar", note: "Spacious lawns and pet-friendly rooms with sunrise views.", category: "Boutique" },
@@ -22,7 +23,10 @@ export default function PetFriendlyStays() {
     headline: "Pet-Friendly Stays in Mukteshwar: Top Hotels & Cottages for Your Furry Friends",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 23, 2026"),
-    author: { "@type": "Organization", name: "Ecoescape Mukteshwar" },
+    author: {
+      "@type": "Person",
+      name: siteConfig.founderName,
+    },
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Planning a trip to Mukteshwar with your pet? Discover the best pet-friendly hotels, cottages, and homestays in Mukteshwar for a comfortable stay with your furry best friend.",
     url: "https://ecoescapemukteshwar.com/blog/pet-friendly-stays-in-mukteshwar",

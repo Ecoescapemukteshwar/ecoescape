@@ -14,8 +14,8 @@ export default function BestTimeToVisit() {
     image: "https://ecoescapemukteshwar.com/src/assets/blog/best-time-to-visit/featured.webp",
     datePublished: formatDateForSchema("March 24, 2026"),
     author: {
-      "@type": "Organization",
-      name: "Ecoescape Mukteshwar",
+      "@type": "Person",
+      name: siteConfig.founderName,
     },
     publisher: {
       "@type": "Organization",

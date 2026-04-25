@@ -41,8 +41,8 @@ export default function FruitOrchardsGuide() {
     image: "https://ecoescapemukteshwar.com/assets/blog/fruit-orchards/featured.png",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
-      "@type": "Organization",
-      name: "Ecoescape Mukteshwar",
+      "@type": "Person",
+      name: siteConfig.founderName,
     },
     publisher: {
       "@type": "Organization",
