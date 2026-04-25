@@ -5,6 +5,7 @@ import { Calendar, Clock, Home, Star, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import featuredImg from "@/assets/blog/best-homestays/featured.webp";
+import { siteConfig } from "@/config/site";
 
 const HOMESTAYS = [
   { name: "Ecoescape Mukteshwar", location: "Mukteshwar Village", highlight: "180-degree Himalayan views & Organic meals", price: "Premium" },
@@ -21,7 +22,10 @@ export default function BestHomestaysGuide() {
     headline: "10 Best Homestays in Mukteshwar with Himalayan Views (2026 Guide)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 23, 2026"),
-    author: { "@type": "Organization", name: "Ecoescape Mukteshwar" },
+    author: {
+      "@type": "Person",
+      name: siteConfig.founderName,
+    },
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Looking for the best homestays in Mukteshwar? Discover 10 top-rated stays offering stunning Himalayan views, home-cooked Kumaoni food, and authentic mountain hospitality.",
     url: "https://ecoescapemukteshwar.com/blog/best-homestays-in-mukteshwar-with-himalayan-views",

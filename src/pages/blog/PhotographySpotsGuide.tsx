@@ -15,8 +15,8 @@ export default function PhotographySpotsGuide() {
     image: "https://ecoescapemukteshwar.com/src/assets/blog/photography/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
-      "@type": "Organization",
-      name: "Ecoescape Mukteshwar",
+      "@type": "Person",
+      name: siteConfig.founderName,
     },
     publisher: {
       "@type": "Organization",

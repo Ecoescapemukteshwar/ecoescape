@@ -5,6 +5,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { Calendar, Clock, MapPin, Car, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/nainital-day-trip/featured.webp";
+import { siteConfig } from "@/config/site";
 
 export default function MukteshwarToNainitalDayTrip() {
   const { navigateToBooking } = useBookingNavigation();
@@ -12,7 +13,10 @@ export default function MukteshwarToNainitalDayTrip() {
     headline: "Mukteshwar to Nainital Day Trip: Distance, Places to Visit & Tips (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
-    author: { "@type": "Organization", name: "Ecoescape Mukteshwar" },
+    author: {
+      "@type": "Person",
+      name: siteConfig.founderName,
+    },
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Planning a day trip to Nainital from Mukteshwar? Get the distance (50 km), travel time, must-visit spots like Naini Lake and Mall Road, and expert travel tips.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-to-nainital-day-trip",

@@ -14,8 +14,8 @@ export default function PackingListGuide() {
     image: "https://ecoescapemukteshwar.com/src/assets/blog/packing-list/featured.webp",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
-      "@type": "Organization",
-      name: "Ecoescape Mukteshwar",
+      "@type": "Person",
+      name: siteConfig.founderName,
     },
     publisher: {
       "@type": "Organization",

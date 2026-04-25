@@ -51,6 +51,9 @@ export const blogComponents = {
   'things-to-do-in-mukteshwar': lazy(() => import('./ThingsToDoInMukteshwar')),
   'mukteshwar-mahadev-temple-guide': lazy(() => import('./MukteshwarTempleGuide')),
   'mukteshwar-weather-guide': lazy(() => import('./MukteshwarWeatherGuide')),
+  'mukteshwar-trip-cost-2026-budget-guide': lazy(() => import('./MukteshwarTripCost')),
+  'mukteshwar-with-elderly-parents': lazy(() => import('./MukteshwarWithElderlyParents')),
+  'mukteshwar-to-jim-corbett-day-trip': lazy(() => import('./MukteshwarToJimCorbettDayTrip')),
 };
 
 // Type for blog component keys

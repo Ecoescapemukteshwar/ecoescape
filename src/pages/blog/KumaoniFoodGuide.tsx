@@ -18,8 +18,8 @@ export default function KumaoniFoodGuide() {
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 18, 2026"),
     author: {
-      "@type": "Organization",
-      name: "Ecoescape Mukteshwar",
+      "@type": "Person",
+      name: siteConfig.founderName,
     },
     publisher: {
       "@type": "Organization",

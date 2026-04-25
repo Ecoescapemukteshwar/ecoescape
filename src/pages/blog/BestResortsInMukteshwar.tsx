@@ -6,6 +6,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { Calendar, Clock, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/best-resorts/featured.webp";
+import { siteConfig } from "@/config/site";
 
 const RESORTS = [
   { name: "Lemon Tree Mukteshwar", type: "Luxury", feature: "Modern amenities & Spa", dist: "10km from Temple" },
@@ -22,7 +23,10 @@ export default function BestResortsInMukteshwar() {
     headline: "10 Best Resorts in Mukteshwar: Luxury to Budget Stays (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
-    author: { "@type": "Organization", name: "Ecoescape Mukteshwar" },
+    author: {
+      "@type": "Person",
+      name: siteConfig.founderName,
+    },
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Compare the top resorts in Mukteshwar! From Lemon Tree and Justa to sustainable boutique stays like Ecoescape, find your perfect Himalayan holiday home.",
     url: "https://ecoescapemukteshwar.com/blog/best-resorts-in-mukteshwar",

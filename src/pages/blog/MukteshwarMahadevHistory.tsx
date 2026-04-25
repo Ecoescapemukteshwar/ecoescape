@@ -5,6 +5,7 @@ import { generateArticleSchema, generateBreadcrumbSchema, formatDateForSchema } 
 import { Calendar, Clock, BookOpen, MapPin, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import featuredImg from "@/assets/blog/temple-history/featured.webp";
+import { siteConfig } from "@/config/site";
 
 export default function MukteshwarMahadevHistory() {
   const { navigateToBooking } = useBookingNavigation();
@@ -12,7 +13,10 @@ export default function MukteshwarMahadevHistory() {
     headline: "History & Myth: The Legend of Mukteshwar Mahadev Mandir (2026)",
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
-    author: { "@type": "Organization", name: "Ecoescape Mukteshwar" },
+    author: {
+      "@type": "Person",
+      name: siteConfig.founderName,
+    },
     publisher: { "@type": "Organization", name: "Ecoescape Mukteshwar", url: "https://ecoescapemukteshwar.com" },
     description: "Deep dive into the 350-year-old history of Mukteshwar Mahadev Mandir. Learn about the legend of liberation (Moksha), Chauli Ki Jali, and ancient rituals.",
     url: "https://ecoescapemukteshwar.com/blog/mukteshwar-mahadev-temple-history",

@@ -22,8 +22,8 @@ export default function ThingsToDoInMukteshwar() {
     image: "https://ecoescapemukteshwar.com/og-image.jpg",
     datePublished: formatDateForSchema("March 19, 2026"),
     author: {
-      "@type": "Organization",
-      name: "Ecoescape Mukteshwar",
+      "@type": "Person",
+      name: siteConfig.founderName,
     },
     publisher: {
       "@type": "Organization",
