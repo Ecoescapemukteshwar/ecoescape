@@ -52,17 +52,61 @@ function lastmodFor(routePath) {
 
 const entries = getSitemapEntries();
 
+// Image extensions per Google's Sitemap image protocol. Only attached to
+// the URLs where we have a known representative image — all four room
+// pages, the homepage, and the workcation landing page.
+const IMAGE_EXTENSIONS = {
+  "/": [
+    { loc: `${SITE_URL}/preview.webp`, title: "Sunrise from Ecoescape Mukteshwar" },
+    { loc: `${SITE_URL}/LOGO-opt.webp`, title: "Ecoescape Mukteshwar logo" },
+  ],
+  "/workcation-mukteshwar": [
+    { loc: `${SITE_URL}/preview.webp`, title: "Workcation desk setup at Ecoescape Mukteshwar" },
+  ],
+  "/rooms/suite-with-mountain-view": [
+    { loc: `${SITE_URL}/images/suite/IMG_4065-opt.webp`, title: "Suite with Mountain View — Ecoescape Mukteshwar" },
+  ],
+  "/rooms/spacious-apartment": [
+    { loc: `${SITE_URL}/images/two_bed_room_apartment/IMG_1597.webp`, title: "Spacious 2-Bedroom Apartment — Ecoescape Mukteshwar" },
+  ],
+  "/rooms/family-room": [
+    { loc: `${SITE_URL}/images/room-family.webp`, title: "Family Room — Ecoescape Mukteshwar" },
+  ],
+  "/rooms/family-room-2": [
+    { loc: `${SITE_URL}/images/room-deluxe.webp`, title: "Family Room 2 — Ecoescape Mukteshwar" },
+  ],
+};
+
+function escapeXml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${entries
   .map((e) => {
     const loc = `${SITE_URL}${e.path === "/" ? "/" : e.path}`;
     const lastmod = lastmodFor(e.path);
+    const images = IMAGE_EXTENSIONS[e.path] || [];
+    const imageBlocks = images
+      .map(
+        (img) => `    <image:image>
+      <image:loc>${escapeXml(img.loc)}</image:loc>
+      <image:title>${escapeXml(img.title)}</image:title>
+    </image:image>`,
+      )
+      .join("\n");
     return `  <url>
     <loc>${loc}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${e.changefreq}</changefreq>
-    <priority>${e.priority}</priority>
+    <priority>${e.priority}</priority>${imageBlocks ? "\n" + imageBlocks : ""}
   </url>`;
   })
   .join("\n")}
@@ -70,4 +114,5 @@ ${entries
 `;
 
 fs.writeFileSync(OUTPUT, xml, "utf8");
-console.log(`Wrote ${entries.length} URLs to public/sitemap.xml`);
+const totalImages = Object.values(IMAGE_EXTENSIONS).reduce((n, arr) => n + arr.length, 0);
+console.log(`Wrote ${entries.length} URLs (${totalImages} images) to public/sitemap.xml`);
