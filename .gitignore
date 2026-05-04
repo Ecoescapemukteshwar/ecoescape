@@ -31,3 +31,8 @@ dist-ssr
 
 # Build artifact temp files
 *.tmp
+
+# Audit / analysis artifacts (not source)
+screenshots/
+scripts/capture_screenshot.py
+scripts/capture_all_pages.py

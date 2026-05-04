@@ -122,7 +122,7 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <div className="flex flex-col">
-              <img src={isScrolled ? "/LOGO2.webp" : "/LOGO.webp"} alt="Ecoescape Mukteshwar Logo" width={175} height={136} className="w-[100px] h-auto" />
+              <img src={isScrolled ? "/LOGO2.webp" : "/LOGO.webp"} alt="Ecoescape Mukteshwar Logo" width={175} height={136} className="w-[100px] h-auto" fetchPriority="high" decoding="async" />
             </div>
           </Link>
 

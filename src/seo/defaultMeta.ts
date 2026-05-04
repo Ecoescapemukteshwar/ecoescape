@@ -29,7 +29,12 @@ export const defaultSchema = {
   "address": {
     "@type": "PostalAddress",
     "streetAddress": siteConfig.address.streetAddress,
-    "addressLocality": siteConfig.address.addressLocalityFull,
+    // addressLocality is the city/town only ("Mukteshwar"). Nainital
+    // District is captured in the property description prose; mixing it
+    // into the locality field made schema parsers see two different
+    // addresses across pages (Org schema used "Mukteshwar", LodgingBusiness
+    // used "Mukteshwar, Nainital District"). Standardized to plain locality.
+    "addressLocality": siteConfig.address.addressLocality,
     "addressRegion": siteConfig.address.addressRegion,
     "postalCode": siteConfig.address.postalCode,
     "addressCountry": siteConfig.address.addressCountry,
@@ -39,17 +44,42 @@ export const defaultSchema = {
     "latitude": siteConfig.geo.latitude,
     "longitude": siteConfig.geo.longitude,
   },
+  "hasMap": `https://maps.google.com/?q=${siteConfig.geo.latitude},${siteConfig.geo.longitude}`,
   "priceRange": "₹₹",
-  "starRating": {
-    "@type": "Rating",
-    "ratingValue": "5"
-  },
+  // starRating is for official government/classification (e.g., "3-star
+  // hotel"). The property is unclassified boutique — omit to avoid
+  // conflicting with the guest-score aggregateRating.
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": siteConfig.aggregateRating.ratingValue,
     "reviewCount": siteConfig.aggregateRating.reviewCount,
     "bestRating": siteConfig.aggregateRating.bestRating,
   },
+  "numberOfRooms": siteConfig.unitCount,
+  "containsPlace": [
+    { "@type": "Apartment", "name": "Suite with Mountain View", "url": `${siteUrl}/rooms/suite-with-mountain-view` },
+    { "@type": "Apartment", "name": "Spacious Apartment", "url": `${siteUrl}/rooms/spacious-apartment` },
+    { "@type": "Apartment", "name": "Family Room", "url": `${siteUrl}/rooms/family-room` },
+    { "@type": "Apartment", "name": "Family Room 2", "url": `${siteUrl}/rooms/family-room-2` },
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "name": "Check-in",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "13:00",
+      "closes": "22:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "name": "Check-out",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "07:00",
+      "closes": "11:00",
+    },
+  ],
+  "checkinTime": "13:00",
+  "checkoutTime": "11:00",
   "amenityFeature": [
     { "@type": "LocationFeatureSpecification", "name": "Free Wi-Fi", "value": true },
     { "@type": "LocationFeatureSpecification", "name": "In-house Restaurant", "value": true },

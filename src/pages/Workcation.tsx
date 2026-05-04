@@ -5,7 +5,7 @@ import { PageMeta } from "@/seo/PageMeta";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
-import { generateApartmentSchema, generateBreadcrumbSchema } from "@/lib/schema";
+import { generateApartmentSchema, generateBreadcrumbSchema, generateFAQPageSchema } from "@/lib/schema";
 import { getRoomBySlug } from "@/config/rooms";
 import { Wifi, Zap, ArmchairIcon, Utensils, MessageCircle, Sunrise, Coffee, Mountain, Briefcase, Sparkles } from "lucide-react";
 
@@ -121,6 +121,11 @@ export default function Workcation() {
     { name: "Workcation", item: "https://ecoescapemukteshwar.com/workcation-mukteshwar" },
   ]), []);
 
+  const faqSchema = useMemo(
+    () => generateFAQPageSchema(FAQS.map((f) => ({ q: f.q, a: f.a }))),
+    [],
+  );
+
   const scrollToPackages = () => {
     document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -132,7 +137,7 @@ export default function Workcation() {
         description="Verified 80 Mbps fibre, power backup, desk + chair, in-house Kumaoni meals. Weekly and monthly workcation packages at a boutique aparthotel in Mukteshwar. Book direct — no OTA fees."
         canonical="/workcation-mukteshwar"
         keywords="workcation Mukteshwar, workation Mukteshwar, remote work Mukteshwar, workcation packages Mukteshwar, workcation homestay Mukteshwar, Himalayan workcation"
-        jsonLd={[apartmentSchema, breadcrumbSchema].filter(Boolean) as Record<string, unknown>[]}
+        jsonLd={[apartmentSchema, breadcrumbSchema, faqSchema].filter(Boolean) as Record<string, unknown>[]}
       />
       <Header />
 

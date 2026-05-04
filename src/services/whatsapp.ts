@@ -28,7 +28,7 @@ export function createWhatsAppMessage(data: BookingMessageData): string {
 
   // Build pricing information if available
   const priceInfo = data.pricePerNight && data.totalPrice && data.nights
-    ? `%0A%0APRICING:%0A- Rate: ₹${data.pricePerNight.toLocaleString("en-IN")}/night${data.isPeakSeason ? " (June Peak Season)" : ""}%0A- Nights: ${data.nights}%0A- Total: ₹${data.totalPrice.toLocaleString("en-IN")}`
+    ? `%0A%0APRICING:%0A- Rate: ₹${data.pricePerNight.toLocaleString("en-IN")}/night${data.isPeakSeason ? " (Season Date rate)" : ""}%0A- Nights: ${data.nights}%0A- Total: ₹${data.totalPrice.toLocaleString("en-IN")}`
     : "";
 
   // Use %0A for URL encoding newlines in WhatsApp

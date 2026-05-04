@@ -133,6 +133,68 @@ const DEFAULT_LODGING_BUSINESS: LodgingBusinessSchema = {
 };
 
 /**
+ * Person schema for the founder. Anchored by `@id` so blog posts that set
+ * `author` to this Person can reference the same entity across the site.
+ */
+export interface PersonFullSchema {
+  "@context": string;
+  "@type": "Person";
+  "@id": string;
+  name: string;
+  url: string;
+  jobTitle?: string;
+  worksFor?: { "@type": "Organization"; name: string; url: string };
+  description?: string;
+  [key: string]: unknown;
+}
+
+export function generateFounderPersonSchema(): PersonFullSchema {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${SITE_URL}/about#founder`,
+    name: siteConfig.founderName,
+    url: `${SITE_URL}/about`,
+    jobTitle: "Founder",
+    worksFor: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: SITE_URL,
+    },
+    description: `Founder of ${siteConfig.name}, a boutique aparthotel in Mukteshwar village, Uttarakhand. Resident host with first-hand experience of the Kumaon hills, local cuisine, and the property's four self-contained units.`,
+  };
+}
+
+/**
+ * FAQPage schema. On commercial sites Google no longer surfaces FAQ rich
+ * results (Aug 2023 restriction — gov/healthcare only) but FAQPage schema
+ * is still consumed by AI search engines (ChatGPT, Perplexity, AI Overviews)
+ * for direct-answer extraction. Worth emitting on Q&A-shaped content.
+ */
+export interface FAQPageSchema {
+  "@context": string;
+  "@type": "FAQPage";
+  [key: string]: unknown;
+  mainEntity: Array<{
+    "@type": "Question";
+    name: string;
+    acceptedAnswer: { "@type": "Answer"; text: string };
+  }>;
+}
+
+export function generateFAQPageSchema(faqs: Array<{ q: string; a: string }>): FAQPageSchema {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+}
+
+/**
  * Generate Article Schema for blog posts
  */
 export function generateArticleSchema(data: ArticleData): ArticleSchema {

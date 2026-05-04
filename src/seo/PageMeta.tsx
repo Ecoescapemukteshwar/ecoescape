@@ -3,6 +3,20 @@ import { useLocation } from "react-router-dom";
 import { siteUrl, defaultMeta, defaultSchema } from "./defaultMeta";
 
 /**
+ * Open Graph + Twitter Card image URLs MUST be absolute. Room and
+ * workcation pages were passing Vite-imported asset paths (e.g.
+ * `/assets/IMG_4065-opt-B8WBQWAy.webp`) which read as relative when
+ * Facebook/Twitter/LinkedIn/WhatsApp scrapers fetched them, so the
+ * preview cards rendered without an image. Absolutize here once so
+ * every caller gets the fix.
+ */
+function absolutizeUrl(url: string | undefined): string | undefined {
+  if (!url) return url;
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return `${siteUrl}${url.startsWith("/") ? url : `/${url}`}`;
+}
+
+/**
  * PageMeta Component
  *
  * Reusable component for setting page-specific meta tags.
@@ -64,8 +78,10 @@ export function PageMeta({
     ? (canonical.startsWith("http") ? canonical : `${siteUrl}${canonical}`) 
     : `${siteUrl}${currentPath}`;
 
-  // Defaults from defaultMeta
-  const finalOgImage = ogImage || defaultMeta.ogImage;
+  // Defaults from defaultMeta. og:image is absolutized so room/workcation
+  // pages passing Vite-hashed relative paths still produce valid social
+  // preview cards.
+  const finalOgImage = absolutizeUrl(ogImage || defaultMeta.ogImage);
   const finalOgImageWidth = ogImageWidth || defaultMeta.ogImageWidth;
   const finalOgImageHeight = ogImageHeight || defaultMeta.ogImageHeight;
   const finalOgImageAlt = ogImageAlt || defaultMeta.ogImageAlt;

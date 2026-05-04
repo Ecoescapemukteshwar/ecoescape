@@ -3,7 +3,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
 import { PageMeta } from "@/seo/PageMeta";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MapPin } from "lucide-react";
+import { siteConfig } from "@/config/site";
 
 /**
  * BlogPostLayout Component
@@ -96,6 +97,32 @@ export function BlogPostLayout({
 
           {/* Blog Content */}
           {children}
+
+          {/* Author card — single E-E-A-T signal that propagates to every
+              blog post via this shared layout. */}
+          <aside className="mt-16 rounded-2xl border border-border bg-secondary/30 p-6 md:p-8">
+            <div className="flex items-start gap-4">
+              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <MapPin className="h-6 w-6 text-primary" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">
+                  About the author
+                </p>
+                <h2 className="text-lg font-serif font-semibold text-foreground mb-2">
+                  {siteConfig.founderName}
+                </h2>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Founder of {siteConfig.name}, a 4-unit boutique aparthotel in {siteConfig.address.addressLocality} village, Uttarakhand. Resident host writing from first-hand experience of the Kumaon hills, local cuisine, and what genuinely works for travellers in this corner of the Himalayas.
+                </p>
+                <div className="mt-3 text-sm">
+                  <Link to="/about" className="text-primary hover:underline">
+                    Read more about the property →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </aside>
         </article>
       </main>
       <Footer />

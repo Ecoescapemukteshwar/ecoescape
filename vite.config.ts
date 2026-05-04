@@ -98,11 +98,30 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
+      // Vite injects <link rel="modulepreload"> for the entry's
+      // transitive chunks. With our manualChunks setup, blog-* chunks
+      // were ending up in the homepage preload list — they're route-
+      // split and shouldn't load until /blog/<slug> is visited. Filter
+      // them out: only preload chunks that the homepage actually uses
+      // on first paint (vendor-* and the entry are already implicit).
+      modulePreload: {
+        resolveDependencies: (_filename, deps) =>
+          deps.filter((dep) => !/(?:^|\/)blog-/.test(dep)),
+      },
       rollupOptions: {
         output: {
           manualChunks: (id: string) => {
             if (id.includes("node_modules/lucide-react")) {
               return "vendor-lucide";
+            }
+            // framer-motion is heavy (~110 KB raw / 35 KB gzip) and used
+            // by ~10 components across many lazy chunks. Without manual
+            // splitting Rollup hoists it into whichever chunk imports it
+            // first — currently the backpacker-guide blog post (187 KB)
+            // — and re-includes it in any route that doesn't share that
+            // chunk. Pin it to its own bundle so it caches once.
+            if (id.includes("node_modules/framer-motion") || id.includes("node_modules/motion-dom") || id.includes("node_modules/motion-utils")) {
+              return "vendor-motion";
             }
             if (id.includes("node_modules/react") || id.includes("node_modules/react-dom") || id.includes("node_modules/react-router-dom")) {
               return "vendor-core";

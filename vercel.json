@@ -5,7 +5,9 @@
   "installCommand": "npm install",
   "framework": "vite",
   "redirects": [
-    { "source": "/contactus", "destination": "/#booking", "statusCode": 301 }
+    { "source": "/contactus", "destination": "/#booking", "statusCode": 301 },
+    { "source": "/tariffs", "destination": "/rooms", "statusCode": 301 },
+    { "source": "/aboutus", "destination": "/about", "statusCode": 301 }
   ],
   "rewrites": [
     {

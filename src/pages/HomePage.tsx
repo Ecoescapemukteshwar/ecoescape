@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { FloatingCTA } from "@/components/FloatingCTA";
+import { DeferredMount } from "@/components/DeferredMount";
 import { PageMeta } from "@/seo/PageMeta";
 import { websiteSchema, organizationSchema } from "@/seo/defaultMeta";
 import { useLocation } from "react-router-dom";
@@ -48,24 +49,32 @@ const HomePage = () => {
       <main>
         <HeroSection />
         <BenefitsSection />
-        <Suspense fallback={<SectionFallback />}>
-          <RoomsSection mode="teaser" onBookRoom={handleBookRoom} />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <TestimonialsSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <GallerySection />
-        </Suspense>
-        <div id="booking">
+        <DeferredMount minHeight="900px">
+          <Suspense fallback={<SectionFallback />}>
+            <RoomsSection mode="teaser" onBookRoom={handleBookRoom} />
+          </Suspense>
+        </DeferredMount>
+        <DeferredMount minHeight="600px">
+          <Suspense fallback={<SectionFallback />}>
+            <TestimonialsSection />
+          </Suspense>
+        </DeferredMount>
+        <DeferredMount minHeight="700px">
+          <Suspense fallback={<SectionFallback />}>
+            <GallerySection />
+          </Suspense>
+        </DeferredMount>
+        <DeferredMount id="booking" minHeight="900px">
           <Suspense fallback={<SectionFallback />}>
             <BookingSection preselectedRoom={selectedRoom} />
           </Suspense>
-        </div>
+        </DeferredMount>
       </main>
-      <Suspense fallback={<SectionFallback />}>
-        <Footer />
-      </Suspense>
+      <DeferredMount minHeight="500px">
+        <Suspense fallback={<SectionFallback />}>
+          <Footer />
+        </Suspense>
+      </DeferredMount>
       <FloatingCTA />
     </div>
   );

@@ -44,7 +44,7 @@ export function HeroSection() {
               ))}
             </div>
             <span className="text-sm font-medium text-foreground">
-              4.9 · 100+ Happy Guests
+              4.8 · 125+ Verified Reviews
             </span>
           </div>
 
@@ -92,8 +92,8 @@ export function HeroSection() {
             className="flex flex-wrap gap-8 mt-10 pt-10 border-t border-[hsl(40_20%_90%/0.2)] animate-fade-in"
           >
             <div>
-              <div className="text-2xl font-serif font-semibold text-[hsl(40_30%_98%)]">4.9 ★</div>
-              <div className="text-sm text-[hsl(40_20%_85%)]">200+ reviews</div>
+              <div className="text-2xl font-serif font-semibold text-[hsl(40_30%_98%)]">4.8 ★</div>
+              <div className="text-sm text-[hsl(40_20%_85%)]">125 verified reviews</div>
             </div>
             <div>
               <div className="text-2xl font-serif font-semibold text-[hsl(40_30%_98%)]">100+</div>

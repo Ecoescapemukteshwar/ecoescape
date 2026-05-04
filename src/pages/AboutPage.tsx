@@ -82,8 +82,8 @@ const AboutPage = () => {
               </p>
               <div className="flex flex-wrap justify-center gap-8 pt-8">
                 <div>
-                  <div className="text-3xl font-serif font-semibold text-primary">4.9 ★</div>
-                  <div className="text-sm text-muted-foreground">Guest rating</div>
+                  <div className="text-3xl font-serif font-semibold text-primary">4.8 ★</div>
+                  <div className="text-sm text-muted-foreground">125 verified reviews</div>
                 </div>
                 <div>
                   <div className="text-3xl font-serif font-semibold text-primary">100+</div>

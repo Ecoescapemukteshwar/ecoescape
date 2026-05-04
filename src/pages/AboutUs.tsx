@@ -28,6 +28,8 @@ const AboutUs = () => {
         title="About Us | Ecoescape Mukteshwar - Boutique Nature Retreat Homestay"
         description="Learn about Ecoescape Mukteshwar, the best nature retreat homestay in Uttarakhand. Discover our story of sustainability, our 100+ plant garden, and our commitment to authentic mountain hospitality."
         keywords="About Ecoescape Mukteshwar, Nature Retreat Homestay Mukteshwar, Sustainable Homestay Mukteshwar, Eco-friendly Homestay Uttarakhand, Orchard Homestay Mukteshwar, Himalayan View Homestay"
+        canonical="https://ecoescapemukteshwar.com/about"
+        noindex={true}
       />
       <Header />
       

@@ -1,6 +1,13 @@
-import type { RoomType, RoomPricing, BookingPricing, MonthlyPeakConfig } from "@/types/pricing";
+import type {
+  RoomType,
+  RoomPricing,
+  BookingPricing,
+  DemandBand,
+  SeasonMonth,
+} from "@/types/pricing";
 
-// Base prices for each room type (standard season)
+// Base prices per room type. Markups apply on top of these for dates that
+// fall inside a Season Date range; non-Season dates are billed at base.
 const BASE_PRICES: Record<RoomType, number> = {
   suite: 3500,
   apartment: 5500,
@@ -8,99 +15,141 @@ const BASE_PRICES: Record<RoomType, number> = {
   familyRoom2: 4000,
 };
 
-// Year-agnostic peak season configurations (applies to all years)
-const MONTHLY_PEAK_CONFIGS: MonthlyPeakConfig[] = [
-  // March: 1st-4th, 27th-31st (20% weekday, 25% weekend)
-  { month: 2, dateRanges: [{start: 1, end: 4}, {start: 27, end: 31}], weekdayMarkup: 0.20, weekendMarkup: 0.25 },
+// Two-band markup. Band assignment is driven by 5-year monthly-average
+// search interest for "Mukteshwar" from Google Trends India (May 2021 –
+// Apr 2026, source CSV: time_series_IN_20210503-1319_20260503-1319.csv):
+//
+//   Jun 85.2 ← only month above 65 → upper band
+//   May 61.4, Apr 51.0, Dec 49.2 ← elevated → lower band
+//   Jan 43.8, Mar 42.2, Jul 40.0, Nov 35.0, Feb 34.4, Sep 34.4,
+//   Aug 33.6, Oct 32.6 ← below threshold → no markup (only the operational
+//   Season Date sub-windows in these months get the lower band)
+//
+// In practice every range in SEASON_CALENDAR is `lower` except the full
+// month of June, which is `upper`.
+const BAND_MARKUP: Record<DemandBand, number> = {
+  upper: 0.30, // +30%
+  lower: 0.15, // +15%
+};
 
-  // April: 3rd-5th (20% flat)
-  { month: 3, dateRanges: [{start: 3, end: 5}], weekdayMarkup: 0.20, weekendMarkup: 0.20 },
+// Operational Season Date calendar (year-specific).
+//
+// Source: property's published 2026–27 season schedule. Each range tagged
+// with the Google-Trends-derived demand band that applies. Years/months
+// not listed have no markup; dates outside listed ranges in listed months
+// also have no markup.
+//
+// Updating: when the property publishes a new year's calendar, append
+// SeasonMonth entries here. The pricing engine is purely data-driven —
+// no other code change is required.
+const SEASON_CALENDAR: SeasonMonth[] = [
+  // ─── 2026 ───
+  // Feb 2026
+  { year: 2026, month: 1, ranges: [{ start: 28, end: 28, band: "lower" }] },
+  // Mar 2026
+  {
+    year: 2026,
+    month: 2,
+    ranges: [
+      { start: 1, end: 4, band: "lower" },
+      { start: 26, end: 31, band: "lower" },
+    ],
+  },
+  // Apr 2026
+  { year: 2026, month: 3, ranges: [{ start: 3, end: 5, band: "lower" }] },
+  // May 2026
+  {
+    year: 2026,
+    month: 4,
+    ranges: [
+      { start: 1, end: 3, band: "lower" },
+      { start: 15, end: 31, band: "lower" },
+    ],
+  },
+  // Jun 2026 — peak (upper band)
+  { year: 2026, month: 5, ranges: [{ start: 1, end: 30, band: "upper" }] },
+  // Jul 2026 — no Season Dates
+  // Aug 2026
+  { year: 2026, month: 7, ranges: [{ start: 14, end: 16, band: "lower" }] },
+  // Sep 2026 — no Season Dates
+  // Oct 2026
+  {
+    year: 2026,
+    month: 9,
+    ranges: [
+      { start: 2, end: 4, band: "lower" },
+      { start: 17, end: 20, band: "lower" },
+    ],
+  },
+  // Nov 2026
+  { year: 2026, month: 10, ranges: [{ start: 6, end: 11, band: "lower" }] },
+  // Dec 2026
+  { year: 2026, month: 11, ranges: [{ start: 24, end: 31, band: "lower" }] },
 
-  // May: 1st-3rd, 16th-31st (20% weekday, 25% weekend)
-  { month: 4, dateRanges: [{start: 1, end: 3}, {start: 16, end: 31}], weekdayMarkup: 0.20, weekendMarkup: 0.25 },
-
-  // June: 1st-30th (25% weekday, 35% weekend)
-  { month: 5, dateRanges: [{start: 1, end: 30}], weekdayMarkup: 0.25, weekendMarkup: 0.35 },
-
-  // August: 14th-16th (20% weekday, 25% weekend)
-  { month: 7, dateRanges: [{start: 14, end: 16}], weekdayMarkup: 0.20, weekendMarkup: 0.25 },
-
-  // October: 2nd-4th, 17th-20th (20% flat)
-  { month: 9, dateRanges: [{start: 2, end: 4}, {start: 17, end: 20}], weekdayMarkup: 0.20, weekendMarkup: 0.20 },
-
-  // November: 6th-11th (20% flat)
-  { month: 10, dateRanges: [{start: 6, end: 11}], weekdayMarkup: 0.20, weekendMarkup: 0.20 },
-
-  // December: 24th-31st (20% flat)
-  { month: 11, dateRanges: [{start: 24, end: 31}], weekdayMarkup: 0.20, weekendMarkup: 0.20 },
-
-  // January: 1st-3rd, 23rd-26th (20% flat)
-  { month: 0, dateRanges: [{start: 1, end: 3}, {start: 23, end: 26}], weekdayMarkup: 0.20, weekendMarkup: 0.20 },
+  // ─── 2027 ───
+  // Jan 2027
+  {
+    year: 2027,
+    month: 0,
+    ranges: [
+      { start: 1, end: 3, band: "lower" },
+      { start: 23, end: 26, band: "lower" },
+    ],
+  },
+  // Feb 2027 — no Season Dates
+  // Mar 2027
+  {
+    year: 2027,
+    month: 2,
+    ranges: [
+      { start: 19, end: 22, band: "lower" },
+      { start: 26, end: 28, band: "lower" },
+    ],
+  },
 ];
 
-// Special case: July - all weekends get 15% markup (year-agnostic)
-const JULY_WEEKEND_ONLY_MARKUP = { month: 6, markup: 0.15 };
-
 /**
- * Check if a given date is a weekend (Saturday or Sunday)
+ * Resolve the demand band for a specific date. Returns null when the date
+ * falls outside any Season Date range.
  */
-function isWeekend(date: Date): boolean {
-  const day = date.getDay();
-  return day === 0 || day === 6; // 0=Sunday, 6=Saturday
-}
-
-/**
- * Check if a specific date falls within any date range in a peak season config
- */
-function isDateInRanges(date: Date, dateRanges: { start: number; end: number }[]): boolean {
-  const day = date.getDate();
-  return dateRanges.some(range => day >= range.start && day <= range.end);
-}
-
-/**
- * Get markup percentage for a specific date
- * Returns 0 for dates without markup (base price)
- * Checks July weekends first, then peak season configs
- * Applies year-agnostic pattern to all years
- */
-export function getMarkupForDate(date: Date): number {
+function getBandForDate(date: Date): DemandBand | null {
+  const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-
-  // Special case: July - all weekends get 15% markup (applies to all years)
-  if (month === JULY_WEEKEND_ONLY_MARKUP.month && isWeekend(date)) {
-    return JULY_WEEKEND_ONLY_MARKUP.markup;
-  }
-
-  // Check if date matches any monthly peak season config (year-agnostic)
-  const config = MONTHLY_PEAK_CONFIGS.find(
-    config => config.month === month && isDateInRanges(date, config.dateRanges)
+  const monthEntry = SEASON_CALENDAR.find(
+    (s) => s.year === year && s.month === month,
   );
-
-  if (config) {
-    return isWeekend(date) ? config.weekendMarkup : config.weekdayMarkup;
-  }
-
-  return 0; // No markup for non-peak dates
+  if (!monthEntry) return null;
+  const range = monthEntry.ranges.find((r) => day >= r.start && day <= r.end);
+  return range?.band ?? null;
 }
 
 /**
- * Check if a given date has any markup (is in pricing season)
+ * Markup percentage for a specific date.
+ * Returns 0 for non-Season dates, 0.15 for lower-band, 0.30 for upper-band.
+ */
+export function getMarkupForDate(date: Date): number {
+  const band = getBandForDate(date);
+  return band ? BAND_MARKUP[band] : 0;
+}
+
+/**
+ * True if the given date carries any markup.
+ * Name preserved for backwards compatibility with existing callers.
  */
 export function isPeakSeason(date: Date): boolean {
   return getMarkupForDate(date) > 0;
 }
 
 /**
- * Get the base price for a room type (standard season)
+ * Base price for a room type (no markup applied).
  */
 export function getBasePrice(roomType: RoomType): number {
   return BASE_PRICES[roomType] || 0;
 }
 
 /**
- * Get price for a specific date
- * Returns price with markup if applicable, otherwise base price
+ * Price for a specific date — base × (1 + markup).
  */
 export function getPriceForDate(roomType: RoomType, date: Date): number {
   const basePrice = getBasePrice(roomType);
@@ -109,40 +158,45 @@ export function getPriceForDate(roomType: RoomType, date: Date): number {
 }
 
 /**
- * Get current pricing based on today's date
+ * Price for today.
  */
 export function getCurrentPrice(roomType: RoomType): number {
   return getPriceForDate(roomType, new Date());
 }
 
 /**
- * Get complete pricing information for a room type
+ * Upper-band ceiling — the highest price a room can hit (June rate).
+ * Used by /rooms pages to advertise a "from / up to" range.
+ */
+export function getPeakSeasonPrice(roomType: RoomType): number {
+  const basePrice = getBasePrice(roomType);
+  return Math.round(basePrice * (1 + BAND_MARKUP.upper));
+}
+
+/**
+ * Snapshot of pricing for a room: base, today's price, today's peak status,
+ * and the upper-band ceiling for display.
  */
 export function getRoomPricing(roomType: RoomType): RoomPricing {
-  const basePrice = getBasePrice(roomType);
-  const currentPrice = getCurrentPrice(roomType);
-  const currentMarkup = getMarkupForDate(new Date());
-  // Peak season price is now June's 35% markup
-  const peakSeasonPrice = Math.round(basePrice * (1 + 0.35));
-
   return {
-    basePrice,
-    currentPrice,
+    basePrice: getBasePrice(roomType),
+    currentPrice: getCurrentPrice(roomType),
     isPeakSeason: isPeakSeason(new Date()),
-    peakSeasonPrice,
+    peakSeasonPrice: getPeakSeasonPrice(roomType),
   };
 }
 
 /**
- * Calculate price for a booking period
- * Returns total price, breakdown, and relevant pricing info
+ * Total price for a stay, with per-night breakdown.
  */
 export function getBookingPrice(
   roomType: RoomType,
   checkIn: Date,
-  checkOut: Date
+  checkOut: Date,
 ): BookingPricing {
-  const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
+  const nights = Math.ceil(
+    (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24),
+  );
 
   if (nights <= 0) {
     return {
@@ -157,7 +211,6 @@ export function getBookingPrice(
   const priceBreakdown: Array<{ date: Date; price: number }> = [];
   let totalPrice = 0;
 
-  // Calculate price for each night
   for (let i = 0; i < nights; i++) {
     const nightDate = new Date(checkIn);
     nightDate.setDate(nightDate.getDate() + i);
@@ -166,10 +219,7 @@ export function getBookingPrice(
     totalPrice += price;
   }
 
-  // Check if any night falls in peak season
   const hasPeakSeasonNight = priceBreakdown.some(({ date }) => isPeakSeason(date));
-
-  // Use the first night's price as the display price
   const basePrice = priceBreakdown[0]?.price || getBasePrice(roomType);
 
   return {
@@ -182,8 +232,7 @@ export function getBookingPrice(
 }
 
 /**
- * Format price for display
- * Rounds to nearest hundred for cleaner display
+ * Format price for display, rounded to the nearest hundred.
  * Example: 4375 → "₹4,400"
  */
 export function formatPrice(price: number): string {
@@ -192,7 +241,7 @@ export function formatPrice(price: number): string {
 }
 
 /**
- * Format price exactly (no rounding)
+ * Format price exactly (no rounding).
  * Example: 4375 → "₹4,375"
  */
 export function formatPriceExact(price: number): string {
@@ -200,15 +249,7 @@ export function formatPriceExact(price: number): string {
 }
 
 /**
- * Get peak season price for a room type (maximum markup: 35% for June weekends)
- */
-export function getPeakSeasonPrice(roomType: RoomType): number {
-  const basePrice = getBasePrice(roomType);
-  return Math.round(basePrice * (1 + 0.35));
-}
-
-/**
- * Map room option values from booking form to RoomType
+ * Map booking-form room option values back to RoomType.
  */
 export function mapRoomTypeToPricingType(roomOptionValue: string): RoomType | null {
   const roomTypeMap: Record<string, RoomType> = {

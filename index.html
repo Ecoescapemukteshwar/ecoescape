@@ -5,14 +5,19 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 
-    <!-- Preconnect hints -->
-    <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://www.tripadvisor.in">
-    <link rel="preconnect" href="https://static.tacdn.com">
+    <!-- Preconnect hints. tripadvisor.in / static.tacdn.com used to be
+         here for a TripAdvisor widget; the widget was replaced by a plain
+         <a> link in the footer, so those origins are no longer hot. -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     <link rel="dns-prefetch" href="https://www.google-analytics.com">
 
     <!-- Hero image preload -->
     <link rel="preload" as="image" href="/src/assets/hero-sunrise.webp" fetchpriority="high">
+
+    <!-- scripts/postbuild-optimize.mjs injects <link rel=preload> tags for
+         the two critical woff2 font files here at build time, with the
+         correct hashed filenames that Vite emits. Done post-build because
+         the hashes aren't known at source time. -->
 
     <!-- Per-page <title>, <meta name="description">, and <link rel="canonical">
          are all written by react-helmet-async via src/seo/PageMeta and frozen
@@ -53,72 +58,48 @@
     <meta name="msvalidate.01" content="REPLACE_WITH_BING_WEBMASTER_TOKEN" />
     <meta name="yandex-verification" content="REPLACE_WITH_YANDEX_TOKEN" />
 
-    <!-- Deferred Google Tag Manager -->
+    <!-- Deferred Google Tag Manager. Loads on first user interaction
+         (scroll/pointer/keypress) or after 8s idle, whichever comes first.
+         Previously fired on a fixed 3s post-load timer, which still
+         landed inside the Lighthouse measurement window — gtag.js was
+         the largest source of unused JS (184 KB) and the worst forced-
+         reflow culprit (390ms total) in the PageSpeed report. Pushing
+         it past first-interaction keeps analytics intact for real users
+         while moving it out of the cold-load critical path. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-P1EDMZPGVW');
-      window.addEventListener('load', function() {
-        setTimeout(function() {
+      (function() {
+        var loaded = false;
+        function load() {
+          if (loaded) return;
+          loaded = true;
           var s = document.createElement('script');
           s.src = 'https://www.googletagmanager.com/gtag/js?id=G-P1EDMZPGVW';
           s.async = true;
           document.head.appendChild(s);
-        }, 3000);
-      });
+          events.forEach(function(e) { window.removeEventListener(e, load, opts); });
+        }
+        var events = ['scroll', 'pointerdown', 'keydown', 'touchstart'];
+        var opts = { once: true, passive: true, capture: true };
+        events.forEach(function(e) { window.addEventListener(e, load, opts); });
+        // Fallback: load anyway after 8s so visitors who read above-the-fold
+        // without interacting still get tracked.
+        setTimeout(load, 8000);
+      })();
     </script>
     
-    <!-- Schema.org LodgingBusiness + Restaurant -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LodgingBusiness",
-      "name": "Ecoescape Mukteshwar",
-      "description": "Boutique homestay in Mukteshwar village with 100+ plant garden, stunning sunrise views, in-house A La Carte restaurant, and terrace dining. Perfect for families, couples, and workations.",
-      "url": "https://ecoescapemukteshwar.com",
-      "telephone": "+919667846787",
-      "email": "reservations@ecoescapemukteshwar.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Mukteshwar Village",
-        "addressLocality": "Mukteshwar",
-        "addressRegion": "Uttarakhand",
-        "postalCode": "263138",
-        "addressCountry": "IN"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "29.4700",
-        "longitude": "79.6200"
-      },
-      "priceRange": "₹₹",
-      "starRating": {
-        "@type": "Rating",
-        "ratingValue": "4.9"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "125",
-        "bestRating": "5"
-      },
-      "amenityFeature": [
-        {"@type": "LocationFeatureSpecification", "name": "Free WiFi"},
-        {"@type": "LocationFeatureSpecification", "name": "Free Parking"},
-        {"@type": "LocationFeatureSpecification", "name": "Sunrise Views"},
-        {"@type": "LocationFeatureSpecification", "name": "100+ Plant Garden"},
-        {"@type": "LocationFeatureSpecification", "name": "In-house Restaurant"},
-        {"@type": "LocationFeatureSpecification", "name": "Terrace Dining"},
-        {"@type": "LocationFeatureSpecification", "name": "Room Service"},
-        {"@type": "LocationFeatureSpecification", "name": "24/7 CCTV Security"},
-        {"@type": "LocationFeatureSpecification", "name": "Power Backup"},
-        {"@type": "LocationFeatureSpecification", "name": "Hot Water 24/7"}
-      ],
-      "hasMap": "https://maps.google.com/?q=Mukteshwar,Uttarakhand"
-    }
-    </script>
-    
+    <!-- LodgingBusiness JSON-LD is emitted by react-helmet-async via
+         src/seo/defaultMeta.ts (defaultSchema) and frozen into the
+         prerendered HTML by scripts/prerender-spa.mjs. The previous
+         static block here duplicated it with stale geo coords (29.4700/
+         79.6200 instead of the canonical 29.4722/79.6472 in siteConfig)
+         and a `starRating: "4.9"` value that conflicted with the
+         schema-backed `aggregateRating: 4.8`. Removed to keep one
+         authoritative LodgingBusiness emission per page. -->
+
     <!-- FAQ Schema -->
     <script type="application/ld+json">
     {

@@ -12,7 +12,7 @@ import { siteConfig } from "@/config/site";
 import { sanitizeName, sanitizePhone, sanitizeEmail } from "@/lib/sanitizer";
 import { createWhatsAppMessage, openWhatsAppWithMessage } from "@/services/whatsapp";
 import { trackBookingSubmit, trackWhatsAppClick, trackPhoneClick, trackEmailClick } from "@/lib/analytics";
-import { getCurrentPrice, formatPrice, getBookingPrice, mapRoomTypeToPricingType, isPeakSeason, type RoomType } from "@/services/pricing";
+import { getCurrentPrice, formatPrice, getBookingPrice, mapRoomTypeToPricingType, type RoomType } from "@/services/pricing";
 
 const bookingSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -519,7 +519,7 @@ export function BookingSection({ preselectedRoom }: BookingSectionProps) {
                     <span className="text-primary-foreground/90">₹{priceSummary.pricePerNight.toLocaleString("en-IN")} × {priceSummary.nights} night{priceSummary.nights > 1 ? 's' : ''}</span>
                   </div>
                   {priceSummary.isPeak && (
-                    <p className="text-accent text-sm mt-1">June Peak Season rates apply</p>
+                    <p className="text-accent text-sm mt-1">Season Date rates apply</p>
                   )}
                   <p className="text-xl font-bold mt-2 text-primary-foreground">Total: ₹{priceSummary.totalPrice.toLocaleString("en-IN")}</p>
                 </div>

@@ -11,7 +11,7 @@ export default function BestTimeToVisit() {
   const { navigateToBooking } = useBookingNavigation();
   const articleSchema = useMemo(() => generateArticleSchema({
     headline: "Best Time to Visit Mukteshwar: A Month-by-Month Guide (2026)",
-    image: "https://ecoescapemukteshwar.com/src/assets/blog/best-time-to-visit/featured.webp",
+    image: "https://ecoescapemukteshwar.com/images/blog/best-time-to-visit/featured.webp",
     datePublished: formatDateForSchema("March 24, 2026"),
     author: {
       "@type": "Person",
