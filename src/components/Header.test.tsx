@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import { Header } from "./Header";
 
 // Mock framer-motion to avoid animation issues in tests
@@ -10,42 +11,37 @@ vi.mock("framer-motion", () => ({
   AnimatePresence: ({ children }: React.PropsWithChildren) => <>{children}</>,
 }));
 
-// Mock react-router-dom
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
-  return {
-    ...actual,
-    Link: ({ children, to, ...props }: React.PropsWithChildren<{ to: string } & Record<string, unknown>>) => (
-      <a href={to} {...props}>
-        {children}
-      </a>
-    ),
-  };
-});
+// Header uses useLocation(), so it must render inside a Router.
+const renderHeader = () =>
+  render(
+    <MemoryRouter>
+      <Header />
+    </MemoryRouter>,
+  );
 
 describe("Header", () => {
   it("renders navigation links", () => {
-    render(<Header />);
-    expect(screen.getByText("Rooms")).toBeInTheDocument();
-    expect(screen.getByText("Dining")).toBeInTheDocument();
-    expect(screen.getByText("Garden")).toBeInTheDocument();
+    renderHeader();
+    expect(screen.getByText("Home")).toBeInTheDocument();
+    expect(screen.getByText("About")).toBeInTheDocument();
+    expect(screen.getByText("Experiences")).toBeInTheDocument();
+    expect(screen.getByText("Blog")).toBeInTheDocument();
     expect(screen.getByText("Gallery")).toBeInTheDocument();
-    expect(screen.getByText("Things to Do")).toBeInTheDocument();
-    expect(screen.getByText("Reviews")).toBeInTheDocument();
   });
 
   it("renders phone number", () => {
-    render(<Header />);
-    expect(screen.getByText("+91 96678 46787")).toBeInTheDocument();
+    renderHeader();
+    // Phone shows in both the top contact bar and the desktop CTA button.
+    expect(screen.getAllByText("+91 96678 46787").length).toBeGreaterThan(0);
   });
 
   it("renders WhatsApp button", () => {
-    render(<Header />);
+    renderHeader();
     expect(screen.getByText("WhatsApp")).toBeInTheDocument();
   });
 
   it("opens mobile menu when menu button is clicked", async () => {
-    render(<Header />);
+    renderHeader();
     const menuButton = screen.getByLabelText("Toggle menu");
     fireEvent.click(menuButton);
     await waitFor(() => {
@@ -54,7 +50,7 @@ describe("Header", () => {
   });
 
   it("has proper ARIA attributes", () => {
-    render(<Header />);
+    renderHeader();
     const menuButton = screen.getByLabelText("Toggle menu");
     expect(menuButton).toHaveAttribute("aria-expanded", "false");
     expect(menuButton).toHaveAttribute("aria-controls", "mobile-menu");

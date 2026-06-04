@@ -1,10 +1,7 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Users, Maximize, Eye, Calendar, X } from "lucide-react";
-import { formatPrice, type RoomType } from "@/services/pricing";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { type RoomType } from "@/services/pricing";
 
 export interface Room {
   id: number;
@@ -29,8 +26,6 @@ interface RoomDetailsModalProps {
 }
 
 export function RoomDetailsModal({ room, isOpen, onClose, onBook }: RoomDetailsModalProps) {
-  const [imageLoaded, setImageLoaded] = useState(false);
-
   const handleBook = () => {
     onBook(room.roomType);
     onClose();
@@ -56,7 +51,6 @@ export function RoomDetailsModal({ room, isOpen, onClose, onBook }: RoomDetailsM
               className="w-full h-full object-cover"
               width={1200}
               height={600}
-              onLoad={() => setImageLoaded(true)}
             />
             {/* Price badge */}
             <div className="absolute bottom-6 left-6 bg-background/95 backdrop-blur-sm rounded-xl px-6 py-3 shadow-lg">

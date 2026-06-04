@@ -1,11 +1,7 @@
-import { motion, useAnimate } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Star, MapPin, Calendar, ShieldCheck } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
+import { siteConfig } from "@/config/site";
 
 const testimonials = [
   {
@@ -88,8 +84,8 @@ export function TestimonialsSection() {
                 <Star key={i} className="h-5 w-5 fill-accent text-accent" />
               ))}
             </div>
-            <span className="font-semibold text-foreground">4.9</span>
-            <span className="text-muted-foreground">from 100+ reviews</span>
+            <span className="font-semibold text-foreground">{siteConfig.aggregateRating.ratingValue}</span>
+            <span className="text-muted-foreground">from {siteConfig.aggregateRating.reviewCount}+ verified reviews</span>
           </div>
         </motion.div>
 
@@ -253,8 +249,8 @@ export function TestimonialsSection() {
           className="mt-12 flex flex-wrap items-center justify-center gap-8 text-center"
         >
           <div className="flex flex-col items-center">
-            <div className="text-2xl font-serif font-semibold text-primary">4.9★</div>
-            <div className="text-sm text-muted-foreground">Google Reviews</div>
+            <div className="text-2xl font-serif font-semibold text-primary">{siteConfig.aggregateRating.ratingValue}★</div>
+            <div className="text-sm text-muted-foreground">Guest Rating</div>
           </div>
           <div className="h-8 w-px bg-border hidden sm:block" />
           <div className="flex flex-col items-center">

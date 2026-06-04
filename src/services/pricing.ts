@@ -6,6 +6,11 @@ import type {
   SeasonMonth,
 } from "@/types/pricing";
 
+// Re-export RoomType from the services barrel: several components import
+// `{ RoomType } from "@/services/pricing"`, which only resolves if it's
+// exported here as well as declared in @/types/pricing.
+export type { RoomType } from "@/types/pricing";
+
 // Base prices per room type. Markups apply on top of these for dates that
 // fall inside a Season Date range; non-Season dates are billed at base.
 const BASE_PRICES: Record<RoomType, number> = {

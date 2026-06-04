@@ -31,6 +31,7 @@ dist-ssr
 
 # Build artifact temp files
 *.tmp
+*.tsbuildinfo
 
 # Audit / analysis artifacts (not source)
 screenshots/

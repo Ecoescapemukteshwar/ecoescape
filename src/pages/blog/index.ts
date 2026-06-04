@@ -87,6 +87,13 @@ export const blogComponents = {
   'mukteshwar-to-ranikhet-route-guide': lazy(() => import('./MukteshwarToRanikhetRoute')),
   'mumbai-to-mukteshwar-travel-guide': lazy(() => import('./MumbaiToMukteshwar')),
   'bangalore-to-mukteshwar-travel-guide': lazy(() => import('./BangaloreToMukteshwar')),
+  // 2026-06 batch — seasonal completion, safety, workcation, comparison
+  'mukteshwar-in-december': lazy(() => import('./MukteshwarInDecember')),
+  'mukteshwar-in-january': lazy(() => import('./MukteshwarInJanuary')),
+  'solo-female-travel-safety-mukteshwar': lazy(() => import('./SoloFemaleTravelSafety')),
+  'mukteshwar-wifi-internet-speed': lazy(() => import('./MukteshwarWifiInternet')),
+  'mukteshwar-vs-kasar-devi': lazy(() => import('./MukteshwarVsKasarDevi')),
+  'mukteshwar-in-april': lazy(() => import('./MukteshwarInApril')),
 };
 
 // Type for blog component keys

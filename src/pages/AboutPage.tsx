@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { FloatingCTA } from "@/components/FloatingCTA";
 import { PageMeta } from "@/seo/PageMeta";
+import { siteConfig } from "@/config/site";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,23 +16,12 @@ import {
   Sunrise,
   Flower2,
   UtensilsCrossed,
-  Wifi,
   Car,
   Shield,
-  Coffee,
-  TreePine,
-  Sparkles,
-  Video,
-  Clock,
   FileText,
-  Mountain,
   Home,
   MapPin,
 } from "lucide-react";
-import { DiningSection } from "@/components/DiningSection";
-import { GardenSection } from "@/components/GardenSection";
-import { ThingsToDoSection } from "@/components/ThingsToDoSection";
-import { PoliciesSection } from "@/components/PoliciesSection";
 
 const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
 
@@ -82,8 +72,8 @@ const AboutPage = () => {
               </p>
               <div className="flex flex-wrap justify-center gap-8 pt-8">
                 <div>
-                  <div className="text-3xl font-serif font-semibold text-primary">4.8 ★</div>
-                  <div className="text-sm text-muted-foreground">125 verified reviews</div>
+                  <div className="text-3xl font-serif font-semibold text-primary">{siteConfig.aggregateRating.ratingValue} ★</div>
+                  <div className="text-sm text-muted-foreground">{siteConfig.aggregateRating.reviewCount} verified reviews</div>
                 </div>
                 <div>
                   <div className="text-3xl font-serif font-semibold text-primary">100+</div>

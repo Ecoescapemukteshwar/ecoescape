@@ -20,7 +20,9 @@ export default function SuiteWithMountainView() {
   const relatedRooms = allRooms.filter((r) => r.slug !== "suite-with-mountain-view").slice(0, 2);
 
   // Get all room types to load (current + related)
-  const allRoomTypes = [room?.roomType, ...relatedRooms.map(r => r.roomType)].filter(Boolean);
+  const allRoomTypes = [room?.roomType, ...relatedRooms.map(r => r.roomType)].filter(
+    (r): r is NonNullable<typeof r> => r != null,
+  );
 
   const { prices: allPrices, isLoading: pricesLoading } = useRoomPricing(allRoomTypes);
 
@@ -93,7 +95,9 @@ export default function SuiteWithMountainView() {
         canonical={`https://ecoescapemukteshwar.com/rooms/${room.slug}`}
         keywords={room.keywords}
         ogImage={room.images[0]}
-        jsonLd={[apartmentSchema, lodgingSchema, breadcrumbSchema].filter(Boolean)}
+        jsonLd={[apartmentSchema, lodgingSchema, breadcrumbSchema].filter(
+          (s): s is NonNullable<typeof s> => s !== null,
+        )}
       />
       <Header />
 
