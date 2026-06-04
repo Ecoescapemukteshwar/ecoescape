@@ -94,6 +94,12 @@ export const blogComponents = {
   'mukteshwar-wifi-internet-speed': lazy(() => import('./MukteshwarWifiInternet')),
   'mukteshwar-vs-kasar-devi': lazy(() => import('./MukteshwarVsKasarDevi')),
   'mukteshwar-in-april': lazy(() => import('./MukteshwarInApril')),
+  // 2026-06 — complete the 12-month seasonal series
+  'mukteshwar-in-february': lazy(() => import('./MukteshwarInFebruary')),
+  'mukteshwar-in-july': lazy(() => import('./MukteshwarInJuly')),
+  'mukteshwar-in-august': lazy(() => import('./MukteshwarInAugust')),
+  'mukteshwar-in-september': lazy(() => import('./MukteshwarInSeptember')),
+  'mukteshwar-in-november': lazy(() => import('./MukteshwarInNovember')),
 };
 
 // Type for blog component keys
