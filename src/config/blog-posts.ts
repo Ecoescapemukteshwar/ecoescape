@@ -831,4 +831,14 @@ export const blogPosts: BlogPost[] = [
     imageAlt: "Sunrise over the Himalayan range from a Kumaon hill ridge",
     category: "Comparison",
   },
+  {
+    slug: "mukteshwar-in-april",
+    title: "Mukteshwar in April: Spring Blossoms & Travel Guide (2026)",
+    excerpt: "April in Mukteshwar — the most comfortable weather of the year (18–25°C), blooming orchards and gardens, clear views, and the start of the summer-escape season.",
+    date: "June 4, 2026",
+    readTime: "6 min read",
+    image: blogImg("spring-guide/featured.webp"),
+    imageAlt: "Spring blossoms and a blooming garden in Mukteshwar with the Himalayan range in April",
+    category: "Seasonal Guide",
+  },
 ];

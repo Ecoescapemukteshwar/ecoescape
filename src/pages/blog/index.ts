@@ -93,6 +93,7 @@ export const blogComponents = {
   'solo-female-travel-safety-mukteshwar': lazy(() => import('./SoloFemaleTravelSafety')),
   'mukteshwar-wifi-internet-speed': lazy(() => import('./MukteshwarWifiInternet')),
   'mukteshwar-vs-kasar-devi': lazy(() => import('./MukteshwarVsKasarDevi')),
+  'mukteshwar-in-april': lazy(() => import('./MukteshwarInApril')),
 };
 
 // Type for blog component keys
