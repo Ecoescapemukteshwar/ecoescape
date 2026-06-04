@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ChevronLeft, Share } from "lucide-react";
 
 interface Photo {
@@ -19,7 +19,6 @@ interface PhotoTourProps {
 
 export function PhotoTour({ suiteName }: PhotoTourProps) {
   const { suite: suiteParam } = useParams<{ suite: string }>();
-  const navigate = useNavigate();
   const [rooms, setRooms] = useState<Room[]>([]);
   const [activeRoomId, setActiveRoomId] = useState<string>("");
   const thumbnailStripRef = useRef<HTMLDivElement>(null);
@@ -42,7 +41,7 @@ export function PhotoTour({ suiteName }: PhotoTourProps) {
     // Group images by suite and room
     const suiteFolderMap = new Map<string, Map<string, Photo[]>>();
 
-    Object.entries(imageModules).forEach(([path, module]: [string, any]) => {
+    Object.entries(imageModules).forEach(([path, module]: [string, unknown]) => {
       // Extract suite name, room folder name and image number from path
       // Path format: /assets/PhotoTour/Suite Name/Room Name/imgX.webp
       const match = path.match(/\/assets\/PhotoTour\/([^/]+)\/([^/]+)\/(?:img)?(\d+)\.webp/);
@@ -61,7 +60,7 @@ export function PhotoTour({ suiteName }: PhotoTourProps) {
 
         // Use the default export which is the module
         roomMap.get(roomName)!.push({
-          src: module.default,
+          src: (module as { default: string }).default,
           alt: `${roomName} Photo ${imageNumber}`
         });
       }
@@ -139,7 +138,7 @@ export function PhotoTour({ suiteName }: PhotoTourProps) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const roomId = entry.target.dataset.roomId;
+          const roomId = (entry.target as HTMLElement).dataset.roomId;
           if (roomId) {
             setActiveRoomId(roomId);
 
@@ -290,7 +289,7 @@ export function getAvailableSuitesSync(): string[] {
   });
   const suites = new Set<string>();
 
-  Object.entries(imageModules).forEach(([path]: [string, any]) => {
+  Object.entries(imageModules).forEach(([path]: [string, unknown]) => {
     const match = path.match(/\/assets\/PhotoTour\/([^/]+)\//);
     if (match) {
       suites.add(match[1]);

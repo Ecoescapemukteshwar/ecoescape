@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
 import { Calendar, Clock, Phone, MessageCircle, Utensils, ChefHat, Leaf, Star, Flame } from "lucide-react";
 import { useBookingNavigation } from "@/hooks/useBookingNavigation";
 import { Button } from "@/components/ui/button";

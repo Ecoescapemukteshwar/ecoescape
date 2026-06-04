@@ -20,7 +20,7 @@ import path from "node:path";
 import http from "node:http";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
-import { getAllRoutes } from "./lib/routes.mjs";
+import { getAllRoutes, SITE_URL } from "./lib/routes.mjs";
 
 if (process.env.ENABLE_PRERENDER !== "1") {
   console.log("[prerender-spa] skipped (set ENABLE_PRERENDER=1 to enable)");
@@ -145,16 +145,22 @@ async function renderRoute(browser, baseUrl, route) {
 
   const url = `${baseUrl}${route}`;
   await page.goto(url, { waitUntil: "networkidle0", timeout: 60000 });
-  // Wait for Helmet's rAF batch to flush per-page <head> tags. 3s is the
-  // empirical floor across all routes; some lazy chunks take ~2s to settle.
-  // Verify by checking that the document title differs from the homepage's.
-  const homepageTitle = "Ecoescape Mukteshwar | Boutique Homestay with Sunrise Views & Garden";
+  // Wait for react-helmet-async to flush THIS route's per-page <head> tags.
+  // The reliable signal across every route — including "/", whose <title>
+  // equals the SPA-shell fallback and so can't be diffed — is the canonical
+  // link settling to this route's own URL. A transient homepage/default
+  // canonical can appear first while the lazy route chunk loads, so we wait
+  // for the href to match the expected canonical, not merely for any
+  // canonical to exist. Poll up to 6s; some lazy chunks take ~2s to render.
+  const expectedCanonical = `${SITE_URL}${route === "/" ? "/" : route}`;
   let attempts = 0;
-  while (attempts < 6) {
-    await new Promise((r) => setTimeout(r, 1000));
-    const title = await page.title();
-    // Homepage's own correct title matches homepageTitle — bail after 1s.
-    if (route === "/" || title !== homepageTitle) break;
+  while (attempts < 8) {
+    await new Promise((r) => setTimeout(r, 750));
+    const settled = await page.evaluate((expected) => {
+      const el = document.querySelector('link[rel="canonical"][href]');
+      return !!el && el.getAttribute("href") === expected;
+    }, expectedCanonical);
+    if (settled) break;
     attempts++;
   }
 

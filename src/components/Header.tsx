@@ -34,16 +34,6 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const scrollToSection = (href: string) => {
-    setIsOpen(false);
-    if (href.startsWith("/")) {
-      window.location.href = href;
-    } else {
-      const element = document.querySelector<HTMLElement>(href);
-      element?.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   const isActiveLink = (href: string) => {
     if (href === "/") {
       return location.pathname === "/";

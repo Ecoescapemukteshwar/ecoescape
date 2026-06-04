@@ -1,5 +1,4 @@
 from pytrends.request import TrendReq
-import numpy as np
 import time
 import pandas as pd
 import json
@@ -76,7 +75,7 @@ def get_demand_multiplier():
             json.dump(fallback, f, indent=2)
 
         print(f"❌ Error: {e}")
-        print(f"📝 Fallback value (1.0) written")
+        print("📝 Fallback value (1.0) written")
         return fallback
 
 if __name__ == "__main__":

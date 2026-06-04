@@ -116,11 +116,10 @@ export type RoomsSectionMode = "teaser" | "modal";
 
 interface RoomsSectionProps {
   mode?: RoomsSectionMode;
-  preselectedRoom?: RoomType;
   onBookRoom?: (roomType: RoomType) => void;
 }
 
-export function RoomsSection({ mode = "modal", preselectedRoom, onBookRoom }: RoomsSectionProps) {
+export function RoomsSection({ mode = "modal", onBookRoom }: RoomsSectionProps) {
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

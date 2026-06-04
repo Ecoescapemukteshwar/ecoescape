@@ -96,7 +96,6 @@ const FAQS = [
 
 export default function Workcation() {
   const { navigateToBooking } = useBookingNavigation();
-  const suite = getRoomBySlug("suite-with-mountain-view");
   const apartment = getRoomBySlug("spacious-apartment");
 
   const apartmentSchema = useMemo(() => {
