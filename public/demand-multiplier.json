@@ -1,15 +1,6 @@
 {
-  "value": 1.118,
-  "source": "google_trends",
-  "lastUpdated": "2026-06-01T07:28:01.386122",
-  "raw": {
-    "growth": 1.394,
-    "keywords": [
-      "mukteshwar",
-      "mukteshwar hotel",
-      "mukteshwar resort",
-      "homestay in mukteshwar",
-      "hill station near delhi"
-    ]
-  }
+  "value": 1.0,
+  "source": "error",
+  "lastUpdated": "2026-06-08T07:12:09.005874",
+  "error": "The request failed: Google returned a response with code 429"
 }
